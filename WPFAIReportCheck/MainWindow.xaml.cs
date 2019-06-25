@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using WPFAIReportCheck.IRepository;
 
 
@@ -38,17 +40,43 @@ namespace WPFAIReportCheck
             IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc));
 
             var ai = kernel.Get<IAIReportCheck>();
-
-            try
+            //Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+            //{
+            //    try
+            //    {
+            //        ai.CheckReport();
+            //        MessageBox.Show("已成功校核");
+            //    }
+            //    catch (Exception)
+            //    {
+            //        throw;
+            //    }
+            //}));
+            new Thread(() =>
             {
-                ai.CheckReport();
-                MessageBox.Show("已成功校核");
-            }
-            catch (Exception)
-            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    try
+                    {
+                        ai.CheckReport();
+                        MessageBox.Show("已成功校核");
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }));
+            }).Start();
+            //try
+            //{
+            //    ai.CheckReport();
+            //    MessageBox.Show("已成功校核");
+            //}
+            //catch (Exception)
+            //{
 
-                throw;
-            }
+            //    throw;
+            //}
 
             //Document doc = new Document();
 
