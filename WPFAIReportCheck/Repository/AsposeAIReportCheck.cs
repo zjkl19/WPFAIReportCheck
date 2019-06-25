@@ -18,15 +18,18 @@ namespace WPFAIReportCheck.Repository
         public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
         readonly Document _doc;
         string _originalWholeText;
-
-        public AsposeAIReportCheck(Document doc)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="doc">doc文件，默认和程序在同一个目录</param>
+        public AsposeAIReportCheck(string doc)
         {
-            _doc = doc;
-            _originalWholeText = doc.Range.Text;
+            _doc = new Document(doc);
+            _originalWholeText = _doc.Range.Text;
         }
-
+        
         public void _FindUnitError()
-        {
+        { 
             FindReplaceOptions options;
             MatchCollection matches;
             var regex = new Regex(@"([0-9]Km/h)");

@@ -10,14 +10,14 @@ namespace WPFAIReportCheck.Infrastructure
 {
     class NinjectDependencyResolver : Ninject.Modules.NinjectModule
     {
-        private Aspose.Words.Document _d;
-        public NinjectDependencyResolver(Aspose.Words.Document d)
+        private string _doc;
+        public NinjectDependencyResolver(string doc)
         {
-            _d = d;
+            _doc = doc;
         }
         public override void Load()
         {
-            Bind<IAIReportCheck>().To<AsposeAIReportCheck>().WithConstructorArgument("doc", _d);
+            Bind<IAIReportCheck>().To<AsposeAIReportCheck>().WithConstructorArgument("doc", _doc);
         }
     }
 }
