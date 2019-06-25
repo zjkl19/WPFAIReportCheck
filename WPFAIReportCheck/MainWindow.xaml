@@ -3,10 +3,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFAIReportCheck"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="报告自动校核" Height="180" Width="450" Margin="-3,0,0,0">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+
+        </Grid.ColumnDefinitions>
+        <CheckBox Grid.Row="1" Grid.Column="0" Content="选项1" VerticalAlignment="Center" Name="c1"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" Content="选项2" VerticalAlignment="Center"/>
+        <Button Grid.Row="2" Grid.Column="1" Margin="3" Click="Button_Click">Start</Button>
+        <Button Grid.Row="3" Grid.Column="0" Margin="3">检查更新</Button>
+        <Button Grid.Row="3" Grid.Column="1" Margin="3">使用说明</Button>
+        <Button Grid.Row="3" Grid.Column="2" Margin="3">关于</Button>
+        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Content="CopyRight 2019 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司" VerticalAlignment="Center"/>
+
     </Grid>
 </Window>
