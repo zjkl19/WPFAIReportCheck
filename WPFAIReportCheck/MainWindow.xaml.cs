@@ -33,7 +33,9 @@ namespace WPFAIReportCheck
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver("glz.doc"));
+            string doc = FileTextBox.Text;
+
+            IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc));
 
             var ai = kernel.Get<IAIReportCheck>();
 
@@ -109,5 +111,7 @@ namespace WPFAIReportCheck
             //run3.ParentNode.InsertAfter(commentRangeEnd, run3);
             //commentRangeEnd.ParentNode.InsertAfter(comment, commentRangeEnd);
         }
+
+
     }
 }
