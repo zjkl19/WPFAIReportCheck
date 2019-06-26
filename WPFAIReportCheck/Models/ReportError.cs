@@ -12,7 +12,8 @@ namespace WPFAIReportCheck.Models
         public string Position { get; }
 
         public string Description { get; }
-        public ReportError(ErrorNumber No,string Position, string Description)
+        public bool HasComment { get; }
+        public ReportError(ErrorNumber No,string Position, string Description,bool HasComment=false)
         {
             this.No = No;
             if (No == ErrorNumber.CMA)
@@ -29,6 +30,7 @@ namespace WPFAIReportCheck.Models
             }
             this.Position = Position;
             this.Description = Description;
+            this.HasComment = HasComment;
         }
         //def __init__(self, No, Name, Description, Position):      
         //self.No=No

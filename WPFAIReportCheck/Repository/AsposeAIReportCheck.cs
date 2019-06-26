@@ -41,7 +41,7 @@ namespace WPFAIReportCheck.Repository
                 {
                     foreach (Match m in matches)
                     {
-                        reportError.Add(new ReportError(ErrorNumber.CMA, "正文"+m.Index.ToString(), "应为km/h"));
+                        reportError.Add(new ReportError(ErrorNumber.CMA, "正文"+m.Index.ToString(), "应为km/h",true));
                     }
 
                     options = new FindReplaceOptions
@@ -133,6 +133,7 @@ namespace WPFAIReportCheck.Repository
                 builder.InsertCell(); builder.Write("名称");
                 builder.InsertCell(); builder.Write("位置");
                 builder.InsertCell(); builder.Write("说明");
+                builder.InsertCell(); builder.Write("批注");
                 builder.EndRow();
 
                 foreach (var e in reportError)
@@ -142,6 +143,7 @@ namespace WPFAIReportCheck.Repository
                     builder.InsertCell(); builder.Write(e.Name);
                     builder.InsertCell(); builder.Write(e.Position);
                     builder.InsertCell(); builder.Write(e.Description);
+                    builder.InsertCell(); builder.Write(e.HasComment.ToString());
                     builder.EndRow();
                 }
                 builder.EndTable();
@@ -157,6 +159,7 @@ namespace WPFAIReportCheck.Repository
                 builder.InsertCell(); builder.Write("名称");
                 builder.InsertCell(); builder.Write("位置");
                 builder.InsertCell(); builder.Write("说明");
+                builder.InsertCell(); builder.Write("批注");
                 builder.EndRow();
 
                 foreach (var w in reportWarnning)
@@ -166,6 +169,7 @@ namespace WPFAIReportCheck.Repository
                     builder.InsertCell(); builder.Write(w.Name);
                     builder.InsertCell(); builder.Write(w.Position);
                     builder.InsertCell(); builder.Write(w.Description);
+                    builder.InsertCell(); builder.Write(w.HasComment.ToString());
                     builder.EndRow();
                 }
                 builder.EndTable();

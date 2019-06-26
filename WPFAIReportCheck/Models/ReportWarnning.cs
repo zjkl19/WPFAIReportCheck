@@ -12,7 +12,8 @@ namespace WPFAIReportCheck.Models
         public string Position { get; }
 
         public string Description { get; }
-        public ReportWarnning(WarnningNumber No, string Position, string Description)
+        public bool HasComment { get; }
+        public ReportWarnning(WarnningNumber No, string Position, string Description, bool HasComment = false)
         {
             this.No = No;
             if (No == WarnningNumber.NotClearInfo)
@@ -25,6 +26,7 @@ namespace WPFAIReportCheck.Models
             }
             this.Position = Position;
             this.Description = Description;
+            this.HasComment = HasComment;
         }
     }
     public enum WarnningNumber

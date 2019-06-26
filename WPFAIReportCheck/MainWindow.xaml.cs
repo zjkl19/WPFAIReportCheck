@@ -106,6 +106,9 @@ namespace WPFAIReportCheck
             //commentRangeEnd.ParentNode.InsertAfter(comment, commentRangeEnd);
         }
 
-
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("校核结果仅供参考");
+        }
     }
 }
