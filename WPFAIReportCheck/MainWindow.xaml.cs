@@ -123,14 +123,72 @@ namespace WPFAIReportCheck
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            //DisplayAttribute attribute;
-            //var k = ErrorNumber.CMA.GetType().GetProperties();
-            //var propertyInfos = typeof(ErrorNumber).GetProperties();
-            //foreach (var item in propertyInfos)
-            //{
-            //    attribute = (DisplayAttribute)item.GetCustomAttribute(typeof(DisplayAttribute));
-            //    MessageBox.Show(attribute.Name);
-            //}
+            MessageBox.Show(GetEnumDesc(ErrorNumber.CMA).ToString());
+        }
+        public static string GetEnumDesc(Enum en)
+        {
+            Type type = en.GetType();
+            var memInfo = type.GetMember(en.ToString());
+            if (memInfo != null && memInfo.Length > 0)
+            {
+                object[] attrs = memInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false); if (attrs != null && attrs.Length > 0) return ((System.ComponentModel.DataAnnotations.DisplayAttribute)attrs[0]).Name;
+            }
+            return en.ToString();
         }
     }
+    
+    //public static class EnumHelper<T>
+    //{
+    //    public static string GetNameFromValue(T value)
+    //    {
+    //        var type = typeof(T);
+    //        if (!type.IsEnum) throw new InvalidOperationException();
+
+    //        foreach (var field in type.GetFields())
+    //        {
+    //            var attribute = Attribute.GetCustomAttribute(field,
+    //                typeof(DisplayAttribute)) as DisplayAttribute;
+    //            if (((T)field.GetValue(null)).ToString()==value.ToString())
+    //            {
+
+    //                return attribute.Name;
+
+    //            }
+    //            else
+    //            {
+    //                continue;
+    //            }
+    //        }
+
+    //        throw new ArgumentOutOfRangeException("name");
+    //    }
+    //}
+    //public static class EnumHelper1<T>
+    //{
+    //    public static T GetValueFromName(string name)
+    //    {
+    //        var type = typeof(T);
+    //        if (!type.IsEnum) throw new InvalidOperationException();
+
+    //        foreach (var field in type.GetFields())
+    //        {
+    //            var attribute = Attribute.GetCustomAttribute(field,
+    //                typeof(DisplayAttribute)) as DisplayAttribute;
+    //            if (attribute != null)
+    //            {
+    //                if (attribute.Name == name)
+    //                {
+    //                    return (T)field.GetValue(null);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                if (field.Name == name)
+    //                    return (T)field.GetValue(null);
+    //            }
+    //        }
+
+    //        throw new ArgumentOutOfRangeException("name");
+    //    }
+    //}
 }
