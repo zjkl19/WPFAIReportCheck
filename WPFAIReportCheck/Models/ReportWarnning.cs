@@ -16,14 +16,7 @@ namespace WPFAIReportCheck.Models
         public ReportWarnning(WarnningNumber No, string Position, string Description, bool HasComment = false)
         {
             this.No = No;
-            if (No == WarnningNumber.NotClearInfo)
-            {
-                Name = "信息不明确";
-            }
-            else
-            {
-                Name = "待定";
-            }
+            this.Name = Repository.EnumHelper.GetEnumDesc(No).ToString();
             this.Position = Position;
             this.Description = Description;
             this.HasComment = HasComment;

@@ -123,18 +123,9 @@ namespace WPFAIReportCheck
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(GetEnumDesc(ErrorNumber.CMA).ToString());
+            //MessageBox.Show(Repository.EnumHelper.GetEnumDesc(ErrorNumber.CMA).ToString());
         }
-        public static string GetEnumDesc(Enum en)
-        {
-            Type type = en.GetType();
-            var memInfo = type.GetMember(en.ToString());
-            if (memInfo != null && memInfo.Length > 0)
-            {
-                object[] attrs = memInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false); if (attrs != null && attrs.Length > 0) return ((System.ComponentModel.DataAnnotations.DisplayAttribute)attrs[0]).Name;
-            }
-            return en.ToString();
-        }
+        
     }
     
     //public static class EnumHelper<T>

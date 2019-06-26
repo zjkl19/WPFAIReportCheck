@@ -16,20 +16,7 @@ namespace WPFAIReportCheck.Models
         public ReportError(ErrorNumber No,string Position, string Description,bool HasComment=false)
         {
             this.No = No;
-            if (No == ErrorNumber.CMA)
-            {
-                Name = "计量单位错误";
-            }
-            else if(No==ErrorNumber.Description)
-            {
-                Name = "描述错误";
-            }
-            else
-            {
-                Name = "待定";
-            }
-
-            
+            this.Name = Repository.EnumHelper.GetEnumDesc(No).ToString();
             this.Position = Position;
             this.Description = Description;
             this.HasComment = HasComment;
