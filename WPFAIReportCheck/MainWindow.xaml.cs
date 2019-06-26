@@ -35,38 +35,46 @@ namespace WPFAIReportCheck
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            string doc = FileTextBox.Text;
-
-            IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc));
-
-            var ai = kernel.Get<IAIReportCheck>();
-            //Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
-            //{
-            //    try
-            //    {
-            //        ai.CheckReport();
-            //        MessageBox.Show("已成功校核");
-            //    }
-            //    catch (Exception)
-            //    {
-            //        throw;
-            //    }
-            //}));
-            new Thread(() =>
+            string doc = string.Empty;
+            if (!string.IsNullOrWhiteSpace(FileTextBox.Text))
             {
-                Dispatcher.BeginInvoke(new Action(() =>
+                doc = FileTextBox.Text;
+
+                IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc));
+
+                var ai = kernel.Get<IAIReportCheck>();
+                //Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                //{
+                //    try
+                //    {
+                //        ai.CheckReport();
+                //        MessageBox.Show("已成功校核");
+                //    }
+                //    catch (Exception)
+                //    {
+                //        throw;
+                //    }
+                //}));
+                new Thread(() =>
                 {
-                    try
+                    Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        ai.CheckReport();
-                        MessageBox.Show("已成功校核");
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }));
-            }).Start();
+                        try
+                        {
+                            ai.CheckReport();
+                            MessageBox.Show("已成功校核");
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }));
+                }).Start();
+            }
+            else
+            {
+                MessageBox.Show("请输入文件名");
+            }
             //try
             //{
             //    ai.CheckReport();

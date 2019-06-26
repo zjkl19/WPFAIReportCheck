@@ -11,6 +11,10 @@ namespace WPFAIReportCheck.Infrastructure
     class NinjectDependencyResolver : Ninject.Modules.NinjectModule
     {
         private string _doc;
+        /// <summary>
+        /// Ninject依赖注入解析
+        /// </summary>
+        /// <param name="doc">文件名</param>
         public NinjectDependencyResolver(string doc)
         {
             _doc = doc;

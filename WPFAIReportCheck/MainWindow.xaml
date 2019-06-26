@@ -19,8 +19,8 @@
             <ColumnDefinition></ColumnDefinition>
 
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="文件名" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <TextBox Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="280" Name="FileTextBox" Text="glz.doc"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="文件名（含扩展名）" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="280" Name="FileTextBox"/>
         <CheckBox Grid.Row="1" Grid.Column="0" Content="选项1" VerticalAlignment="Center" Name="c1"/>
         <CheckBox Grid.Row="1" Grid.Column="1" Content="选项2" VerticalAlignment="Center"/>
         <Button Grid.Row="2" Grid.Column="1" Margin="3" Click="Button_Click">Start</Button>
