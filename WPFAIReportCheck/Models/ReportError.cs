@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WPFAIReportCheck.Models
 {
-    class ReportError
+    public class ReportError
     {
         public ErrorNumber No;
         public string Name { get; }

@@ -12,10 +12,10 @@ using System.Text.RegularExpressions;
 
 namespace WPFAIReportCheck.Repository
 {
-    class AsposeAIReportCheck : IAIReportCheck
+    public class AsposeAIReportCheck : IAIReportCheck
     {
-        public List<ReportError> reportError = new List<ReportError>();
-        public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
+        public List<ReportError> reportError  = new List<ReportError>();
+        public List<ReportWarnning> reportWarnning  = new List<ReportWarnning>();
         readonly Document _doc;
         string _originalWholeText;
         /// <summary>
@@ -27,7 +27,8 @@ namespace WPFAIReportCheck.Repository
             _doc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
         }
-        
+       
+
         public void _FindUnitError()
         { 
             FindReplaceOptions options;

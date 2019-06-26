@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WPFAIReportCheck.Models
 {
-    class ReportWarnning
+    public class ReportWarnning
     {
         public WarnningNumber No;
         public string Name { get; }

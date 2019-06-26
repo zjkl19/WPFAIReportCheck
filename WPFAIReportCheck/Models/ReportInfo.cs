@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WPFAIReportCheck.Models
 {
-    class ReportInfo
+    public class ReportInfo
     {
     }
 }

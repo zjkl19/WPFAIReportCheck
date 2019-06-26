@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WPFAIReportCheck.IRepository
 {
-    interface IAIReportCheck
+    public interface IAIReportCheck
     {
         void _FindUnitError();
         void _FindSpecificationsError();
