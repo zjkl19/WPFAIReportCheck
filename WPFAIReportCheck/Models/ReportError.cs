@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Text;
 
 namespace WPFAIReportCheck.Models
@@ -8,9 +10,7 @@ namespace WPFAIReportCheck.Models
     {
         public ErrorNumber No;
         public string Name { get; }
-
         public string Position { get; }
-
         public string Description { get; }
         public bool HasComment { get; }
         public ReportError(ErrorNumber No,string Position, string Description,bool HasComment=false)
@@ -28,6 +28,8 @@ namespace WPFAIReportCheck.Models
             {
                 Name = "待定";
             }
+
+            
             this.Position = Position;
             this.Description = Description;
             this.HasComment = HasComment;
@@ -38,10 +40,12 @@ namespace WPFAIReportCheck.Models
         //self.Description= Description
         //self.Position= Position
     }
-
     public enum ErrorNumber
     {
+        [Display(Name = "计量错误")]
         CMA = 1,
-        Description=2,
+        [Display(Name = "描述错误")]
+        Description = 2,
     }
+
 }

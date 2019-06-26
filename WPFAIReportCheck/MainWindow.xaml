@@ -24,7 +24,7 @@
         <CheckBox Grid.Row="1" Grid.Column="0" Content="选项1" VerticalAlignment="Center" Name="c1"/>
         <CheckBox Grid.Row="1" Grid.Column="1" Content="选项2" VerticalAlignment="Center"/>
         <Button Grid.Row="2" Grid.Column="1" Margin="3" Click="Button_Click">Start</Button>
-        <Button Grid.Row="3" Grid.Column="0" Margin="3">检查更新</Button>
+        <Button Grid.Row="3" Grid.Column="0" Margin="3" Click="Button_Click_2">检查更新</Button>
         <Button Grid.Row="3" Grid.Column="1" Margin="3">使用说明</Button>
         <Button Grid.Row="3" Grid.Column="2" Margin="3" Click="Button_Click_1">免责声明</Button>
         <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Content="CopyRight 2019 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司" VerticalAlignment="Center"/>

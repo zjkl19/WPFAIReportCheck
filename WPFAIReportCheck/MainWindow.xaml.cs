@@ -2,7 +2,9 @@
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using WPFAIReportCheck.IRepository;
-
+using WPFAIReportCheck.Models;
 
 namespace WPFAIReportCheck
 {
@@ -117,6 +119,18 @@ namespace WPFAIReportCheck
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("校核结果仅供参考");
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            //DisplayAttribute attribute;
+            //var k = ErrorNumber.CMA.GetType().GetProperties();
+            //var propertyInfos = typeof(ErrorNumber).GetProperties();
+            //foreach (var item in propertyInfos)
+            //{
+            //    attribute = (DisplayAttribute)item.GetCustomAttribute(typeof(DisplayAttribute));
+            //    MessageBox.Show(attribute.Name);
+            //}
         }
     }
 }
