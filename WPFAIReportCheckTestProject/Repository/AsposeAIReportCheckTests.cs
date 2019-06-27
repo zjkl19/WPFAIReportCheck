@@ -15,7 +15,7 @@ namespace WPFAIReportCheckTestProject.Repository
         public void _FindNotExplainComponentNo_ReturnsAReportWarnning_WhileComponentNoNotExplained()
         {
             //Arrange
-            var ai = new AsposeAIReportCheck(@"..\..\..\TestFiles\DefaultTestFile.docx");
+            var ai = new AsposeAIReportCheck(@"..\..\..\TestFiles\DefaultTestFile.doc");
             //Act
             ai._FindNotExplainComponentNo();
             //Assert
