@@ -15,24 +15,24 @@ namespace WPFAIReportCheckTestProject.Repository
         public void _FindNotExplainComponentNo_ReturnsAReportWarnning_WhileComponentNoNotExplained()
         {
             //Arrange
-            var ai = new AsposeAIReportCheck(@"..\..\..\TestFiles\_FindNotExplainComponentNo.doc");
+            var fileName = @"..\..\..\TestFiles\_FindNotExplainComponentNo.doc";
+            var ai = new AsposeAIReportCheck(fileName);
             //Act
             ai._FindNotExplainComponentNo();
             //Assert
-            Assert.Equal(WarnningNumber.NotClearInfo, ai.reportWarnning[0].No);
-           
+            Assert.Equal(WarnningNumber.NotClearInfo, ai.reportWarnning[0].No);     
         }
 
         [Fact]
         public void _FindNotExplainComponentNo_ReturnsNoneReportWarnning_WhileComponentNoExplained()
         {
             //Arrange
-            var ai = new AsposeAIReportCheck(@"..\..\..\TestFiles\_FindNotExplainComponentNo_Explained.doc");
+            var fileName = @"..\..\..\TestFiles\_FindNotExplainComponentNo_Explained.doc";
+            var ai = new AsposeAIReportCheck(fileName);
             //Act
             ai._FindNotExplainComponentNo();
             //Assert
             Assert.Empty(ai.reportWarnning);
-
         }
         #endregion
     }
