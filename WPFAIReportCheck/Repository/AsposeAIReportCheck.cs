@@ -16,7 +16,7 @@ namespace WPFAIReportCheck.Repository
     {
         public List<ReportError> reportError  = new List<ReportError>();
         public List<ReportWarnning> reportWarnning  = new List<ReportWarnning>();
-        readonly Document _doc;
+        public Document _doc;
         readonly string _originalWholeText;
         /// <summary>
         /// 构造函数
@@ -28,7 +28,9 @@ namespace WPFAIReportCheck.Repository
             _originalWholeText = _doc.Range.Text;
         }
        
-
+        /// <summary>
+        /// 在正文中查找单位错误，并在错误位置建立批注
+        /// </summary>
         public void _FindUnitError()
         { 
             FindReplaceOptions options;
@@ -314,9 +316,9 @@ namespace WPFAIReportCheck.Repository
                 //foreach (Run run in runs)
                 //    run.Font.HighlightColor = System.Drawing.Color.Red;
 
-                Comment comment = new Comment(_doc, "Awais Hafeez", "AH", DateTime.Today);
+                Comment comment = new Comment(_doc, "AI", "AICheck", DateTime.Today);
                 comment.Paragraphs.Add(new Paragraph(_doc));
-                comment.FirstParagraph.Runs.Add(new Run(_doc, "Comment text."));
+                comment.FirstParagraph.Runs.Add(new Run(_doc, "Unit Error."));
 
                 CommentRangeStart commentRangeStart = new CommentRangeStart(_doc, comment.Id);
                 CommentRangeEnd commentRangeEnd = new CommentRangeEnd(_doc, comment.Id);

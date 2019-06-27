@@ -5,6 +5,7 @@ using Xunit;
 using WPFAIReportCheck.Repository;
 using WPFAIReportCheck.Models;
 using Aspose.Words;
+using System.IO;
 
 namespace WPFAIReportCheckTestProject.Repository
 {
@@ -34,6 +35,29 @@ namespace WPFAIReportCheckTestProject.Repository
             //Assert
             Assert.Empty(ai.reportWarnning);
         }
+        #endregion
+        #region _FindUnitError
+        //[Fact]
+        //public void _FindUnitError()
+        //{
+        //    //Arrange
+        //    var fileName = @"..\..\..\TestFiles\_FindUnitError.doc";
+        //    var ai = new AsposeAIReportCheck(fileName);
+        //    //Act
+        //    ai._FindUnitError();
+            
+
+        //    using (MemoryStream dstStream = new MemoryStream())
+        //    {
+        //        ai._doc.Save(dstStream, SaveFormat.Docx);
+        //    }
+
+        //    Comment docComment = (Comment)ai._doc.GetChild(NodeType.Comment, 0, true);
+
+        //    Assert.Equal(2, docComment.Count);
+
+        //    //Assert.Equal("\u0005My comment.\r", docComment.GetText());
+        //}
         #endregion
     }
 }
