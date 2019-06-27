@@ -17,7 +17,7 @@ namespace WPFAIReportCheck.Repository
         public List<ReportError> reportError  = new List<ReportError>();
         public List<ReportWarnning> reportWarnning  = new List<ReportWarnning>();
         readonly Document _doc;
-        string _originalWholeText;
+        readonly string _originalWholeText;
         /// <summary>
         /// 构造函数
         /// </summary>
