@@ -37,27 +37,27 @@ namespace WPFAIReportCheckTestProject.Repository
         }
         #endregion
         #region _FindUnitError
-        //[Fact]
-        //public void _FindUnitError()
-        //{
-        //    //Arrange
-        //    var fileName = @"..\..\..\TestFiles\_FindUnitError.doc";
-        //    var ai = new AsposeAIReportCheck(fileName);
-        //    //Act
-        //    ai._FindUnitError();
-            
+        [Fact]
+        public void _FindUnitError()
+        {
+            //Arrange
+            var fileName = @"..\..\..\TestFiles\_FindUnitError.doc";
+            var ai = new AsposeAIReportCheck(fileName);
+            //Act
+            ai._FindUnitError();
 
-        //    using (MemoryStream dstStream = new MemoryStream())
-        //    {
-        //        ai._doc.Save(dstStream, SaveFormat.Docx);
-        //    }
 
-        //    Comment docComment = (Comment)ai._doc.GetChild(NodeType.Comment, 0, true);
+            using (MemoryStream dstStream = new MemoryStream())
+            {
+                ai._doc.Save(dstStream, SaveFormat.Doc);
+            }
 
-        //    Assert.Equal(2, docComment.Count);
-
-        //    //Assert.Equal("\u0005My comment.\r", docComment.GetText());
-        //}
+            Comment docComment = (Comment)ai._doc.GetChild(NodeType.Comment, 0, true);
+            Comment docComment1 = (Comment)ai._doc.GetChild(NodeType.Comment, 1, true);
+            Assert.Equal(1, docComment.Count);
+            Assert.Equal(1, docComment1.Count);
+            //Assert.Equal("\u0005My comment.\r", docComment.GetText());
+        }
         #endregion
     }
 }
