@@ -139,6 +139,9 @@ namespace WPFAIReportCheck.Repository
             }
         }
 
+        public void _FindSequenceNumberError()
+        {
+        }
         public void _GenerateResultReport()
         {
             var doc = new Document();

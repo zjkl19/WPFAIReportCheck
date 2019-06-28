@@ -11,6 +11,8 @@ namespace WPFAIReportCheck.IRepository
         void _FindSpecificationsError();
         void _FindNotExplainComponentNo();
 
+        void _FindSequenceNumberError();
+
         void _GenerateResultReport();
         void CheckReport();
         //Table GetOverViewTable();
