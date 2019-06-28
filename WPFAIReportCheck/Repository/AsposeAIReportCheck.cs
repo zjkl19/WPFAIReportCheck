@@ -91,27 +91,28 @@ namespace WPFAIReportCheck.Repository
                 if((table0.Rows[0].Cells[0].GetText().IndexOf("委托单位")>=0))
                 {
                     cell = table0.Rows[4].Cells[1];
+                    string[] splitArray = cell.GetText().Split('\r');    //用GetText()的方法来获取cell中的值
+                    foreach (var s in splitArray)
+                    {
+                        s.Replace("\a", ""); s.Replace("\r", "");
+                        s.Replace("(", "（"); s.Replace(")", "）");
+                        var s1 = Regex.Replace(s, @"(.+)《", "《");
+                        foreach (var sp in Specifications)
+                        {
+                            similarity = Levenshtein(@s1, @sp);
+                            if (similarity > 0.85 && similarity < 1)
+                            {
+                                reportError.Add(new ReportError(ErrorNumber.Description, "汇总表格中主要检测检验依据", "应为" + sp));
+                                break;
+                            }
+                        }
+                    };
                     break;
                 }
             }
             //var table0 = ai.GetOverViewTable();
   
-            string[] splitArray = cell.GetText().Split('\r');    //用GetText()的方法来获取cell中的值
-            foreach (var s in splitArray)
-            {
-                s.Replace("\a", ""); s.Replace("\r", "");
-                s.Replace("(", "（"); s.Replace(")", "）");
-                var s1=Regex.Replace(s, @"(.+)《", "《");
-                foreach (var sp in Specifications)
-                {
-                    similarity = Levenshtein(@s1, @sp);
-                    if (similarity>0.85 && similarity<1)
-                    {
-                        reportError.Add(new ReportError(ErrorNumber.Description,"汇总表格中主要检测检验依据", "应为"+sp));
-                        break;
-                    }
-                }
-            };
+
         }
 
         public void _FindNotExplainComponentNo()

@@ -31,6 +31,13 @@ namespace WPFAIReportCheck
         public MainWindow()
         {
             InitializeComponent();
+
+            //TODO:movetofunction
+            double ScreenWidth = SystemParameters.PrimaryScreenWidth;//WPF
+            double ScreenHeight = SystemParameters.PrimaryScreenHeight;//WPF
+            this.Top = 0.3 * (ScreenHeight - this.Height);
+            this.Left = 0.4 * (ScreenWidth - this.Width);
+            //this.Left = ScreenWidth - this.ActualWidth * 1.3;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
