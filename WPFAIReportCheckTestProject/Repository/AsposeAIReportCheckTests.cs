@@ -88,5 +88,29 @@ namespace WPFAIReportCheckTestProject.Repository
             Assert.True(docComment.GetText().IndexOf("应为《城市桥梁设计规范》（CJJ 11-2011）") >= 0);
         }
         #endregion
+
+        #region _FindSequenceNumberError
+        [Fact]
+        public void _FindSequenceNumberError()
+        {
+            //Arrange
+            var fileName = @"..\..\..\TestFiles\_FindSequenceNumberError.doc";
+            var ai = new AsposeAIReportCheck(fileName);
+            //Act
+            ai._FindSequenceNumberError();
+
+            using (MemoryStream dstStream = new MemoryStream())
+            {
+                ai._doc.Save(dstStream, SaveFormat.Doc);
+            }
+
+            Comment docComment = (Comment)ai._doc.GetChild(NodeType.Comment, 0, true);
+            NodeCollection allComments = ai._doc.GetChildNodes(NodeType.Comment, true);
+
+            //Assert
+            Assert.Single(allComments);
+            Assert.True(docComment.GetText().IndexOf("序号应连贯，从小到大") >= 0);
+        }
+        #endregion
     }
 }

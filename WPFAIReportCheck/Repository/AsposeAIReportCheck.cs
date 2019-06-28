@@ -215,7 +215,7 @@ namespace WPFAIReportCheck.Repository
                     builder.InsertCell(); builder.Write(e.Description);
                     builder.InsertCell(); builder.Write(e.HasComment.ToString());
                     builder.EndRow();
-                    i = i + 1;
+                    i += 1;
                 }
                 builder.EndTable();
             }
@@ -242,7 +242,7 @@ namespace WPFAIReportCheck.Repository
                     builder.InsertCell(); builder.Write(w.Description);
                     builder.InsertCell(); builder.Write(w.HasComment.ToString());
                     builder.EndRow();
-                    i = i + 1;
+                    i += 1;
                 }
                 builder.EndTable();
             }
