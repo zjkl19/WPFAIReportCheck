@@ -46,7 +46,6 @@ namespace WPFAIReportCheckTestProject.Repository
             //Act
             ai._FindUnitError();
 
-
             using (MemoryStream dstStream = new MemoryStream())
             {
                 ai._doc.Save(dstStream, SaveFormat.Doc);
