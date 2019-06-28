@@ -49,7 +49,8 @@ namespace WPFAIReportCheck.Repository
 
                     options = new FindReplaceOptions
                     {
-                        ReplacingCallback = new ReplaceEvaluatorFindAndHighlight(_doc),
+                        ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", "应为km/h"),
+                        //new ReplaceEvaluatorFindAndHighlight(_doc),
                         Direction = FindReplaceDirection.Forward
                     };
                     _doc.Range.Replace(regex, "", options);
@@ -167,6 +168,7 @@ namespace WPFAIReportCheck.Repository
                     builder.InsertCell(); builder.Write(e.Description);
                     builder.InsertCell(); builder.Write(e.HasComment.ToString());
                     builder.EndRow();
+                    i = i + 1;
                 }
                 builder.EndTable();
             }
@@ -193,6 +195,7 @@ namespace WPFAIReportCheck.Repository
                     builder.InsertCell(); builder.Write(w.Description);
                     builder.InsertCell(); builder.Write(w.HasComment.ToString());
                     builder.EndRow();
+                    i = i + 1;
                 }
                 builder.EndTable();
             }
