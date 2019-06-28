@@ -132,9 +132,18 @@ namespace WPFAIReportCheck
         {
             //MessageBox.Show(Repository.EnumHelper.GetEnumDesc(ErrorNumber.CMA).ToString());
         }
-        
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            var doc = "标出错误或警告的报告.doc";
+            if (System.IO.File.Exists(doc))
+            {
+                System.Diagnostics.Process.Start(doc);
+            }
+
+        }
     }
-    
+
     //public static class EnumHelper<T>
     //{
     //    public static string GetNameFromValue(T value)

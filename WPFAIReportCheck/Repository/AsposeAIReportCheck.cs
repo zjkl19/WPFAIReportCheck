@@ -330,7 +330,7 @@ namespace WPFAIReportCheck.Repository
                 //foreach (Run run in runs)
                 //    run.Font.HighlightColor = System.Drawing.Color.Red;
 
-                Comment comment = new Comment(_doc, "AI", "AICheck", DateTime.Today);
+                Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Today);
                 comment.Paragraphs.Add(new Paragraph(_doc));
                 comment.FirstParagraph.Runs.Add(new Run(_doc, "Unit Error."));
 
