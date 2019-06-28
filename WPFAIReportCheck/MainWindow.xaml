@@ -20,11 +20,12 @@
 
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="文件名（含扩展名）" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <TextBox Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="280" Name="FileTextBox"/>
+        <TextBox Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="280" Name="FileTextBox" Text="default.doc"/>
         <CheckBox Grid.Row="1" Grid.Column="0" Content="选项1" VerticalAlignment="Center" Name="c1"/>
         <CheckBox Grid.Row="1" Grid.Column="1" Content="选项2" VerticalAlignment="Center"/>
-        <Button Grid.Row="2" Grid.Column="1" Margin="3" Click="Button_Click">开始校核</Button>
-        <Button Grid.Row="2" Grid.Column="2" Margin="3" Click="Button_Click_3">标出错误或警告的报告</Button>
+        <Button Grid.Row="2" Grid.Column="0" Margin="3" Click="Button_Click">1、开始校核</Button>
+        <Button Grid.Row="2" Grid.Column="1" Margin="3" Click="Button_Click_3">2、查看校核汇总结果</Button>
+        <Button Grid.Row="2" Grid.Column="2" Margin="3" Click="Button_Click_4">3、查看标出问题的报告</Button>
         <Button Grid.Row="3" Grid.Column="0" Margin="3" Click="Button_Click_2">检查更新</Button>
         <Button Grid.Row="3" Grid.Column="1" Margin="3">使用说明</Button>
         <Button Grid.Row="3" Grid.Column="2" Margin="3" Click="Button_Click_1">免责声明</Button>

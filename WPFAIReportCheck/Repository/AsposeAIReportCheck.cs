@@ -14,8 +14,8 @@ namespace WPFAIReportCheck.Repository
 {
     public class AsposeAIReportCheck : IAIReportCheck
     {
-        public List<ReportError> reportError  = new List<ReportError>();
-        public List<ReportWarnning> reportWarnning  = new List<ReportWarnning>();
+        public List<ReportError> reportError = new List<ReportError>();
+        public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
         public Document _doc;
         readonly string _originalWholeText;
         /// <summary>
@@ -27,12 +27,12 @@ namespace WPFAIReportCheck.Repository
             _doc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
         }
-       
+
         /// <summary>
         /// 在正文中查找单位错误，并在错误位置建立批注
         /// </summary>
         public void _FindUnitError()
-        { 
+        {
             FindReplaceOptions options;
             MatchCollection matches;
             var regex = new Regex(@"([0-9]Km/h)");
@@ -44,7 +44,7 @@ namespace WPFAIReportCheck.Repository
                 {
                     foreach (Match m in matches)
                     {
-                        reportError.Add(new ReportError(ErrorNumber.CMA, "正文"+m.Index.ToString(), "应为km/h",true));
+                        reportError.Add(new ReportError(ErrorNumber.CMA, "正文" + m.Index.ToString(), "应为km/h", true));
                     }
 
                     options = new FindReplaceOptions
@@ -65,15 +65,32 @@ namespace WPFAIReportCheck.Repository
 
         public void _FindSpecificationsError()
         {
+            string[] Specifications;
             //规范
-            var Specifications = new string[]
+            try
             {
-                "《城市桥梁设计规范》（CJJ 11-2011）",
-                "《混凝土结构现场检测技术标准》（GB/T 50784-2013）",
-                "《公路桥梁荷载试验规程》（JTG/T J21-01-2015）",
-                "《城市桥梁检测与评定技术规范》（CJJ/T 233-2015）",
-                "《城市桥梁养护技术标准》（CJJ 99-2017）",
-            };
+                var file = new System.IO.StreamReader("规范.txt", Encoding.Default);
+                string line;
+                string combineString = string.Empty;
+                while ((line = file.ReadLine()) != null)
+                {
+                    combineString += line + '\r';
+                }
+                Specifications = combineString.Split('\r');
+                file.Close();
+            }
+            catch (Exception)
+            {
+                Specifications = new string[]
+                {
+                    "《城市桥梁设计规范》（CJJ 11-2011）",
+                    "《混凝土结构现场检测技术标准》（GB/T 50784-2013）",
+                    "《公路桥梁荷载试验规程》（JTG/T J21-01-2015）",
+                    "《城市桥梁检测与评定技术规范》（CJJ/T 233-2015）",
+                    "《城市桥梁养护技术标准》（CJJ 99-2017）",
+                };
+            }
+
             double similarity;    //相似度
                                   //获取word文档中的第一个表格
 
@@ -85,10 +102,10 @@ namespace WPFAIReportCheck.Repository
             double similarityUBound = 1.00;
 
             NodeCollection allTables = _doc.GetChildNodes(NodeType.Table, true);
-            for(int i=0;i<allTables.Count;i++)
+            for (int i = 0; i < allTables.Count; i++)
             {
                 Table table0 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
-                if((table0.Rows[0].Cells[0].GetText().IndexOf("委托单位")>=0))
+                if ((table0.Rows[0].Cells[0].GetText().IndexOf("委托单位") >= 0))
                 {
                     Cell cell = table0.Rows[4].Cells[1];
                     string[] splitArray = cell.GetText().Split('\r');    //用GetText()的方法来获取cell中的值
@@ -106,7 +123,7 @@ namespace WPFAIReportCheck.Repository
                                 var regex = new Regex(@s);
                                 reportError.Add(new ReportError(ErrorNumber.Description, "汇总表格中主要检测检验依据", "应为" + sp));
                                 FindReplaceOptions options = new FindReplaceOptions
-                                {    
+                                {
                                     ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", "应为" + sp),
                                     Direction = FindReplaceDirection.Forward
                                 };
@@ -299,7 +316,7 @@ namespace WPFAIReportCheck.Repository
             /// <param name="doc">Aspose文档</param>
             /// <param name="initialText"></param>
             /// <param name="commentText">批注文档</param>
-            public ReplaceEvaluatorFindAndHighlightWithComment(Document doc, string initialText,string commentText)
+            public ReplaceEvaluatorFindAndHighlightWithComment(Document doc, string initialText, string commentText)
             {
                 _doc = doc;
                 _initialText = initialText;

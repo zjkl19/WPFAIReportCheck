@@ -129,18 +129,23 @@ namespace WPFAIReportCheck
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            //MessageBox.Show(Repository.EnumHelper.GetEnumDesc(ErrorNumber.CMA).ToString());
+        {          
         }
-
         private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            var doc = "校核结果.docx";
+            if (System.IO.File.Exists(doc))
+            {
+                System.Diagnostics.Process.Start(doc);
+            }
+        }
+        private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             var doc = "标出错误或警告的报告.doc";
             if (System.IO.File.Exists(doc))
             {
                 System.Diagnostics.Process.Start(doc);
             }
-
         }
     }
 
