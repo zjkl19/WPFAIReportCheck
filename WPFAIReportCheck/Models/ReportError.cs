@@ -29,7 +29,7 @@ namespace WPFAIReportCheck.Models
     }
     public enum ErrorNumber
     {
-        [Display(Name = "计量错误")]
+        [Display(Name = "计量单位错误")]
         CMA = 1,
         [Display(Name = "描述错误")]
         Description = 2,

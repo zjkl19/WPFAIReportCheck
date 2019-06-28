@@ -67,48 +67,45 @@ namespace WPFAIReportCheck.Repository
             //规范
             var Specifications = new string[]
             {
-                "《公路桥梁荷载试验规程》（JTG/T J21-01-2015）",
-                "《混凝土结构现场检测技术标准》（GB/T 50784-2013）",
                 "《城市桥梁设计规范》（CJJ 11-2011）",
+                "《混凝土结构现场检测技术标准》（GB/T 50784-2013）",
+                "《公路桥梁荷载试验规程》（JTG/T J21-01-2015）",
+                "《城市桥梁检测与评定技术规范》（CJJ/T 233-2015）",
+                "《城市桥梁养护技术标准》（CJJ 99-2017）",
             };
             double similarity;    //相似度
                                   //获取word文档中的第一个表格
 
-            Table table0=null;
-            Cell cell=null;
-            FindReplaceOptions options;
-            string repStr=string.Empty;
-            //var m=_doc.GetChildNodes(NodeType.Table, true).Count;
-            //for(var i=0;i<m;i++)
-            //{
-            //    var t = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
-            //    Console.WriteLine(t);
-            //}
+            //Table table0=null;
+            //Cell cell=null;
+            //FindReplaceOptions options;
+            //string repStr=string.Empty;
+            double similarityLBound = 0.85;
+            double similarityUBound = 1.00;
 
-            //TODO:增加找不到table的处理方式
             NodeCollection allTables = _doc.GetChildNodes(NodeType.Table, true);
-            for(int i=0;i<=allTables.Count;i++)
+            for(int i=0;i<allTables.Count;i++)
             {
-                table0 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
+                Table table0 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
                 if((table0.Rows[0].Cells[0].GetText().IndexOf("委托单位")>=0))
                 {
-                    cell = table0.Rows[4].Cells[1];
+                    Cell cell = table0.Rows[4].Cells[1];
                     string[] splitArray = cell.GetText().Split('\r');    //用GetText()的方法来获取cell中的值
                     foreach (var s in splitArray)
                     {
-                        repStr = s;
-                        var regex = new Regex(@s);
+                        string repStr = s;
                         repStr.Replace("\a", ""); repStr.Replace("\r", "");
                         repStr.Replace("(", "（"); repStr.Replace(")", "）");
-                        var s1 = Regex.Replace(repStr, @"(.+)《", "《");
+                        var s1 = Regex.Replace(repStr, @"(.+)《", "《");    //替换"《"之前的内容为""
                         foreach (var sp in Specifications)
                         {
                             similarity = Levenshtein(@s1, @sp);
-                            if (similarity > 0.85 && similarity < 1)
+                            if (similarity > similarityLBound && similarity < similarityUBound)
                             {
+                                var regex = new Regex(@s);
                                 reportError.Add(new ReportError(ErrorNumber.Description, "汇总表格中主要检测检验依据", "应为" + sp));
-                                options = new FindReplaceOptions
-                                {
+                                FindReplaceOptions options = new FindReplaceOptions
+                                {    
                                     ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", "应为" + sp),
                                     Direction = FindReplaceDirection.Forward
                                 };

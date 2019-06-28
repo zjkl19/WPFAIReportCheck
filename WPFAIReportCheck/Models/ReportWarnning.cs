@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace WPFAIReportCheck.Models
@@ -24,6 +25,7 @@ namespace WPFAIReportCheck.Models
     }
     public enum WarnningNumber
     {
+        [Display(Name="信息不明确")]
         NotClearInfo = 1,
     }
 }
