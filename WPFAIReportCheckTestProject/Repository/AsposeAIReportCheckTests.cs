@@ -54,8 +54,12 @@ namespace WPFAIReportCheckTestProject.Repository
 
             Comment docComment = (Comment)ai._doc.GetChild(NodeType.Comment, 0, true);
             Comment docComment1 = (Comment)ai._doc.GetChild(NodeType.Comment, 1, true);
+
+            NodeCollection allComments = ai._doc.GetChildNodes(NodeType.Comment, true);
+            Assert.Equal(2, allComments.Count);
             Assert.Equal(1, docComment.Count);
-            Assert.Equal(1, docComment1.Count);
+            Assert.True(docComment.GetText().IndexOf("单位错误")>=0);
+            Assert.True(docComment1.GetText().IndexOf("单位错误") >= 0);
             //Assert.Equal("\u0005My comment.\r", docComment.GetText());
         }
         #endregion

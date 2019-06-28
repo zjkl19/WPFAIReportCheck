@@ -76,6 +76,8 @@ namespace WPFAIReportCheck.Repository
 
             Table table0=null;
             Cell cell=null;
+            FindReplaceOptions options;
+            string repStr=string.Empty;
             //var m=_doc.GetChildNodes(NodeType.Table, true).Count;
             //for(var i=0;i<m;i++)
             //{
@@ -94,15 +96,23 @@ namespace WPFAIReportCheck.Repository
                     string[] splitArray = cell.GetText().Split('\r');    //用GetText()的方法来获取cell中的值
                     foreach (var s in splitArray)
                     {
-                        s.Replace("\a", ""); s.Replace("\r", "");
-                        s.Replace("(", "（"); s.Replace(")", "）");
-                        var s1 = Regex.Replace(s, @"(.+)《", "《");
+                        repStr = s;
+                        var regex = new Regex(@s);
+                        repStr.Replace("\a", ""); repStr.Replace("\r", "");
+                        repStr.Replace("(", "（"); repStr.Replace(")", "）");
+                        var s1 = Regex.Replace(repStr, @"(.+)《", "《");
                         foreach (var sp in Specifications)
                         {
                             similarity = Levenshtein(@s1, @sp);
                             if (similarity > 0.85 && similarity < 1)
                             {
                                 reportError.Add(new ReportError(ErrorNumber.Description, "汇总表格中主要检测检验依据", "应为" + sp));
+                                options = new FindReplaceOptions
+                                {
+                                    ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", "应为" + sp),
+                                    Direction = FindReplaceDirection.Forward
+                                };
+                                _doc.Range.Replace(regex, "", options);
                                 break;
                             }
                         }
@@ -111,8 +121,6 @@ namespace WPFAIReportCheck.Repository
                 }
             }
             //var table0 = ai.GetOverViewTable();
-  
-
         }
 
         public void _FindNotExplainComponentNo()
@@ -276,6 +284,107 @@ namespace WPFAIReportCheck.Repository
         //    // ExEnd:FindAndHighlight
         //}
         // ExStart:ReplaceEvaluatorFindAndHighlight
+
+        private class ReplaceEvaluatorFindAndHighlightWithComment : IReplacingCallback
+        {
+            private Document _doc;
+            private string _initialText;
+            private string _commentText;
+            /// <summary>
+            /// 正则表达式替换文字加高亮和批注
+            /// </summary>
+            /// <param name="doc">Aspose文档</param>
+            /// <param name="initialText"></param>
+            /// <param name="commentText">批注文档</param>
+            public ReplaceEvaluatorFindAndHighlightWithComment(Document doc, string initialText,string commentText)
+            {
+                _doc = doc;
+                _initialText = initialText;
+                _commentText = commentText;
+            }
+            /// <summary>
+            /// This method is called by the Aspose.Words find and replace engine for each match.
+            /// This method highlights the match string, even if it spans multiple runs.
+            /// </summary>
+            ReplaceAction IReplacingCallback.Replacing(ReplacingArgs e)
+            {
+                // This is a Run node that contains either the beginning or the complete match.
+                Node currentNode = e.MatchNode;
+
+                // The first (and may be the only) run can contain text before the match, 
+                // In this case it is necessary to split the run.
+                if (e.MatchOffset > 0)
+                    currentNode = SplitRun((Run)currentNode, e.MatchOffset);
+
+                // This array is used to store all nodes of the match for further highlighting.
+                ArrayList runs = new ArrayList();
+
+                // Find all runs that contain parts of the match string.
+                int remainingLength = e.Match.Value.Length;
+                while (
+                    (remainingLength > 0) &&
+                    (currentNode != null) &&
+                    (currentNode.GetText().Length <= remainingLength))
+                {
+                    runs.Add(currentNode);
+                    remainingLength -= currentNode.GetText().Length;
+
+                    // Select the next Run node. 
+                    // Have to loop because there could be other nodes such as BookmarkStart etc.
+                    do
+                    {
+                        currentNode = currentNode.NextSibling;
+                    }
+                    while ((currentNode != null) && (currentNode.NodeType != NodeType.Run));
+                }
+
+                // Split the last run that contains the match if there is any text left.
+                if ((currentNode != null) && (remainingLength > 0))
+                {
+                    SplitRun((Run)currentNode, remainingLength);
+                    runs.Add(currentNode);
+                }
+
+                // Now highlight all runs in the sequence.
+                //foreach (Run run in runs)
+                //    run.Font.HighlightColor = System.Drawing.Color.Red;
+
+                Comment comment = new Comment(_doc, "AI", _initialText, DateTime.Today);
+                comment.Paragraphs.Add(new Paragraph(_doc));
+                comment.FirstParagraph.Runs.Add(new Run(_doc, _commentText));
+
+                CommentRangeStart commentRangeStart = new CommentRangeStart(_doc, comment.Id);
+                CommentRangeEnd commentRangeEnd = new CommentRangeEnd(_doc, comment.Id);
+
+                //run1.ParentNode.InsertAfter(commentRangeStart, run1);
+                //run3.ParentNode.InsertAfter(commentRangeEnd, run3);
+                //commentRangeEnd.ParentNode.InsertAfter(comment, commentRangeEnd);
+
+                foreach (Run run in runs)
+                {
+                    run.Font.HighlightColor = System.Drawing.Color.Red;
+                    run.ParentNode.InsertAfter(commentRangeStart, run);
+                    run.ParentNode.InsertAfter(commentRangeEnd, run);
+                    commentRangeEnd.ParentNode.InsertAfter(comment, commentRangeEnd);
+
+                }
+
+                //Comment comment = new Comment(doc, "Awais Hafeez", "AH", DateTime.Today);
+                //comment.Paragraphs.Add(new Paragraph(doc));
+                //comment.FirstParagraph.Runs.Add(new Run(doc, "Comment text."));
+
+                //CommentRangeStart commentRangeStart = new CommentRangeStart(doc, comment.Id);
+                //CommentRangeEnd commentRangeEnd = new CommentRangeEnd(doc, comment.Id);
+
+                //run1.ParentNode.InsertAfter(commentRangeStart, run1);
+                //run3.ParentNode.InsertAfter(commentRangeEnd, run3);
+                //commentRangeEnd.ParentNode.InsertAfter(comment, commentRangeEnd);
+
+                // Signal to the replace engine to do nothing because we have already done all what we wanted.
+                return ReplaceAction.Skip;
+            }
+        }
+
         private class ReplaceEvaluatorFindAndHighlight : IReplacingCallback
         {
             private Document _doc;
@@ -332,7 +441,7 @@ namespace WPFAIReportCheck.Repository
 
                 Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Today);
                 comment.Paragraphs.Add(new Paragraph(_doc));
-                comment.FirstParagraph.Runs.Add(new Run(_doc, "Unit Error."));
+                comment.FirstParagraph.Runs.Add(new Run(_doc, "单位错误"));
 
                 CommentRangeStart commentRangeStart = new CommentRangeStart(_doc, comment.Id);
                 CommentRangeEnd commentRangeEnd = new CommentRangeEnd(_doc, comment.Id);
