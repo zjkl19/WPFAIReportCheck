@@ -56,11 +56,37 @@ namespace WPFAIReportCheckTestProject.Repository
             Comment docComment1 = (Comment)ai._doc.GetChild(NodeType.Comment, 1, true);
 
             NodeCollection allComments = ai._doc.GetChildNodes(NodeType.Comment, true);
+
+            //Assert
             Assert.Equal(2, allComments.Count);
             Assert.Equal(1, docComment.Count);
             Assert.True(docComment.GetText().IndexOf("单位错误")>=0);
             Assert.True(docComment1.GetText().IndexOf("单位错误") >= 0);
             //Assert.Equal("\u0005My comment.\r", docComment.GetText());
+        }
+        #endregion
+
+        #region _FindSpecificationsError
+        [Fact]
+        public void _FindSpecificationsError()
+        {
+            //Arrange
+            var fileName = @"..\..\..\TestFiles\_FindSpecificationsError.doc";
+            var ai = new AsposeAIReportCheck(fileName);
+            //Act
+            ai._FindSpecificationsError();
+
+            using (MemoryStream dstStream = new MemoryStream())
+            {
+                ai._doc.Save(dstStream, SaveFormat.Doc);
+            }
+
+            Comment docComment = (Comment)ai._doc.GetChild(NodeType.Comment, 0, true);
+            NodeCollection allComments = ai._doc.GetChildNodes(NodeType.Comment, true);
+
+            //Assert
+            Assert.Single(allComments);
+            Assert.True(docComment.GetText().IndexOf("应为《城市桥梁设计规范》（CJJ 11-2011）") >= 0);
         }
         #endregion
     }
