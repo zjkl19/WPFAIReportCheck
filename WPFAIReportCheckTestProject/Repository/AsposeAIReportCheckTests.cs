@@ -60,8 +60,8 @@ namespace WPFAIReportCheckTestProject.Repository
             //Assert
             Assert.Equal(2, allComments.Count);
             Assert.Equal(1, docComment.Count);
-            Assert.True(docComment.GetText().IndexOf("单位错误")>=0);
-            Assert.True(docComment1.GetText().IndexOf("单位错误") >= 0);
+            Assert.True(docComment.GetText().IndexOf("应为km/h") >=0);
+            Assert.True(docComment1.GetText().IndexOf("应为km/h") >= 0);
             //Assert.Equal("\u0005My comment.\r", docComment.GetText());
         }
         #endregion
