@@ -33,6 +33,8 @@ namespace WPFAIReportCheck.Models
         CMA = 1,
         [Display(Name = "描述错误")]
         Description = 2,
+        [Display(Name = "计算错误")]
+        Calc = 3,
     }
 
 }

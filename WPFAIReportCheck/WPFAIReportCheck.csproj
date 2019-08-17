@@ -90,9 +90,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IRepository\FindStrainOrDispError.cs" />
     <Compile Include="Models\ReportInfo.cs" />
     <Compile Include="Repository\AsposeAIReportCheck.cs" />
     <Compile Include="Repository\EnumHelper.cs" />
+    <Compile Include="Repository\FindStrainOrDispError.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

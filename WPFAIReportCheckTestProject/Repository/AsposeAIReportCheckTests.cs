@@ -9,7 +9,7 @@ using System.IO;
 
 namespace WPFAIReportCheckTestProject.Repository
 {
-    public class AsposeAIReportCheckTests
+    public partial class AsposeAIReportCheckTests
     {
         #region _FindNotExplainComponentNo
         [Fact]

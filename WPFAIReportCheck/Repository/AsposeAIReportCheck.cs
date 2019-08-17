@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace WPFAIReportCheck.Repository
 {
-    public class AsposeAIReportCheck : IAIReportCheck
+    public partial class AsposeAIReportCheck : IAIReportCheck
     {
         public List<ReportError> reportError = new List<ReportError>();
         public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
@@ -165,19 +165,19 @@ namespace WPFAIReportCheck.Repository
                 if (table0.Rows[0].Cells[0].GetText().IndexOf("序号") >= 0)    //含有序号的表格
                 {
                     int sn = 1;
-                    for(int j=0;j< table0.IndexOf(table0.LastRow);j++)
+                    for (int j = 0; j < table0.IndexOf(table0.LastRow); j++)
                     {
                         //TODO:增加转换失败的异常处理（如序号中含有中文）
-                        var sn1 = table0.Rows[j+1].Cells[0].GetText().Replace("\a", "").Replace("\r","");
-                        if(Convert.ToInt32(sn1)!=sn)
+                        var sn1 = table0.Rows[j + 1].Cells[0].GetText().Replace("\a", "").Replace("\r", "");
+                        if (Convert.ToInt32(sn1) != sn)
                         {
-                            reportError.Add(new ReportError(ErrorNumber.Description, $"第{i+1}张表格", "序号应连贯，从小到大",true));
+                            reportError.Add(new ReportError(ErrorNumber.Description, $"第{i + 1}张表格", "序号应连贯，从小到大", true));
 
                             Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Today);
                             comment.Paragraphs.Add(new Paragraph(_doc));
                             comment.FirstParagraph.Runs.Add(new Run(_doc, "序号应连贯，从小到大"));
                             DocumentBuilder builder = new DocumentBuilder(_doc);
-                            builder.MoveTo(table0.Rows[j+1].Cells[0].FirstParagraph);
+                            builder.MoveTo(table0.Rows[j + 1].Cells[0].FirstParagraph);
                             builder.CurrentParagraph.AppendChild(comment);
                             break;
                         }
@@ -186,6 +186,7 @@ namespace WPFAIReportCheck.Repository
                 }
             }
         }
+        
         public void _GenerateResultReport()
         {
             var doc = new Document();
@@ -258,6 +259,7 @@ namespace WPFAIReportCheck.Repository
             _FindNotExplainComponentNo();
             _FindSpecificationsError();
             _FindSequenceNumberError();
+            FindStrainOrDispError();
             _GenerateResultReport();
             _doc.Save("标出错误或警告的报告.doc");
         }
