@@ -9,6 +9,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using log4net;
+using log4net.Repository;
+using log4net.Config;
 
 namespace WPFAIReportCheck.Repository
 {
@@ -17,6 +20,7 @@ namespace WPFAIReportCheck.Repository
         public List<ReportError> reportError = new List<ReportError>();
         public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
         public Document _doc;
+        public ILog _log;
         readonly string _originalWholeText;
         /// <summary>
         /// 构造函数
@@ -26,6 +30,12 @@ namespace WPFAIReportCheck.Repository
         {
             _doc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
+
+            ILoggerRepository repository = LogManager.CreateRepository("WPFAIReportCheck");
+            // 默认简单配置，输出至控制台
+            //BasicConfigurator.Configure(repository);
+
+            _log = log4net.LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
         }
 
         /// <summary>

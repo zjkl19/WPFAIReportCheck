@@ -15,6 +15,7 @@ namespace WPFAIReportCheck.Infrastructure
         /// Ninject依赖注入解析
         /// </summary>
         /// <param name="doc">文件名</param>
+        /// <param name="log">interface ILog : ILoggerWrapper</param>
         public NinjectDependencyResolver(string doc)
         {
             _doc = doc;
@@ -22,6 +23,7 @@ namespace WPFAIReportCheck.Infrastructure
         public override void Load()
         {
             Bind<IAIReportCheck>().To<AsposeAIReportCheck>().WithConstructorArgument("doc", _doc);
+            //Bind<IAIReportCheck>().To<AsposeAIReportCheck>().WithConstructorArgument("doc", _doc).WithConstructorArgument("log", _log);
         }
     }
 }

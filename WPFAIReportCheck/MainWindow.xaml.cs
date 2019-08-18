@@ -3,6 +3,7 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -28,6 +29,7 @@ namespace WPFAIReportCheck
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -42,11 +44,13 @@ namespace WPFAIReportCheck
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             string doc = string.Empty;
             if (!string.IsNullOrWhiteSpace(FileTextBox.Text))
             {
+
                 doc = FileTextBox.Text;
 
                 IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc));
@@ -129,7 +133,7 @@ namespace WPFAIReportCheck
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
-        {          
+        {
         }
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
