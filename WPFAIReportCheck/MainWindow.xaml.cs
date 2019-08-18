@@ -58,10 +58,16 @@ namespace WPFAIReportCheck
             if (!string.IsNullOrWhiteSpace(FileTextBox.Text))
             {
                 doc = FileTextBox.Text;
-
                 IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc, log));
-
                 var ai = kernel.Get<IAIReportCheck>();
+
+                //注：以上代码相当于以下4行
+                //repository = LogManager.CreateRepository("WPFAIReportCheck");
+                //log = LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
+                //var doc = @"xxx.doc";
+                //var ai = new AsposeAIReportCheck(doc, log);
+
+
                 //Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
                 //{
                 //    try
