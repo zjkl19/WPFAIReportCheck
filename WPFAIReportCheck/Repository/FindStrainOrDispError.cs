@@ -23,6 +23,7 @@ namespace WPFAIReportCheck.Repository
         /// 相对残余变形：残余变形/总变形
         /// TODO：读不出数据时的异常处理，要能定位出具体位置
         /// </remarks>
+        /// 算法主要参与人员：林迪南、陈思远
         public void FindStrainOrDispError()
         {
             NodeCollection allTables = _doc.GetChildNodes(NodeType.Table, true);

@@ -17,6 +17,7 @@ namespace WPFAIReportCheck.Repository
         /// 算法：用正则表达式全文搜索“CNAS检查机构”关键字，如果查到，表示有误
         /// TODO：增加其它名词描述错误
         /// </remarks>
+        /// 算法主要参与人员：林迪南
         public void FindDescriptionError()
         {
             FindReplaceOptions options;
