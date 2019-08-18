@@ -26,16 +26,16 @@ namespace WPFAIReportCheck.Repository
         /// 构造函数
         /// </summary>
         /// <param name="doc">doc文件，默认和程序在同一个目录</param>
-        public AsposeAIReportCheck(string doc)
+        public AsposeAIReportCheck(string doc, ILog log)
         {
             _doc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
 
-            ILoggerRepository repository = LogManager.CreateRepository("WPFAIReportCheck");
+            //ILoggerRepository repository = LogManager.CreateRepository("WPFAIReportCheck");
             // 默认简单配置，输出至控制台
             //BasicConfigurator.Configure(repository);
-
-            _log = log4net.LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
+            // _log = log4net.LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
+            _log = log; 
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace WPFAIReportCheck.Repository
         /// 弹性应变=总应变-残余应变
         /// 校验系数：弹性应变/理论应变
         /// 相对残余应变：残余应变/总应变
-        /// TODO：读不出数据时的异常处理
+        /// TODO：读不出数据时的异常处理，要能定位出具体位置
         /// </remarks>
         public void FindStrainOrDispError()
         {
@@ -52,7 +52,7 @@ namespace WPFAIReportCheck.Repository
                             
                             var calcElasticStrain = totalStrain - remainStrain;
                             var calcCheckoutCoff = Math.Round(calcElasticStrain / theoryStrain, 2);
-                            var calcRelRemainStrain = Math.Round(remainStrain / totalStrain, 2);
+                            var calcRelRemainStrain = Math.Round(remainStrain / totalStrain, 4);
                             if (calcElasticStrain != elasticStrain)
                             {
                                 reportError.Add(new ReportError(ErrorNumber.Calc, $"第{i + 1}张表格", $"计算错误，应为{calcElasticStrain}", true));
@@ -88,8 +88,9 @@ namespace WPFAIReportCheck.Repository
                         {
 #if DEBUG
                             throw ex;
+                            
 #else
-                            _log.Error($"FindStrainOrDispError函数第{i+1}张表格第{j+1}行数据读取出错，错误信息：{ ex.Message.ToString()}");
+                            _log.Error($"FindStrainOrDispError函数第{i+1}张表格第{j+1}行数据读取出错，错误信息：{ ex.Message.ToString()}",ex);
                             continue;    //TODO：记录错误
 #endif
                         }

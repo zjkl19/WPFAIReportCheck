@@ -1,4 +1,6 @@
 ﻿using Aspose.Words;
+using log4net;
+using log4net.Repository;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -29,31 +31,35 @@ namespace WPFAIReportCheck
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        public ILoggerRepository repository;
+        public ILog log;
         public MainWindow()
         {
             InitializeComponent();
-
             //TODO:movetofunction
             double ScreenWidth = SystemParameters.PrimaryScreenWidth;//WPF
             double ScreenHeight = SystemParameters.PrimaryScreenHeight;//WPF
-            this.Top = 0.3 * (ScreenHeight - this.Height);
-            this.Left = 0.4 * (ScreenWidth - this.Width);
+            Top = 0.3 * (ScreenHeight - Height);
+            Left = 0.4 * (ScreenWidth - Width);
             //this.Left = ScreenWidth - this.ActualWidth * 1.3;
+
+            //日志
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);    //防止日志相关问题出现乱码
+            repository = LogManager.CreateRepository("WPFAIReportCheck");
+            // 默认简单配置，输出至控制台
+            //BasicConfigurator.Configure(repository);
+            log = LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
             string doc = string.Empty;
+             
             if (!string.IsNullOrWhiteSpace(FileTextBox.Text))
             {
-
                 doc = FileTextBox.Text;
 
-                IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc));
+                IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc, log));
 
                 var ai = kernel.Get<IAIReportCheck>();
                 //Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
