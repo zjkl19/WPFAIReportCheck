@@ -25,7 +25,6 @@ namespace WPFAIReportCheck.Infrastructure
         }
         public override void Load()
         {
-            Bind<ILog>().ToSelf().InSingletonScope();
             Bind<IAIReportCheck>().To<AsposeAIReportCheck>().WithConstructorArgument("doc", _doc).WithConstructorArgument("log", _log);
             //Bind<IAIReportCheck>().To<AsposeAIReportCheck>().WithConstructorArgument("doc", _doc).WithConstructorArgument("log", _log);
         }

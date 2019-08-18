@@ -5,6 +5,7 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -54,7 +55,6 @@ namespace WPFAIReportCheck
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string doc = string.Empty;
-             
             if (!string.IsNullOrWhiteSpace(FileTextBox.Text))
             {
                 doc = FileTextBox.Text;
@@ -137,9 +137,32 @@ namespace WPFAIReportCheck
         {
             MessageBox.Show("校核结果仅供参考");
         }
-
+        /// <summary>
+        /// 检查更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            ExeConfigurationFileMap map = new ExeConfigurationFileMap
+            {
+                ExeConfigFilename = @"App1.config"
+            };
+            try
+            {
+                Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+                //string connstr = config.ConnectionStrings.ConnectionStrings["test1"].ConnectionString;
+                //MessageBox.Show(connstr);
+                string key = config.AppSettings.Settings["user"].Value.ToString();
+                MessageBox.Show(key);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("该功能测试中。");
+                throw;
+            }
+            MessageBox.Show("该功能开发中。");
+
         }
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
