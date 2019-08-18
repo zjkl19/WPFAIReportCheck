@@ -263,17 +263,6 @@ namespace WPFAIReportCheck.Repository
             doc.Save("校核结果.docx");
         }
 
-        public void CheckReport()
-        {
-            _FindUnitError();
-            _FindNotExplainComponentNo();
-            _FindSpecificationsError();
-            _FindSequenceNumberError();
-            FindStrainOrDispError();
-            _GenerateResultReport();
-            _doc.Save("标出错误或警告的报告.doc");
-        }
-
         /// <summary>
         /// 字符串相似度计算
         /// </summary>

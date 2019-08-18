@@ -101,6 +101,7 @@
     <Compile Include="IRepository\FindStrainOrDispError.cs" />
     <Compile Include="Models\ReportInfo.cs" />
     <Compile Include="Repository\AsposeAIReportCheck.cs" />
+    <Compile Include="Repository\CheckReport.cs" />
     <Compile Include="Repository\EnumHelper.cs" />
     <Compile Include="Repository\FindStrainOrDispError.cs" />
     <Page Include="MainWindow.xaml">
