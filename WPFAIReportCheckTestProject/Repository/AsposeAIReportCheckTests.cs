@@ -13,37 +13,7 @@ namespace WPFAIReportCheckTestProject.Repository
 {
     public partial class AsposeAIReportCheckTests
     {
-        #region _FindNotExplainComponentNo
-        [Fact]
-        public void _FindNotExplainComponentNo_ReturnsAReportWarnning_WhileComponentNoNotExplained()
-        {
-            //Arrange
-            var log = new Mock<ILog>();
-            log.Setup(m => m.Error(It.IsAny<string>(), It.IsAny<Exception>()));   //无实际意义，仅作为1必须参数传入
 
-            var fileName = @"..\..\..\TestFiles\_FindNotExplainComponentNo.doc";
-            var ai = new AsposeAIReportCheck(fileName, log.Object);
-            //Act
-            ai._FindNotExplainComponentNo();
-            //Assert
-            Assert.Equal(WarnningNumber.NotClearInfo, ai.reportWarnning[0].No);
-        }
-
-        [Fact]
-        public void _FindNotExplainComponentNo_ReturnsNoneReportWarnning_WhileComponentNoExplained()
-        {
-            //Arrange
-            var log = new Mock<ILog>();
-            log.Setup(m => m.Error(It.IsAny<string>(), It.IsAny<Exception>()));   //无实际意义，仅作为1必须参数传入
-
-            var fileName = @"..\..\..\TestFiles\_FindNotExplainComponentNo_Explained.doc";
-            var ai = new AsposeAIReportCheck(fileName, log.Object);
-            //Act
-            ai._FindNotExplainComponentNo();
-            //Assert
-            Assert.Empty(ai.reportWarnning);
-        }
-        #endregion
         //#region _FindUnitError
         //[Fact]
         //public void _FindUnitError()

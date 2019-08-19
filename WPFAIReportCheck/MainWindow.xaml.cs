@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 using WPFAIReportCheck.IRepository;
 using WPFAIReportCheck.Models;
 
@@ -54,11 +55,12 @@ namespace WPFAIReportCheck
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var config = XDocument.Load(@"AIReportCheck.config");
             string doc = string.Empty;
             if (!string.IsNullOrWhiteSpace(FileTextBox.Text))
             {
                 doc = FileTextBox.Text;
-                IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc, log));
+                IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc, log, config));
                 var ai = kernel.Get<IAIReportCheck>();
 
                 //注：以上代码相当于以下4行
@@ -150,24 +152,32 @@ namespace WPFAIReportCheck
         /// <param name="e"></param>
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            ExeConfigurationFileMap map = new ExeConfigurationFileMap
-            {
-                ExeConfigFilename = @"App1.config"
-            };
-            try
-            {
-                Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
-                //string connstr = config.ConnectionStrings.ConnectionStrings["test1"].ConnectionString;
-                //MessageBox.Show(connstr);
-                string key = config.AppSettings.Settings["user"].Value.ToString();
-                MessageBox.Show(key);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("该功能测试中。");
-                throw;
-            }
-            MessageBox.Show("该功能开发中。");
+            //ExeConfigurationFileMap map = new ExeConfigurationFileMap
+            //{
+            //    ExeConfigFilename = @"App1.config"
+            //};
+            //try
+            //{
+            //    Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+            //    //string connstr = config.ConnectionStrings.ConnectionStrings["test1"].ConnectionString;
+            //    //MessageBox.Show(connstr);
+            //    string key = config.AppSettings.Settings["user"].Value.ToString();
+            //    MessageBox.Show(key);
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("该功能测试中。");
+            //    throw;
+            //}
+            //MessageBox.Show("该功能开发中。");
+            //省略了判定xml文件存在
+            //XDocument xd = new XDocument();
+            var xd = XDocument.Load(@"AIReportCheck.config");
+            var xEle1 = xd.Element("configuration").Element("FindDescriptionError").Element("StrainCharactorString");
+            MessageBox.Show(xEle1.Name.ToString());
+            MessageBox.Show(xEle1.Attribute("version").Value);
+
+
 
         }
         private void Button_Click_3(object sender, RoutedEventArgs e)

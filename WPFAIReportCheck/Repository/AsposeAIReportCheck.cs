@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using log4net;
 using log4net.Repository;
 using log4net.Config;
+using System.Xml.Linq;
 
 namespace WPFAIReportCheck.Repository
 {
@@ -21,12 +22,13 @@ namespace WPFAIReportCheck.Repository
         public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
         public Document _doc;
         public ILog _log;
+        public XDocument _config;
         readonly string _originalWholeText;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="doc">doc文件，默认和程序在同一个目录</param>
-        public AsposeAIReportCheck(string doc, ILog log)
+        public AsposeAIReportCheck(string doc, ILog log,XDocument config)
         {
             _doc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
@@ -35,7 +37,8 @@ namespace WPFAIReportCheck.Repository
             // 默认简单配置，输出至控制台
             //BasicConfigurator.Configure(repository);
             // _log = log4net.LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
-            _log = log; 
+            _log = log;
+            _config = config;
         }
 
         /// <summary>

@@ -26,11 +26,35 @@ namespace WPFAIReportCheck.Repository
         /// 算法主要参与人员：林迪南、陈思远
         public void FindStrainOrDispError()
         {
+
+            int row1,col1,row2,col2;
+            string headerCharactorString,strainCharactorString,dispCharactorString;
+            try
+            {
+                //var xEle1 = xd.Element("configuration").Element("FindDescriptionError").Element("StrainCharactorString");
+                //MessageBox.Show(xEle1.Name.ToString());
+                //MessageBox.Show(xEle1.Attribute("version").Value);
+                headerCharactorString=_config.Element("configuration").Element("FindStrainOrDispError").Attribute("charactorString").Value;
+                row1 =Convert.ToInt32(_config.Element("configuration").Element("FindStrainOrDispError").Attribute("row1").Value);
+                col1 = Convert.ToInt32(_config.Element("configuration").Element("FindStrainOrDispError").Attribute("col1").Value);
+                row2 = Convert.ToInt32(_config.Element("configuration").Element("FindStrainOrDispError").Attribute("row2").Value);
+                col2 = Convert.ToInt32(_config.Element("configuration").Element("FindStrainOrDispError").Attribute("col2").Value);
+                strainCharactorString = _config.Element("configuration").Element("FindStrainOrDispError").Element("Strain").Attribute("charactorString").Value;
+                dispCharactorString = _config.Element("configuration").Element("FindStrainOrDispError").Element("Disp").Attribute("charactorString").Value;
+            }
+            catch (Exception)
+            {
+                row1 = 0;col1 = 0;row2 = 1;col2 = 1;
+                headerCharactorString = "测点号"; strainCharactorString = "总应变"; dispCharactorString = "总变形";
+                //TODO：增加条件编译的异常处理
+            }
+
             NodeCollection allTables = _doc.GetChildNodes(NodeType.Table, true);
             for (int i = 0; i < allTables.Count; i++)
             {
                 Table table0 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
-                if (table0.Rows[0].Cells[0].GetText().IndexOf("测点号") >= 0 && (table0.Rows[1].Cells[1].GetText().IndexOf("总应变") >= 0 || table0.Rows[1].Cells[1].GetText().IndexOf("总变形") >= 0))
+                if (table0.Rows[row1].Cells[col1].GetText().IndexOf(headerCharactorString) >= 0 
+                    && (table0.Rows[row2].Cells[col2].GetText().IndexOf(strainCharactorString) >= 0 || table0.Rows[row2].Cells[col2].GetText().IndexOf(dispCharactorString) >= 0))
                 {
                     for (int j = 2; j < table0.IndexOf(table0.LastRow); j++)   //TODO：增加最后行尾的判断
                     {
