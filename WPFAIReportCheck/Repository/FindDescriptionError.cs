@@ -50,7 +50,6 @@ namespace WPFAIReportCheck.Repository
 
 #else
                             _log.Error($"FindDescriptionError函数运行出错，错误信息：{ ex.Message.ToString()}",ex);
-                            continue;
 #endif
             }
  

@@ -180,20 +180,34 @@ namespace WPFAIReportCheck.Repository
                     int sn = 1;
                     for (int j = 0; j < table0.IndexOf(table0.LastRow); j++)
                     {
-                        //TODO:增加转换失败的异常处理（如序号中含有中文）
                         var sn1 = table0.Rows[j + 1].Cells[0].GetText().Replace("\a", "").Replace("\r", "");
-                        if (Convert.ToInt32(sn1) != sn)
+                        try
                         {
-                            reportError.Add(new ReportError(ErrorNumber.Description, $"第{i + 1}张表格", "序号应连贯，从小到大", true));
+                            //TODO:增加转换失败的测试
+                            if (Convert.ToInt32(sn1) != sn)    //转换可能会失败（如序号中含有中文）
+                            {
+                                reportError.Add(new ReportError(ErrorNumber.Description, $"第{i + 1}张表格", "序号应连贯，从小到大", true));
 
-                            Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Today);
-                            comment.Paragraphs.Add(new Paragraph(_doc));
-                            comment.FirstParagraph.Runs.Add(new Run(_doc, "序号应连贯，从小到大"));
-                            DocumentBuilder builder = new DocumentBuilder(_doc);
-                            builder.MoveTo(table0.Rows[j + 1].Cells[0].FirstParagraph);
-                            builder.CurrentParagraph.AppendChild(comment);
-                            break;
+                                Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Today);
+                                comment.Paragraphs.Add(new Paragraph(_doc));
+                                comment.FirstParagraph.Runs.Add(new Run(_doc, "序号应连贯，从小到大"));
+                                DocumentBuilder builder = new DocumentBuilder(_doc);
+                                builder.MoveTo(table0.Rows[j + 1].Cells[0].FirstParagraph);
+                                builder.CurrentParagraph.AppendChild(comment);
+                                break;
+                            }
                         }
+                        catch (Exception ex)
+                        {
+#if DEBUG
+                            throw ex;
+
+#else
+                            //TODO：增加错误定位信息
+                            _log.Error($"FindSequenceNumberError函数运行出错，错误信息：{ ex.Message.ToString()}",ex);
+#endif
+                        }
+
                         sn++;
                     }
                 }

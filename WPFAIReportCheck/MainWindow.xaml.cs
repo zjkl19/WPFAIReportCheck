@@ -91,9 +91,9 @@ namespace WPFAIReportCheck
                             ai.CheckReport();
                             MessageBox.Show("已成功校核");
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            throw;
+                            log.Error($"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}", ex);
                         }
                     }));
                 }).Start();
@@ -172,10 +172,20 @@ namespace WPFAIReportCheck
             //MessageBox.Show("该功能开发中。");
             //省略了判定xml文件存在
             //XDocument xd = new XDocument();
-            var xd = XDocument.Load(@"AIReportCheck.config");
-            var xEle1 = xd.Element("configuration").Element("FindDescriptionError").Element("StrainCharactorString");
-            MessageBox.Show(xEle1.Name.ToString());
-            MessageBox.Show(xEle1.Attribute("version").Value);
+
+            //以下为临时测试代码
+            try
+            {
+                var xd = XDocument.Load(@"AIReportCheck.config");
+                var xEle1 = xd.Element("configuration").Element("FindDescriptionError").Element("StrainCharactorString");
+                MessageBox.Show(xEle1.Name.ToString());
+                MessageBox.Show(xEle1.Attribute("version").Value);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
 
 

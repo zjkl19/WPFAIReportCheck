@@ -17,7 +17,7 @@ namespace WPFAIReportCheckTestProject.Repository
         public void FindStrainOrDispError_ReturnsCorrectCountOfReportError()
         {
             //Arrange
-            var fileName = @"..\..\..\TestFiles\FindStrainOrDispError.doc";
+            var fileName = @"C:\VsProjects\WPFAIReportCheck\WPFAIReportCheckTestProject\TestFiles\FindStrainOrDispError.doc";
 
             var log = new Mock<ILog>();
             log.Setup(m => m.Error(It.IsAny<string>(), It.IsAny<Exception>()));   //无实际意义，仅作为1必须参数传入
@@ -30,12 +30,14 @@ namespace WPFAIReportCheckTestProject.Repository
                              </FindStrainOrDispError >
                            </configuration >";
             var config = XDocument.Parse(xml);
+
             var ai = new AsposeAIReportCheck(fileName, log.Object, config);
             //Act
             ai.FindStrainOrDispError();
             //Assert
             Assert.Equal(6, ai.reportError.Count);
             Assert.Equal(ErrorNumber.Calc, ai.reportError[0].No);
+
         }
 
         [Fact]
@@ -68,7 +70,7 @@ namespace WPFAIReportCheckTestProject.Repository
             NodeCollection allComments = ai._doc.GetChildNodes(NodeType.Comment, true);
 
             //Assert
-            Assert.Equal(6,allComments.Count);
+            Assert.Equal(6, allComments.Count);
             Assert.True(docComment.GetText().IndexOf("计算错误") >= 0);
         }
     }
