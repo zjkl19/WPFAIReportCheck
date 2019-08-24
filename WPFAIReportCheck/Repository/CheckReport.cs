@@ -18,6 +18,7 @@ namespace WPFAIReportCheck.Repository
             FindStrainOrDispError();
 
             FindDescriptionError();
+            FindOtherBridgesWarnning();
 
             _GenerateResultReport();
             _doc.Save("标出错误或警告的报告.doc");

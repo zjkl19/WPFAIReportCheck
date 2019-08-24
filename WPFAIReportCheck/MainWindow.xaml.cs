@@ -1,4 +1,5 @@
 ﻿using Aspose.Words;
+using Microsoft.WindowsAPICodePack.Dialogs;
 //using log4net;
 //using log4net.Repository;
 using Ninject;
@@ -37,7 +38,7 @@ namespace WPFAIReportCheck
         //public ILoggerRepository repository;
         //public ILog log;
         public ILogger log;
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -55,7 +56,7 @@ namespace WPFAIReportCheck
             // 默认简单配置，输出至控制台
             //BasicConfigurator.Configure(repository);
             //log = LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
-            
+
             //Nlog
             var config = new NLog.Config.LoggingConfiguration();
 
@@ -106,7 +107,7 @@ namespace WPFAIReportCheck
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        log.Error($"\"自动校核\"运行出错，错误信息：");
+
                         try
                         {
                             ai.CheckReport();
@@ -114,7 +115,7 @@ namespace WPFAIReportCheck
                         }
                         catch (Exception ex)
                         {
-                            log.Error(ex,$"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
+                            log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
                         }
                     }));
                 }).Start();
@@ -162,6 +163,7 @@ namespace WPFAIReportCheck
             //commentRangeEnd.ParentNode.InsertAfter(comment, commentRangeEnd);
         }
 
+        //免责声明
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("校核结果仅供参考");
@@ -226,6 +228,28 @@ namespace WPFAIReportCheck
             {
                 System.Diagnostics.Process.Start(doc);
             }
+        }
+
+        private void OpenFileDialogButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (
+                var dialog = new CommonOpenFileDialog
+                {
+                    IsFolderPicker = false,//设置为选择文件夹
+                    DefaultDirectory= @"\",
+                    
+                })
+            {
+                dialog.Filters.Add(new CommonFileDialogFilter("Word 文档", "*.docx"));
+                dialog.Filters.Add(new CommonFileDialogFilter("Word 97-2003", "*.doc"));
+
+                var result = dialog.ShowDialog();
+                if (result == CommonFileDialogResult.Ok)
+                {
+                    FileTextBox.Text = dialog.FileName;
+                };
+            }
+
         }
     }
 
