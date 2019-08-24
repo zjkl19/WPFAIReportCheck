@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿//using log4net;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,15 @@ namespace WPFAIReportCheck.Infrastructure
     class NinjectDependencyResolver : Ninject.Modules.NinjectModule
     {
         private string _doc;
-        private ILog _log;
+        //private ILog _log;
+        private ILogger _log;
         private XDocument _config;
         /// <summary>
         /// Ninject依赖注入解析
         /// </summary>
         /// <param name="doc">文件名</param>
         /// <param name="log">interface ILog : ILoggerWrapper</param>
-        public NinjectDependencyResolver(string doc,ILog log, XDocument config)
+        public NinjectDependencyResolver(string doc, ILogger log, XDocument config)
         {
             _doc = doc;
             _log = log;

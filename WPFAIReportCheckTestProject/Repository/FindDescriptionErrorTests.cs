@@ -3,7 +3,6 @@ using WPFAIReportCheck.Repository;
 using WPFAIReportCheck.Models;
 //using Aspose.Words;
 using System.IO;
-using log4net;
 using Moq;
 using System;
 using System.Xml.Linq;
@@ -11,18 +10,16 @@ using Aspose.Words;
 
 namespace WPFAIReportCheckTestProject.Repository
 {
-    public partial class AsposeAIReportCheckTests
+    public partial class AsposeAIReportCheckTests : IClassFixture<AsposeAIReportCheckTestsFixture>
     {
 
         [Fact]
         public void FindDescriptionError_ReturnsCorrectCountOfReportError()
         {
             //Arrange
-            var log = new Mock<ILog>();
-            log.Setup(m => m.Error(It.IsAny<string>(), It.IsAny<Exception>()));   //无实际意义，仅作为1必须参数传入
 
             var fileName = @"..\..\..\TestFiles\FindDescriptionError.doc";
-
+            var log = _fixture.log;
             string xml = @"<?xml version=""1.0"" encoding=""utf - 8"" ?>
                             <configuration>
                               <FindStrainOrDispError row1=""0"" col1=""0"" row2 =""1"" col2 =""1""  charactorString =""测点号"" >
@@ -45,10 +42,9 @@ namespace WPFAIReportCheckTestProject.Repository
         public void FindDescriptionError_WritesCorrectCommentsInDoc()
         {
             //Arrange
-            var log = new Mock<ILog>();
-            log.Setup(m => m.Error(It.IsAny<string>(), It.IsAny<Exception>()));   //无实际意义，仅作为1必须参数传入
 
             var fileName = @"..\..\..\TestFiles\FindDescriptionError.doc";
+            var log = _fixture.log;
 
             string xml = @"<?xml version=""1.0"" encoding=""utf - 8"" ?>
                             <configuration>

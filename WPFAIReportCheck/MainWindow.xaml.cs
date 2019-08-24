@@ -1,7 +1,8 @@
 ﻿using Aspose.Words;
-using log4net;
-using log4net.Repository;
+//using log4net;
+//using log4net.Repository;
 using Ninject;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,8 +34,10 @@ namespace WPFAIReportCheck
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ILoggerRepository repository;
-        public ILog log;
+        //public ILoggerRepository repository;
+        //public ILog log;
+        public ILogger log;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -46,11 +49,28 @@ namespace WPFAIReportCheck
             //this.Left = ScreenWidth - this.ActualWidth * 1.3;
 
             //日志
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);    //防止日志相关问题出现乱码
-            repository = LogManager.CreateRepository("WPFAIReportCheck");
+            //log4net
+            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);    //防止日志相关问题出现乱码
+            //repository = LogManager.CreateRepository("WPFAIReportCheck");
             // 默认简单配置，输出至控制台
             //BasicConfigurator.Configure(repository);
-            log = LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
+            //log = LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
+            
+            //Nlog
+            var config = new NLog.Config.LoggingConfiguration();
+
+            // Targets where to log to: File and Console
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = @"Log\LogFile.txt" };
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+
+            // Rules for mapping loggers to targets            
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+
+            // Apply config           
+            LogManager.Configuration = config;
+
+            log = LogManager.GetCurrentClassLogger();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -86,6 +106,7 @@ namespace WPFAIReportCheck
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
+                        log.Error($"\"自动校核\"运行出错，错误信息：");
                         try
                         {
                             ai.CheckReport();
@@ -93,7 +114,7 @@ namespace WPFAIReportCheck
                         }
                         catch (Exception ex)
                         {
-                            log.Error($"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}", ex);
+                            log.Error(ex,$"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
                         }
                     }));
                 }).Start();

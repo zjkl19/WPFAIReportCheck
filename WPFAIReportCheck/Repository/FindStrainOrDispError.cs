@@ -115,7 +115,7 @@ namespace WPFAIReportCheck.Repository
                             throw ex;
                             
 #else
-                            _log.Error($"FindDeformOrDispError函数第{i+1}张表格第{j+1}行数据读取出错，错误信息：{ ex.Message.ToString()}",ex);
+                            _log.Error(ex,$"FindDeformOrDispError函数第{i+1}张表格第{j+1}行数据读取出错，错误信息：{ ex.Message.ToString()}");
                             continue;    //TODO：记录错误
 #endif
                         }

@@ -9,10 +9,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using log4net;
-using log4net.Repository;
-using log4net.Config;
+//using log4net;
+//using log4net.Repository;
+//using log4net.Config;
 using System.Xml.Linq;
+using NLog;
 
 namespace WPFAIReportCheck.Repository
 {
@@ -21,14 +22,15 @@ namespace WPFAIReportCheck.Repository
         public List<ReportError> reportError = new List<ReportError>();
         public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
         public Document _doc;
-        public ILog _log;
+        //public ILog _log;
+        public ILogger _log;
         public XDocument _config;
         readonly string _originalWholeText;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="doc">doc文件，默认和程序在同一个目录</param>
-        public AsposeAIReportCheck(string doc, ILog log,XDocument config)
+        public AsposeAIReportCheck(string doc, ILogger log,XDocument config)
         {
             _doc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
@@ -204,7 +206,7 @@ namespace WPFAIReportCheck.Repository
 
 #else
                             //TODO：增加错误定位信息
-                            _log.Error($"FindSequenceNumberError函数运行出错，错误信息：{ ex.Message.ToString()}",ex);
+                            _log.Error(ex, $"FindSequenceNumberError函数运行出错，错误信息：{ ex.Message.ToString()}");
 #endif
                         }
 
