@@ -128,22 +128,22 @@ namespace WPFAIReportCheck.Repository
                     foreach (var s in splitArray)
                     {
                         string repStr = s;
-                        repStr.Replace("\a", "").Replace("\r", "");
-                        repStr.Replace("(", "（").Replace(")", "）");
+                        repStr=repStr.Replace("\a", "").Replace("\r", "").Replace("(", "（").Replace(")", "）");
                         var s1 = Regex.Replace(repStr, @"(.+)《", "《");    //替换"《"之前的内容为""
                         foreach (var sp in Specifications)
                         {
                             similarity = Levenshtein(@s1, @sp);
                             if (similarity > similarityLBound && similarity < similarityUBound)
                             {
-                                var regex = new Regex(@s);
+                                var regex = new Regex(@s.Replace("\a", ""));
                                 reportError.Add(new ReportError(ErrorNumber.Description, "汇总表格中主要检测检验依据", "应为" + sp,true));
                                 FindReplaceOptions options = new FindReplaceOptions
                                 {
                                     ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", "应为" + sp),
                                     Direction = FindReplaceDirection.Forward
                                 };
-                                _doc.Range.Replace(regex, "", options);
+                                _doc.Range.Replace(regex.ToString(), "", options);  //注意！直接用regex可能会出错，应为()等字符是元字符
+
                                 break;
                             }
                         }
