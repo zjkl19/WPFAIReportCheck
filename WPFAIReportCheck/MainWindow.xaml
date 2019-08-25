@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="报告自动校核 v0.1 alpha" Height="180" Width="450" Margin="-3,0,0,0">
+        Title="报告自动校核 v0.1 alpha" Height="200" Width="500" Margin="-3,0,0,0">
+    
     <Grid>
+        
         <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -19,18 +22,29 @@
             <ColumnDefinition></ColumnDefinition>
 
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="文件名（含扩展名）" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <TextBox Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="280" Name="FileTextBox" Text="default.doc"/>
-        <CheckBox Grid.Row="1" Grid.Column="0" Content="选项1" VerticalAlignment="Center" Name="c1"/>
-        <CheckBox Grid.Row="1" Grid.Column="1" Content="选项2" VerticalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="2" Margin="3" Click="OpenFileDialogButton_Click">1、选择需要校核的报告</Button>
-        <Button Grid.Row="2" Grid.Column="0" Margin="3" Click="Button_Click">2、开始校核</Button>
-        <Button Grid.Row="2" Grid.Column="1" Margin="3" Click="Button_Click_3">3、查看校核汇总结果</Button>
-        <Button Grid.Row="2" Grid.Column="2" Margin="3" Click="Button_Click_4">4、查看标出问题的报告</Button>
-        <Button Grid.Row="3" Grid.Column="0" Margin="3" Click="Button_Click_2">检查更新</Button>
-        <Button Grid.Row="3" Grid.Column="1" Margin="3">使用说明</Button>
-        <Button Grid.Row="3" Grid.Column="2" Margin="3" Click="Button_Click_1">免责声明</Button>
-        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Content="CopyRight 2019 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司" VerticalAlignment="Center"/>
+        <Menu Grid.ColumnSpan="3">
+            <!-- 参考 https://www.cnblogs.com/lk-kk/p/4609026.html-->
+            <MenuItem Header="文件">
+                <MenuItem Header="待定功能"></MenuItem>
+                <MenuItem Header="退出" Click="MenuItem_Exit_Click" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="帮助">
+                <MenuItem Header="查看源代码" Click="MenuItem_ViewSourceCode_Click" ></MenuItem>
+                <MenuItem Header="关于" Click="MenuItem_About_Click" ></MenuItem>
+            </MenuItem>
+        </Menu>
+        <Label Grid.Row="1" Grid.Column="0" Content="文件名（含扩展名）" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="280" Name="FileTextBox" Text="default.doc"/>
+        <CheckBox Grid.Row="2" Grid.Column="0" Content="待定选项1" VerticalAlignment="Center" Name="c1"/>
+        <CheckBox Grid.Row="2" Grid.Column="1" Content="待定选项2" VerticalAlignment="Center"/>
+        <Button Grid.Row="2" Grid.Column="2" Margin="3" Click="OpenFileDialogButton_Click">1、选择需要校核的报告</Button>
+        <Button Grid.Row="3" Grid.Column="0" Margin="3" Click="Button_Click">2、开始校核</Button>
+        <Button Grid.Row="3" Grid.Column="1" Margin="3" Click="Button_Click_3">3、查看校核汇总结果</Button>
+        <Button Grid.Row="3" Grid.Column="2" Margin="3" Click="Button_Click_4">4、查看标出问题的报告</Button>
+        <Button Grid.Row="4" Grid.Column="0" Margin="3" Click="Button_Click_2">检查更新</Button>
+        <Button Grid.Row="4" Grid.Column="1" Margin="3">使用说明</Button>
+        <Button Grid.Row="4" Grid.Column="2" Margin="3" Click="Button_Click_1">免责声明</Button>
+        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Content="CopyRight 2019 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司" VerticalAlignment="Center"/>
         
 
 

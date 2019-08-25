@@ -115,7 +115,12 @@ namespace WPFAIReportCheck
                         }
                         catch (Exception ex)
                         {
+#if DEBUG
+                            throw ex;
+
+#else
                             log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
+#endif
                         }
                     }));
                 }).Start();
@@ -250,6 +255,21 @@ namespace WPFAIReportCheck
                 };
             }
 
+        }
+
+        private void MenuItem_About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("系统框架设计及编程：路桥监测研究所林迪南、陈思远等");
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MenuItem_ViewSourceCode_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/zjkl19/WPFAIReportCheck/");
         }
     }
 

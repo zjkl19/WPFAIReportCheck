@@ -16,8 +16,9 @@ namespace WPFAIReportCheck.Repository
         /// <remarks>
         /// 算法：
         /// 步骤：
-        /// 1、查找报告使用的桥梁。算法：遍历表格，查找到汇总表格（1行1列含有"委托单位"四个字），取3行3列的内容作为报告的桥梁
+        /// 1、查找报告使用的桥梁。算法：遍历表格，查找到汇总表格（1行1列含有"委托单位"四个字），取3行2列的内容作为报告的桥梁名称
         /// 2、
+        /// 匹配到的正则表达式如果不是“报告桥梁名称”的一部分，则发出警告
         /// </remarks>
         /// 算法主要参与人员：林迪南，陈思远
         public void FindOtherBridgesWarnning()
@@ -40,10 +41,11 @@ namespace WPFAIReportCheck.Repository
             MatchCollection matches;
             //参考：https://www.runoob.com/regexp/regexp-metachar.html
             //"."匹配除换行符（\n、\r）之外的任何单个字符。要匹配包括 '\n' 在内的任何字符，请使用像"(.|\n)"的模式
-            //县或市开头
-            //1~20个任意字符（\n除外），懒惰匹配
-            //"大桥"，"小桥"或"桥"结尾，但不以"桥梁"结尾
-            var regex = new Regex(@"[县|市](.{1,20}?)[大|小]?桥(?!梁)");
+            //在线正则表达式测试https://regex101.com/
+            //1、县或市开头（但不进行匹配）
+            //2、1~20个任意字符（\n除外）并且不以"该"结尾，懒惰匹配
+            //3、"大桥"，"小桥"或"桥"结尾，但不以"桥梁"，"桥面"结尾
+            var regex = new Regex(@"(?<=[县|市])(.{1,20}[^该])?[大|小]?桥(?![梁|面])");
             try
             {
                 matches = regex.Matches(_originalWholeText);
@@ -52,22 +54,29 @@ namespace WPFAIReportCheck.Repository
                 {
                     foreach (Match m in matches)
                     {
+#if DEBUG
                         _log.Debug(m.Value.ToString());
-                        reportWarnning.Add(new ReportWarnning(WarnningNumber.NotClearInfo, "正文" + m.Index.ToString(), "测试", true));
+#endif
+                        //也可以用IndexOf
+                        if(!bridgeName.Contains(m.Value.ToString()))    //查看匹配到的正则表达式是不是桥梁名称的一部分
+                        {
+                            reportWarnning.Add(new ReportWarnning(WarnningNumber.NotClearInfo, "正文" + m.Index.ToString(), $"报告中疑似出现其它桥梁：{m.Value.ToString()}", true));
+
+                            //TODO：效率低，有重复，要改
+                            options = new FindReplaceOptions
+                            {
+                                ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", $"报告中疑似出现其它桥梁：{m.Value.ToString()}"),
+                                Direction = FindReplaceDirection.Forward
+                            };
+                            _doc.Range.Replace(m.Value.ToString(), "", options);
+                        }
                     }
-
-                    options = new FindReplaceOptions
-                    {
-                        ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", "测试"),
-                        Direction = FindReplaceDirection.Forward
-                    };
-                    _doc.Range.Replace(regex, "", options);
-
                 }
             }
             catch (Exception ex)
             {
 #if DEBUG
+
                 throw ex;
 
 #else
