@@ -246,7 +246,7 @@ namespace WPFAIReportCheck
                 })
             {
                 dialog.Filters.Add(new CommonFileDialogFilter("Word 文档", "*.docx"));
-                dialog.Filters.Add(new CommonFileDialogFilter("Word 97-2003", "*.doc"));
+                dialog.Filters.Add(new CommonFileDialogFilter("Word 97-2003 文档", "*.doc"));
 
                 var result = dialog.ShowDialog();
                 if (result == CommonFileDialogResult.Ok)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Aspose.Words;
 using Aspose.Words.Replacing;
@@ -45,9 +46,15 @@ namespace WPFAIReportCheck.Repository
             //1、县或市开头（但不进行匹配）
             //2、1~20个任意字符（\n除外）并且不以"该"结尾，懒惰匹配
             //3、"大桥"，"小桥"或"桥"结尾，但不以"桥梁"，"桥面"结尾
-            var regex = new Regex(@"(?<=[县|市])(.{1,20}[^该])?[大|小]?桥(?![梁|面])");
+
+            //20190825:(?<=[县|市])(.{1,20}[^该])?[大|小]?桥(?![梁|面])
+            var regex = new Regex(@"(?=[县|市])(.[^，。》]{1,20}[^该])?[大|小]?桥(?![梁|面])");
+
+
             try
             {
+                var matchResult = new List<string>();    //去重结果
+                var matchResultIndex = new List<int>();    //去重结果位置
                 matches = regex.Matches(_originalWholeText);
 
                 if (matches.Count != 0)
@@ -57,19 +64,28 @@ namespace WPFAIReportCheck.Repository
 #if DEBUG
                         _log.Debug(m.Value.ToString());
 #endif
-                        //也可以用IndexOf
-                        if(!bridgeName.Contains(m.Value.ToString()))    //查看匹配到的正则表达式是不是桥梁名称的一部分
+                        if(!matchResult.Contains(m.Value.ToString()))
                         {
-                            reportWarnning.Add(new ReportWarnning(WarnningNumber.NotClearInfo, "正文" + m.Index.ToString(), $"报告中疑似出现其它桥梁：{m.Value.ToString()}", true));
-
-                            //TODO：效率低，有重复，要改
-                            options = new FindReplaceOptions
-                            {
-                                ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", $"报告中疑似出现其它桥梁：{m.Value.ToString()}"),
-                                Direction = FindReplaceDirection.Forward
-                            };
-                            _doc.Range.Replace(m.Value.ToString(), "", options);
+                            matchResult.Add(m.Value.ToString());
+                            matchResultIndex.Add(m.Index);
                         }
+                        
+                    }
+                }
+                for(int i=0;i<matchResult.Count;i++)
+                {
+                    //也可以用IndexOf
+                    if (!bridgeName.Contains(matchResult[i]))    //查看匹配到的正则表达式是不是桥梁名称的一部分
+                    {
+                        reportWarnning.Add(new ReportWarnning(WarnningNumber.NotClearInfo, "正文" + matchResultIndex[i], $"报告中疑似出现其它桥梁：{matchResult[i]}", true));
+
+                        //TODO：效率低，有重复，要改
+                        options = new FindReplaceOptions
+                        {
+                            ReplacingCallback = new ReplaceEvaluatorFindAndHighlightWithComment(_doc, "AI校核", $"报告中疑似出现其它桥梁：{matchResult[i]}"),
+                            Direction = FindReplaceDirection.Forward
+                        };
+                        _doc.Range.Replace(matchResult[i], "", options);
                     }
                 }
             }
