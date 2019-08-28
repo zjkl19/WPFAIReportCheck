@@ -160,6 +160,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Option.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="AIReportCheck.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

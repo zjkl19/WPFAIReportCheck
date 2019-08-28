@@ -19,5 +19,7 @@
             <ColumnDefinition></ColumnDefinition>
 
         </Grid.ColumnDefinitions>
+        <CheckBox Grid.Row="1" Grid.Column="0" Content="单位拼写" VerticalAlignment="Center" Name="FindUnitErrorCheckBox"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" Content="规范拼写" VerticalAlignment="Center" Name="FindSpecificationsErrorCheckBox"/>
     </Grid>
 </Window>

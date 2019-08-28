@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using WPFAIReportCheck.IRepository;
 
 namespace WPFAIReportCheck.Repository
@@ -11,7 +12,14 @@ namespace WPFAIReportCheck.Repository
     {
         public void CheckReport()
         {
-            _FindUnitError();
+            var config = XDocument.Load(@"Option.config");
+            var op = Convert.ToInt32(config.Element("configuration").Element("FindUnitError").Value);
+            if (op == 1)
+            {
+                _FindUnitError();
+            }
+
+            
             _FindNotExplainComponentNo();
             _FindSpecificationsError();
             _FindSequenceNumberError();

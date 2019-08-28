@@ -10,7 +10,7 @@
         
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -37,7 +37,7 @@
             </MenuItem>
         </Menu>
         <Label Grid.Row="1" Grid.Column="0" Content="文件名（含扩展名）" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <TextBox Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="280" Name="FileTextBox" Text="default.doc"/>
+        <TextBox Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="2" VerticalAlignment="Center" Width="300" Height="35" Name="FileTextBox" Text="default.doc" TextWrapping="WrapWithOverflow"/>
         <CheckBox Grid.Row="2" Grid.Column="0" Content="待定选项1" VerticalAlignment="Center" Name="c1"/>
         <CheckBox Grid.Row="2" Grid.Column="1" Content="待定选项2" VerticalAlignment="Center"/>
         <Button Grid.Row="2" Grid.Column="2" Margin="3" Click="OpenFileDialogButton_Click">1、选择需要校核的报告</Button>
