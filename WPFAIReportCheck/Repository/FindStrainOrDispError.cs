@@ -49,14 +49,21 @@ namespace WPFAIReportCheck.Repository
                 //TODO：增加条件编译的异常处理
             }
 
+            int tableLastRow = 0;
             NodeCollection allTables = _doc.GetChildNodes(NodeType.Table, true);
             for (int i = 0; i < allTables.Count; i++)
             {
                 Table table0 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
+
                 if (table0.Rows[row1].Cells[col1].GetText().IndexOf(headerCharactorString) >= 0 
                     && (table0.Rows[row2].Cells[col2].GetText().IndexOf(strainCharactorString) >= 0 || table0.Rows[row2].Cells[col2].GetText().IndexOf(dispCharactorString) >= 0))
                 {
-                    for (int j = 2; j < table0.IndexOf(table0.LastRow); j++)   //TODO：增加最后行尾的判断
+                    tableLastRow = table0.IndexOf(table0.LastRow);
+                    if (table0.Rows[table0.IndexOf(table0.LastRow)].Cells[0].GetText().Contains("备注"))    //如果最后一行含有备注，遍历的行要减1
+                    {
+                        tableLastRow = table0.IndexOf(table0.LastRow) - 1;
+                    }
+                    for (int j = 2; j < tableLastRow; j++)   //TODO：增加最后行尾的判断
                     {
                         try
                         {
