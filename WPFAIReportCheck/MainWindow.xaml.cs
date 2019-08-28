@@ -38,13 +38,14 @@ namespace WPFAIReportCheck
         //public ILoggerRepository repository;
         //public ILog log;
         public ILogger log;
-
+        public double ScreenWidth = SystemParameters.PrimaryScreenWidth;//WPF
+        public double ScreenHeight = SystemParameters.PrimaryScreenHeight;//WPF
         public MainWindow()
         {
             InitializeComponent();
             //TODO:movetofunction
-            double ScreenWidth = SystemParameters.PrimaryScreenWidth;//WPF
-            double ScreenHeight = SystemParameters.PrimaryScreenHeight;//WPF
+            //ScreenWidth = SystemParameters.PrimaryScreenWidth;
+            //ScreenHeight = SystemParameters.PrimaryScreenHeight;
             Top = 0.3 * (ScreenHeight - Height);
             Left = 0.4 * (ScreenWidth - Width);
             //this.Left = ScreenWidth - this.ActualWidth * 1.3;
@@ -270,6 +271,16 @@ namespace WPFAIReportCheck
         private void MenuItem_ViewSourceCode_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/zjkl19/WPFAIReportCheck/");
+        }
+
+        private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new OptionWindow
+            {
+                Top = 0.4 * (ScreenHeight - Height),
+                Left = 0.5 * (ScreenWidth - Width),
+            };
+            w.Show();
         }
     }
 
