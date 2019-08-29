@@ -13,5 +13,18 @@ namespace WPFAIReportCheck
     /// </summary>
     public partial class App : Application
     {
+        //参考https://www.cnblogs.com/Gildor/archive/2010/06/29/1767156.html
+        public static double ScreenWidth = SystemParameters.PrimaryScreenWidth;
+        public static double ScreenHeight = SystemParameters.PrimaryScreenHeight;
+
+        public App()
+        {
+            Startup += new StartupEventHandler(App_Startup);
+        }
+
+        //TODO:增加必要的全局变量和方法
+        void App_Startup(object sender, StartupEventArgs e)
+        {
+        }
     }
 }

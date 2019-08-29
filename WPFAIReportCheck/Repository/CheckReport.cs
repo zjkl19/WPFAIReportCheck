@@ -14,15 +14,13 @@ namespace WPFAIReportCheck.Repository
     {
         public void CheckReport()
         {
-            var ScreenWidth = SystemParameters.PrimaryScreenWidth;
-            var ScreenHeight = SystemParameters.PrimaryScreenHeight;
 
             var config = XDocument.Load(@"Option.config");
             var op = Convert.ToInt32(config.Element("configuration").Element("FindUnitError").Value);
 
             var w = new ProgressBarWindow();
-            w.Top = 0.4 * (ScreenHeight - w.Height);
-            w.Left = 0.4 * (ScreenWidth - w.Width);
+            w.Top = 0.4 * (App.ScreenHeight - w.Height);
+            w.Left = 0.4 * (App.ScreenWidth - w.Width);
             w.Show();
 
             var progressSleepTime = 100;
@@ -62,8 +60,6 @@ namespace WPFAIReportCheck.Repository
             thread.Start();
 
             w.Close();
-
-
 
         }
     }
