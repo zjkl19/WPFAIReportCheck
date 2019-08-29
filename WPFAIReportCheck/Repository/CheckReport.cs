@@ -37,7 +37,7 @@ namespace WPFAIReportCheck.Repository
 
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 30; });
                 Thread.Sleep(progressSleepTime);
-                _FindSequenceNumberError();
+                FindSequenceNumberError();
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 40; });
                 Thread.Sleep(progressSleepTime);
                 FindStrainOrDispError();

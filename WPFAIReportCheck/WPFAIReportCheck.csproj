@@ -107,6 +107,7 @@
     </ApplicationDefinition>
     <Compile Include="IRepository\FindOtherBridgesWarnning.cs" />
     <Compile Include="IRepository\FindDescriptionError.cs" />
+    <Compile Include="IRepository\FindSequenceNumberError.cs" />
     <Compile Include="IRepository\FindStrainOrDispError.cs" />
     <Compile Include="Models\ReportInfo.cs" />
     <Compile Include="OptionWindow.xaml.cs">
@@ -118,6 +119,7 @@
     <Compile Include="Repository\AsposeAIReportCheck.cs" />
     <Compile Include="Repository\CheckReport.cs" />
     <Compile Include="Repository\EnumHelper.cs" />
+    <Compile Include="Repository\FindSequenceNumberError.cs" />
     <Compile Include="Repository\FindOtherBridgesWarnning.cs" />
     <Compile Include="Repository\FindDescriptionError.cs" />
     <Compile Include="Repository\FindStrainOrDispError.cs" />

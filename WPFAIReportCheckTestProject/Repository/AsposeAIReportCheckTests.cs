@@ -112,12 +112,12 @@ namespace WPFAIReportCheckTestProject.Repository
         }
         #endregion
 
-        #region _FindSequenceNumberError
+        #region FindSequenceNumberError
         [Fact]
-        public void _FindSequenceNumberError()
+        public void FindSequenceNumberError()
         {
             //Arrange
-            var fileName = @"..\..\..\TestFiles\_FindSequenceNumberError.doc";
+            var fileName = @"..\..\..\TestFiles\FindSequenceNumberError.doc";
             var log = _fixture.log;
             string xml = @"<?xml version=""1.0"" encoding=""utf - 8"" ?>
                             <configuration>
@@ -130,7 +130,7 @@ namespace WPFAIReportCheckTestProject.Repository
 
             var ai = new AsposeAIReportCheck(fileName, log.Object, config);
             //Act
-            ai._FindSequenceNumberError();
+            ai.FindSequenceNumberError();
 
             using (MemoryStream dstStream = new MemoryStream())
             {
