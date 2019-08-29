@@ -112,6 +112,9 @@
     <Compile Include="OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProgressBarWindow.xaml.cs">
+      <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Repository\AsposeAIReportCheck.cs" />
     <Compile Include="Repository\CheckReport.cs" />
     <Compile Include="Repository\EnumHelper.cs" />
@@ -133,6 +136,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OptionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProgressBarWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

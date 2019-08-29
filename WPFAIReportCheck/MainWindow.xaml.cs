@@ -112,7 +112,7 @@ namespace WPFAIReportCheck
                         try
                         {
                             ai.CheckReport();
-                            MessageBox.Show("已成功校核");
+                            
                         }
                         catch (Exception ex)
                         {
@@ -203,22 +203,44 @@ namespace WPFAIReportCheck
             //XDocument xd = new XDocument();
 
             //以下为临时测试代码
-            try
-            {
-                var xd = XDocument.Load(@"AIReportCheck.config");
-                var xEle1 = xd.Element("configuration").Element("FindDescriptionError").Element("StrainCharactorString");
-                MessageBox.Show(xEle1.Name.ToString());
-                MessageBox.Show(xEle1.Attribute("version").Value);
-            }
-            catch (Exception)
-            {
+            //try
+            //{
+            //    var xd = XDocument.Load(@"AIReportCheck.config");
+            //    var xEle1 = xd.Element("configuration").Element("FindDescriptionError").Element("StrainCharactorString");
+            //    MessageBox.Show(xEle1.Name.ToString());
+            //    MessageBox.Show(xEle1.Attribute("version").Value);
+            //}
+            //catch (Exception)
+            //{
 
-                throw;
-            }
+            //    throw;
+            //}
 
+            ProgressBegin();
 
 
         }
+
+        private void ProgressBegin()
+        {
+            //var w = new ProgressBarWindow()
+            //{
+            //    Top = 0.4 * (ScreenHeight - Height),
+            //    Left = 0.5 * (ScreenWidth - Width),
+            //};
+            //w.Show();
+            //Thread thread = new Thread(new ThreadStart(() =>
+            //{
+            //    for (int i = 0; i <= 100; i++)
+            //    {
+            //        w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = i; });
+            //        Thread.Sleep(100);
+            //    }
+
+            //}));
+            //thread.Start();
+        }
+
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             var doc = "校核结果.docx";
