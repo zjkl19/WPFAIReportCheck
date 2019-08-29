@@ -293,11 +293,9 @@ namespace WPFAIReportCheck
 
         private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
         {
-            var w = new OptionWindow
-            {
-                Top = 0.4 * (App.ScreenHeight - Height),
-                Left = 0.5 * (App.ScreenWidth - Width),
-            };
+            var w = new OptionWindow();
+            w.Top = 0.4 * (App.ScreenHeight - w.Height);
+            w.Left = 0.5 * (App.ScreenWidth - w.Width);
             w.Show();
         }
     }
