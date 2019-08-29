@@ -287,7 +287,7 @@ namespace WPFAIReportCheck
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Environment.Exit(0);
         }
 
         private void MenuItem_ViewSourceCode_Click(object sender, RoutedEventArgs e)

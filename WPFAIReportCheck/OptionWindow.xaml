@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFAIReportCheck"
         mc:Ignorable="d"
-        Title="选项" Height="300" Width="400">
+        Title="选项" Height="280" Width="430">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -17,9 +17,35 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
-
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <CheckBox Grid.Row="1" Grid.Column="0" Content="单位拼写" VerticalAlignment="Center" Name="FindUnitErrorCheckBox"/>
-        <CheckBox Grid.Row="1" Grid.Column="1" Content="规范拼写" VerticalAlignment="Center" Name="FindSpecificationsErrorCheckBox"/>
+
+        <Border Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="4" BorderThickness="1" BorderBrush="DarkGray" >
+            <ScrollViewer  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ScrollViewer.Content>
+                    <WrapPanel Name="StackPanelContent" Orientation="Horizontal">
+                        <CheckBox Content="单位拼写错误" Name="FindUnitErrorCheckBox" Width="130" Height="30" VerticalAlignment="Center"  VerticalContentAlignment="Center"/>
+                        <CheckBox Content="规范拼写错误" Name="FindSpecificationsErrorCheckBox" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="编号未说明" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="表格内序号不连续" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="静载试验应变、挠度计算错误" Width="180" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="名词描述错误" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="其它报告桥梁未替换或删除" Width="180" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                    </WrapPanel>
+
+                </ScrollViewer.Content>
+            </ScrollViewer>
+        </Border>
+        <Button Grid.Row="3" Grid.Column="0" Margin="10,10,10,10" Content="保存设置"></Button>
+        <Button Grid.Row="3" Grid.Column="1" Margin="10,10,10,10" Content="读取设置"></Button>
+        <Button Grid.Row="3" Grid.Column="2" Margin="10,10,10,10" Content="导出设置"></Button>
+        <Button Grid.Row="3" Grid.Column="3" Margin="10,10,10,10" Content="恢复默认"></Button>
     </Grid>
 </Window>

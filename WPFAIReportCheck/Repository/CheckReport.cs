@@ -14,41 +14,43 @@ namespace WPFAIReportCheck.Repository
     {
         public void CheckReport()
         {
-            var ScreenWidth = SystemParameters.PrimaryScreenWidth;//WPF
-            var ScreenHeight = SystemParameters.PrimaryScreenHeight;//WPF
+            var ScreenWidth = SystemParameters.PrimaryScreenWidth;
+            var ScreenHeight = SystemParameters.PrimaryScreenHeight;
+
             var config = XDocument.Load(@"Option.config");
             var op = Convert.ToInt32(config.Element("configuration").Element("FindUnitError").Value);
+
             var w = new ProgressBarWindow();
             w.Top = 0.4 * (ScreenHeight - w.Height);
             w.Left = 0.4 * (ScreenWidth - w.Width);
             w.Show();
+
+            var progressSleepTime = 100;
+
             var thread = new Thread(new ThreadStart(() =>
             {
-                if (op == 1)
-                {
-                    _FindUnitError();
-                }
+                _FindUnitError();
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 10; });
-                Thread.Sleep(100);
+                Thread.Sleep(progressSleepTime);
                 _FindNotExplainComponentNo();
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 20; });
-                Thread.Sleep(100);
+                Thread.Sleep(progressSleepTime);
                 _FindSpecificationsError();
 
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 30; });
-                Thread.Sleep(100);
+                Thread.Sleep(progressSleepTime);
                 _FindSequenceNumberError();
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 40; });
-                Thread.Sleep(100);
+                Thread.Sleep(progressSleepTime);
                 FindStrainOrDispError();
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 50; });
-                Thread.Sleep(100);
+                Thread.Sleep(progressSleepTime);
                 FindDescriptionError();
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 60; });
-                Thread.Sleep(100);
+                Thread.Sleep(progressSleepTime);
                 FindOtherBridgesWarnning();
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = 70; });
-                Thread.Sleep(100);
+                Thread.Sleep(progressSleepTime);
 
                 _GenerateResultReport();
                 _doc.Save("标出错误或警告的报告.doc");
