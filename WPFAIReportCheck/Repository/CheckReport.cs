@@ -14,13 +14,13 @@ namespace WPFAIReportCheck.Repository
     {
         public void CheckReport()
         {
+            var ScreenWidth = SystemParameters.PrimaryScreenWidth;//WPF
+            var ScreenHeight = SystemParameters.PrimaryScreenHeight;//WPF
             var config = XDocument.Load(@"Option.config");
             var op = Convert.ToInt32(config.Element("configuration").Element("FindUnitError").Value);
             var w = new ProgressBarWindow();
-            //{
-            //    Top = 0.4 * (ScreenHeight - Height),
-            //    Left = 0.5 * (ScreenWidth - Width),
-            //};
+            w.Top = 0.4 * (ScreenHeight - w.Height);
+            w.Left = 0.4 * (ScreenWidth - w.Width);
             w.Show();
             var thread = new Thread(new ThreadStart(() =>
             {
@@ -59,9 +59,9 @@ namespace WPFAIReportCheck.Repository
             }));
             thread.Start();
 
+            w.Close();
 
 
-            
 
         }
     }
