@@ -212,30 +212,10 @@ namespace WPFAIReportCheck
             //    throw;
             //}
 
-            ProgressBegin();
 
 
         }
 
-        private void ProgressBegin()
-        {
-            //var w = new ProgressBarWindow()
-            //{
-            //    Top = 0.4 * (ScreenHeight - Height),
-            //    Left = 0.5 * (ScreenWidth - Width),
-            //};
-            //w.Show();
-            //Thread thread = new Thread(new ThreadStart(() =>
-            //{
-            //    for (int i = 0; i <= 100; i++)
-            //    {
-            //        w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = i; });
-            //        Thread.Sleep(100);
-            //    }
-
-            //}));
-            //thread.Start();
-        }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
