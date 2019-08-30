@@ -43,7 +43,7 @@
                 </ScrollViewer.Content>
             </ScrollViewer>
         </Border>
-        <Button Grid.Row="3" Grid.Column="0" Margin="10,10,10,10" Content="保存设置"></Button>
+        <Button Grid.Row="3" Grid.Column="0" Margin="10,10,10,10" Content="保存设置" Click="Save_Button_Click"></Button>
         <Button Grid.Row="3" Grid.Column="1" Margin="10,10,10,10" Content="读取设置"></Button>
         <Button Grid.Row="3" Grid.Column="2" Margin="10,10,10,10" Content="导出设置"></Button>
         <Button Grid.Row="3" Grid.Column="3" Margin="10,10,10,10" Content="恢复默认"></Button>
