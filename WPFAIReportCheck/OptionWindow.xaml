@@ -24,7 +24,7 @@
             <ScrollViewer  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <ScrollViewer.Content>
                     <WrapPanel Name="StackPanelContent" Orientation="Horizontal">
-                        <CheckBox Content="单位拼写错误" Name="FindUnitErrorCheckBox" Width="130" Height="30" VerticalAlignment="Center"  VerticalContentAlignment="Center"/>
+                        <!--<CheckBox Content="单位拼写错误" Name="FindUnitErrorCheckBox" Width="130" Height="30" VerticalAlignment="Center"  VerticalContentAlignment="Center"/>
                         <CheckBox Content="规范拼写错误" Name="FindSpecificationsErrorCheckBox" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                         <CheckBox Content="编号未说明" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                         <CheckBox Content="表格内序号不连续" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
@@ -36,7 +36,7 @@
                         <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                         <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                         <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-                        <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox Content="待定" Width="130" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>-->
 
                     </WrapPanel>
 
