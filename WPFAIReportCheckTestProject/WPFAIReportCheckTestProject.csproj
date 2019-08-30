@@ -40,4 +40,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Option.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
