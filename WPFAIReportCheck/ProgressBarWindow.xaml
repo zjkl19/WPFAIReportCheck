@@ -12,6 +12,7 @@
         <StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Name="progressBarNumberTextBlock" Text="{Binding V}"/>
             <TextBlock Name="percent" Text="%" />
-        </StackPanel>        
+        </StackPanel>
+        <TextBlock Name="progressBarContentTextBlock"  Text="{Binding Content}" HorizontalAlignment="Left" Margin="12,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
     </Grid>
 </Window>

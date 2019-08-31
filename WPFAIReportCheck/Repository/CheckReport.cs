@@ -15,12 +15,26 @@ namespace WPFAIReportCheck.Repository
     {
 
         private int v = 0;
+
+        private string content = string.Empty;
         public int V { get
             { return v; } set
             {
                 v = value;
 
                 OnPropertyChanged("V");
+            }
+        }
+
+        public string Content
+        {
+            get
+            { return content; }
+            set
+            {
+                content = value;
+
+                OnPropertyChanged("Content");
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -48,6 +62,7 @@ namespace WPFAIReportCheck.Repository
                     FindSequenceNumberError,FindStrainOrDispError,FindDescriptionError,
                     FindOtherBridgesWarnning,
                 },
+                SelectListContent = new List<string>(),
             };
 
             var config = XDocument.Load(@"Option.config");
@@ -64,6 +79,16 @@ namespace WPFAIReportCheck.Repository
                     //TODO:增加读不出数据的异常处理
                     controlClass.SelectListInt.Add(0);
                 }
+
+                try
+                {
+                    controlClass.SelectListContent.Add(e.Attribute("Content").Value.ToString());
+                }
+                catch (Exception)
+                {
+                    //TODO:增加读不出数据的异常处理
+                    controlClass.SelectListContent.Add("方法名称读取失败");
+                }
             }
 
             var w = new ProgressBarWindow();
@@ -72,10 +97,11 @@ namespace WPFAIReportCheck.Repository
 
             var progressBarDataBinding = new ProgressBarDataBinding
             {
-                V = 14,
+                V = 0,
             };
             w.progressBarNumberTextBlock.DataContext = progressBarDataBinding;
             w.progressBar.DataContext = progressBarDataBinding;
+            w.progressBarContentTextBlock.DataContext = progressBarDataBinding;
 
             var progressSleepTime = 100;    //进度条停顿时间
 
@@ -90,6 +116,7 @@ namespace WPFAIReportCheck.Repository
                         controlClass.SelectListFunctionName[i]?.Invoke();
                         invokeF++;
                         progressBarDataBinding.V = invokeF * 100 / controlClass.SelectListInt.Sum();
+                        progressBarDataBinding.Content = $"正在校核：{controlClass.SelectListContent[i]}";
                         //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF * 100 / controlClass.SelectListInt.Sum(); });
                         //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF*100/ controlClass.SelectListInt.Sum(); });
                         //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBarNumber.Text = (invokeF * 100 / controlClass.SelectListInt.Sum()).ToString(); });
@@ -97,6 +124,7 @@ namespace WPFAIReportCheck.Repository
                     }
 
                 }
+                progressBarDataBinding.Content = $"正在校核：正在完成中";
                 _GenerateResultReport();
                 _doc.Save("标出错误或警告的报告.doc");
                 Thread.Sleep(progressSleepTime);
