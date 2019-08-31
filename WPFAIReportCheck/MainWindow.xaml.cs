@@ -110,12 +110,10 @@ namespace WPFAIReportCheck
 
         }
 
-
         private void CheckForUpdateButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("该功能正在开发中");
         }
-
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
@@ -124,6 +122,10 @@ namespace WPFAIReportCheck
             {
                 Process.Start(doc);
             }
+            else
+            {
+                MessageBox.Show("请先校核");
+            }
         }
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
@@ -131,6 +133,10 @@ namespace WPFAIReportCheck
             if (File.Exists(doc))
             {
                 Process.Start(doc);
+            }
+            else
+            {
+                MessageBox.Show("请先校核");
             }
         }
 
@@ -145,6 +151,8 @@ namespace WPFAIReportCheck
                 })
             {
                 dialog.Filters.Add(new CommonFileDialogFilter("Word 文档", "*.docx;*.doc"));
+
+                //如果要分开过滤，考虑以下代码
                 //dialog.Filters.Add(new CommonFileDialogFilter("Word 97-2003 文档", "*.doc"));
 
                 var result = dialog.ShowDialog();
@@ -156,6 +164,9 @@ namespace WPFAIReportCheck
 
         }
 
-
+        private void InstructionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("该功能开发中");
+        }
     }
 }

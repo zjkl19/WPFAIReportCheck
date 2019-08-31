@@ -112,5 +112,19 @@ namespace WPFAIReportCheck
 #endif
             }
         }
+
+        private void Load_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("该功能开发中");
+        }
+        private void Export_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("该功能开发中");
+        }
+
+        private void Restore_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("该功能开发中");
+        }
     }
 }
