@@ -22,6 +22,9 @@ namespace WPFAIReportCheck.Repository
         public List<ReportError> reportError = new List<ReportError>();
         public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
         public Document _doc;
+
+        private Document _originalDoc;
+
         //public ILog _log;
         public ILogger _log;
         public XDocument _config;
@@ -33,6 +36,8 @@ namespace WPFAIReportCheck.Repository
         public AsposeAIReportCheck(string doc, ILogger log,XDocument config)
         {
             _doc = new Document(doc);
+
+            _originalDoc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
 
             //ILoggerRepository repository = LogManager.CreateRepository("WPFAIReportCheck");

@@ -47,24 +47,33 @@ namespace WPFAIReportCheck.Repository
 
             int tableLastRow = 0;
 
-            NodeCollection allTables = _doc.GetChildNodes(NodeType.Table, true);
+            NodeCollection allTables = _originalDoc.GetChildNodes(NodeType.Table, true);
             for (int i = 0; i < allTables.Count; i++)
             {
                 decimal maxElasticDeform = 0.0m;
                 decimal minCheckoutCoff = decimal.MaxValue; decimal maxCheckoutCoff = 0.0m;
                 decimal minRelRemainDeform = decimal.MaxValue; decimal maxRelRemainDeform = 0.0m;
-                Table table0 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
+                Table table0 = _originalDoc.GetChildNodes(NodeType.Table, true)[i] as Table;
+
+                Table table1 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
+
+                //找出表格标题
+                //TODO：关键字来判断是否为表格标题（XX汇总表）
+                string tableTitle = string.Empty;
+
                 try
                 {
                     if (table0.Rows[row1].Cells[col1].GetText().IndexOf(headerCharactorString) >= 0
                      && (table0.Rows[row2].Cells[col2].GetText().IndexOf(strainCharactorString) >= 0 || table0.Rows[row2].Cells[col2].GetText().IndexOf(dispCharactorString) >= 0))
                     {
+                        tableTitle = table0.PreviousSibling.Range.Text;    //比较大的可能性是table0.PreviousSibling.Range.Text
+
                         tableLastRow = table0.IndexOf(table0.LastRow);
                         if (table0.Rows[table0.IndexOf(table0.LastRow)].Cells[0].GetText().Contains("备注"))    //如果最后一行含有备注，遍历的行要减1
                         {
                             tableLastRow = table0.IndexOf(table0.LastRow) - 1;
                         }
-                        for (int j = 2; j < tableLastRow; j++)   //TODO：增加最后行尾的判断
+                        for (int j = 2; j <= tableLastRow; j++)   //TODO：增加最后行尾的判断
                         {
                             var totalDeform = Convert.ToDecimal(table0.Rows[j].Cells[1].GetText().Trim().Replace("\a", "").Replace("\r", ""));
                             var elasticDeform = Convert.ToDecimal(table0.Rows[j].Cells[2].GetText().Trim().Replace("\a", "").Replace("\r", ""));
@@ -88,21 +97,53 @@ namespace WPFAIReportCheck.Repository
                             maxRelRemainDeform = relRemainDeform > maxRelRemainDeform ? relRemainDeform : maxRelRemainDeform;
                         }
 
-                        var ctx = table0.PreviousSibling.PreviousSibling.Range.Text;
+                        //找出概述性段落
+                        //TODO：根据文中关键字来判断是否为上下文
+                        var ctx = table0.PreviousSibling.PreviousSibling.Range.Text;    //比较大的可能性是table0.PreviousSibling.PreviousSibling.Range.Text
+
                         MatchCollection matches;
                         var regex = new Regex($"{maxElasticDeform}");
                         matches = regex.Matches(ctx);
 
                         if (matches.Count == 0)
                         {
-
-                            reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"第{i + 1}张表格", $"关键字{maxElasticDeform}未找到", true));
+                            reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"第{i + 1}张表格{tableTitle}", $"关键字最大实测弹性挠度/应变值为{maxElasticDeform}未找到", true));
 
                             Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Now);
                             comment.Paragraphs.Add(new Paragraph(_doc));
-                            comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字{maxElasticDeform}未找到"));
+                            comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字最大实测弹性挠度/应变值为{maxElasticDeform}未找到"));
                             DocumentBuilder builder = new DocumentBuilder(_doc);
-                            builder.MoveTo(table0.PreviousSibling.PreviousSibling);
+                            builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling);
+                            builder.CurrentParagraph.AppendChild(comment);
+                        }
+
+                        regex = new Regex($"{minCheckoutCoff}[~|～]{maxCheckoutCoff}");
+                        matches = regex.Matches(ctx);
+
+                        if (matches.Count == 0)
+                        {
+                            reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"第{i + 1}张表格{tableTitle}", $"关键字校验系数在{ minCheckoutCoff }～{ maxCheckoutCoff}之间未找到", true));
+
+                            Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Now);
+                            comment.Paragraphs.Add(new Paragraph(_doc));
+                            comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字校验系数在{ minCheckoutCoff }～{ maxCheckoutCoff}之间未找到"));
+                            DocumentBuilder builder = new DocumentBuilder(_doc);
+                            builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling);
+                            builder.CurrentParagraph.AppendChild(comment);
+                        }
+
+                        regex = new Regex($"{minRelRemainDeform:P}[~|～]{maxRelRemainDeform:P}");
+                        matches = regex.Matches(ctx);
+
+                        if (matches.Count == 0)
+                        {
+                            reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"第{i + 1}张表格{tableTitle}", $"关键字相对残余变形在{ minRelRemainDeform:P}～{ maxRelRemainDeform:P}之间未找到", true));
+
+                            Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Now);
+                            comment.Paragraphs.Add(new Paragraph(_doc));
+                            comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字相对残余变形在{ minRelRemainDeform:P}～{ maxRelRemainDeform:P}之间未找到"));
+                            DocumentBuilder builder = new DocumentBuilder(_doc);
+                            builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling);
                             builder.CurrentParagraph.AppendChild(comment);
                         }
                     }
@@ -115,12 +156,12 @@ namespace WPFAIReportCheck.Repository
                     throw ex;
 
 #else
-                    _log.Error(ex, $"FindStrainOrDispContextWarnning函数第{i + 1}张表格出错，错误信息：{ ex.Message.ToString()}");
+                    _log.Error(ex, $"FindStrainOrDispContextWarnning函数第{i + 1}张表格{tableTitle}出错，错误信息：{ ex.Message.ToString()}");
                     continue;    //TODO：记录错误
 #endif
                 }
 
-              
+
 
             }
         }
