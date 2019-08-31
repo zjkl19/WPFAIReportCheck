@@ -11,7 +11,7 @@ using WPFAIReportCheck.IRepository;
 
 namespace WPFAIReportCheck.Repository
 {
-    public class DataBinding : INotifyPropertyChanged
+    public class ProgressBarDataBinding : INotifyPropertyChanged
     {
 
         private int v = 0;
@@ -70,12 +70,12 @@ namespace WPFAIReportCheck.Repository
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
             w.Left = 0.4 * (App.ScreenWidth - w.Width);
 
-            var k = new DataBinding
+            var progressBarDataBinding = new ProgressBarDataBinding
             {
                 V = 14,
             };
-            w.progressBarNumberTextBlock.DataContext = k;
-            w.progressBar.DataContext = k;
+            w.progressBarNumberTextBlock.DataContext = progressBarDataBinding;
+            w.progressBar.DataContext = progressBarDataBinding;
 
             var progressSleepTime = 100;    //进度条停顿时间
 
@@ -89,7 +89,7 @@ namespace WPFAIReportCheck.Repository
                     {
                         controlClass.SelectListFunctionName[i]?.Invoke();
                         invokeF++;
-                        k.V = invokeF * 100 / controlClass.SelectListInt.Sum();
+                        progressBarDataBinding.V = invokeF * 100 / controlClass.SelectListInt.Sum();
                         //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF * 100 / controlClass.SelectListInt.Sum(); });
                         //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF*100/ controlClass.SelectListInt.Sum(); });
                         //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBarNumber.Text = (invokeF * 100 / controlClass.SelectListInt.Sum()).ToString(); });
