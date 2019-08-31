@@ -109,6 +109,8 @@
     <Compile Include="IRepository\FindDescriptionError.cs" />
     <Compile Include="IRepository\FindSequenceNumberError.cs" />
     <Compile Include="IRepository\FindStrainOrDispError.cs" />
+    <Compile Include="MainWindow\MainWindow.MenuItem.xaml.cs" />
+    <Compile Include="MainWindow\MainWindow.Disclaimer.xaml.cs" />
     <Compile Include="Models\ReportInfo.cs" />
     <Compile Include="OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>

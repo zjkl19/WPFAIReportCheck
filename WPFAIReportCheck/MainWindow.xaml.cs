@@ -1,13 +1,12 @@
 ﻿using Aspose.Words;
 using Microsoft.WindowsAPICodePack.Dialogs;
-//using log4net;
-//using log4net.Repository;
 using Ninject;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -90,7 +89,7 @@ namespace WPFAIReportCheck
                         try
                         {
                             ai.CheckReport();
-                            
+
                         }
                         catch (Exception ex)
                         {
@@ -111,72 +110,27 @@ namespace WPFAIReportCheck
 
         }
 
-        //免责声明
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("校核结果仅供参考");
-        }
-        /// <summary>
-        /// 检查更新
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private void CheckForUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            //ExeConfigurationFileMap map = new ExeConfigurationFileMap
-            //{
-            //    ExeConfigFilename = @"App1.config"
-            //};
-            //try
-            //{
-            //    Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
-            //    //string connstr = config.ConnectionStrings.ConnectionStrings["test1"].ConnectionString;
-            //    //MessageBox.Show(connstr);
-            //    string key = config.AppSettings.Settings["user"].Value.ToString();
-            //    MessageBox.Show(key);
-            //}
-            //catch (Exception)
-            //{
-            //    MessageBox.Show("该功能测试中。");
-            //    throw;
-            //}
-            //MessageBox.Show("该功能开发中。");
-            //省略了判定xml文件存在
-            //XDocument xd = new XDocument();
-
-            //以下为临时测试代码
-            //try
-            //{
-            //    var xd = XDocument.Load(@"AIReportCheck.config");
-            //    var xEle1 = xd.Element("configuration").Element("FindDescriptionError").Element("StrainCharactorString");
-            //    MessageBox.Show(xEle1.Name.ToString());
-            //    MessageBox.Show(xEle1.Attribute("version").Value);
-            //}
-            //catch (Exception)
-            //{
-
-            //    throw;
-            //}
-
             MessageBox.Show("该功能正在开发中");
-
         }
 
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             var doc = "校核结果.docx";
-            if (System.IO.File.Exists(doc))
+            if (File.Exists(doc))
             {
-                System.Diagnostics.Process.Start(doc);
+                Process.Start(doc);
             }
         }
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             var doc = "标出错误或警告的报告.doc";
-            if (System.IO.File.Exists(doc))
+            if (File.Exists(doc))
             {
-                System.Diagnostics.Process.Start(doc);
+                Process.Start(doc);
             }
         }
 
@@ -186,8 +140,8 @@ namespace WPFAIReportCheck
                 var dialog = new CommonOpenFileDialog
                 {
                     IsFolderPicker = false,//设置为选择文件夹
-                    DefaultDirectory= @"\",
-                    
+                    DefaultDirectory = @"\",
+
                 })
             {
                 dialog.Filters.Add(new CommonFileDialogFilter("Word 文档", "*.docx;*.doc"));
@@ -202,27 +156,6 @@ namespace WPFAIReportCheck
 
         }
 
-        private void MenuItem_About_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("系统框架设计及编程：路桥监测研究所林迪南、陈思远等");
-        }
 
-        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
-
-        private void MenuItem_ViewSourceCode_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/zjkl19/WPFAIReportCheck/");
-        }
-
-        private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
-        {
-            var w = new OptionWindow();
-            w.Top = 0.4 * (App.ScreenHeight - w.Height);
-            w.Left = 0.5 * (App.ScreenWidth - w.Width);
-            w.Show();
-        }
     }
 }
