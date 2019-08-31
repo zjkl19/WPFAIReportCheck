@@ -45,14 +45,6 @@ namespace WPFAIReportCheck
             Left = 0.4 * (App.ScreenWidth - Width);
             //this.Left = ScreenWidth - this.ActualWidth * 1.3;
 
-            //日志
-            //log4net
-            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);    //防止日志相关问题出现乱码
-            //repository = LogManager.CreateRepository("WPFAIReportCheck");
-            // 默认简单配置，输出至控制台
-            //BasicConfigurator.Configure(repository);
-            //log = LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
-
             //Nlog
             var config = new NLog.Config.LoggingConfiguration();
 
@@ -70,35 +62,26 @@ namespace WPFAIReportCheck
             log = LogManager.GetCurrentClassLogger();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void StartCheckingButton_Click(object sender, RoutedEventArgs e)
         {
             var config = XDocument.Load(@"AIReportCheck.config");
             string doc = string.Empty;
+
             if (!string.IsNullOrWhiteSpace(FileTextBox.Text))
             {
                 doc = FileTextBox.Text;
                 IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc, log, config));
                 var ai = kernel.Get<IAIReportCheck>();
 
-                //注：以上代码相当于以下4行
-                //repository = LogManager.CreateRepository("WPFAIReportCheck");
-                //log = LogManager.GetLogger(repository.Name, "WPFAIReportCheckLog4net");
+                #region log ioc
+                //注：以上代码相当于以下几行代码
+                //LogManager.Configuration = logConfig;
+                //log = LogManager.GetCurrentClassLogger();
                 //var doc = @"xxx.doc";
-                //var ai = new AsposeAIReportCheck(doc, log);
+                //var config = XDocument.Load(@"AIReportCheck.config");
+                //var ai = new AsposeAIReportCheck(doc, log, config);
+                #endregion
 
-
-                //Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
-                //{
-                //    try
-                //    {
-                //        ai.CheckReport();
-                //        MessageBox.Show("已成功校核");
-                //    }
-                //    catch (Exception)
-                //    {
-                //        throw;
-                //    }
-                //}));
                 new Thread(() =>
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
@@ -115,7 +98,7 @@ namespace WPFAIReportCheck
                             throw ex;
 
 #else
-                            App.log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
+                            log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
 #endif
                         }
                     }));
@@ -125,43 +108,7 @@ namespace WPFAIReportCheck
             {
                 MessageBox.Show("请输入文件名");
             }
-            //try
-            //{
-            //    ai.CheckReport();
-            //    MessageBox.Show("已成功校核");
-            //}
-            //catch (Exception)
-            //{
 
-            //    throw;
-            //}
-
-            //Document doc = new Document();
-
-            //Paragraph para1 = new Paragraph(doc);
-            //Run run1 = new Run(doc, "Some ");
-            //Run run2 = new Run(doc, "text ");
-            //para1.AppendChild(run1);
-            //para1.AppendChild(run2);
-            //doc.FirstSection.Body.AppendChild(para1);
-
-            //Paragraph para2 = new Paragraph(doc);
-            //Run run3 = new Run(doc, "is ");
-            //Run run4 = new Run(doc, "added ");
-            //para2.AppendChild(run3);
-            //para2.AppendChild(run4);
-            //doc.FirstSection.Body.AppendChild(para2);
-
-            //Comment comment = new Comment(doc, "Awais Hafeez", "AH", DateTime.Today);
-            //comment.Paragraphs.Add(new Paragraph(doc));
-            //comment.FirstParagraph.Runs.Add(new Run(doc, "Comment text."));
-
-            //CommentRangeStart commentRangeStart = new CommentRangeStart(doc, comment.Id);
-            //CommentRangeEnd commentRangeEnd = new CommentRangeEnd(doc, comment.Id);
-
-            //run1.ParentNode.InsertAfter(commentRangeStart, run1);
-            //run3.ParentNode.InsertAfter(commentRangeEnd, run3);
-            //commentRangeEnd.ParentNode.InsertAfter(comment, commentRangeEnd);
         }
 
         //免责声明

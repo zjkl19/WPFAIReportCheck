@@ -76,8 +76,6 @@ namespace WPFAIReportCheck.Repository
             }));
             thread.Start();
 
-
-
         }
     }
 }

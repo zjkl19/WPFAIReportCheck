@@ -107,7 +107,6 @@ namespace WPFAIReportCheck
             {
 #if DEBUG
                 throw ex;
-
 #else
                 //log.Error(ex, $"Save_Button_Click保存选项xml配置文件出错，错误信息：{ ex.Message.ToString()}");
 #endif
