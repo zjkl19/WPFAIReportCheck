@@ -27,5 +27,7 @@ namespace WPFAIReportCheck.Models
     {
         [Display(Name="信息不明确")]
         NotClearInfo = 1,
+        [Display(Name = "未找到信息")]
+        NotFoundInfo = 2,
     }
 }

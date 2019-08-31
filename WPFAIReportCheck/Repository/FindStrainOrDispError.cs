@@ -9,7 +9,7 @@ namespace WPFAIReportCheck.Repository
     public partial class AsposeAIReportCheck : IAIReportCheck
     {
         /// <summary>
-        /// 查找报告中静载试验或动载试验中应变或挠度汇总表格中的计算错误
+        /// 查找报告中静载试验中应变或挠度汇总表格中的计算错误
         /// </summary>
         /// <remarks>
         /// 要求：应变和挠度计算表格必须是单位报告模板格式
