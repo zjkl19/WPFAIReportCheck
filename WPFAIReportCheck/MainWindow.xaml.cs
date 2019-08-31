@@ -35,8 +35,7 @@ namespace WPFAIReportCheck
     /// </summary>
     public partial class MainWindow : Window
     {
-        //public ILoggerRepository repository;
-        //public ILog log;
+
         public ILogger log;
         public MainWindow()
         {
@@ -116,7 +115,7 @@ namespace WPFAIReportCheck
                             throw ex;
 
 #else
-                            log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
+                            App.log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
 #endif
                         }
                     }));
@@ -175,7 +174,7 @@ namespace WPFAIReportCheck
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void CheckForUpdateButton_Click(object sender, RoutedEventArgs e)
         {
             //ExeConfigurationFileMap map = new ExeConfigurationFileMap
             //{
@@ -212,7 +211,7 @@ namespace WPFAIReportCheck
             //    throw;
             //}
 
-
+            MessageBox.Show("该功能正在开发中");
 
         }
 
@@ -234,7 +233,7 @@ namespace WPFAIReportCheck
             }
         }
 
-        private void OpenFileDialogButton_Click(object sender, RoutedEventArgs e)
+        private void ChooseReportButton_Click(object sender, RoutedEventArgs e)
         {
             using (
                 var dialog = new CommonOpenFileDialog
@@ -279,59 +278,4 @@ namespace WPFAIReportCheck
             w.Show();
         }
     }
-
-    //public static class EnumHelper<T>
-    //{
-    //    public static string GetNameFromValue(T value)
-    //    {
-    //        var type = typeof(T);
-    //        if (!type.IsEnum) throw new InvalidOperationException();
-
-    //        foreach (var field in type.GetFields())
-    //        {
-    //            var attribute = Attribute.GetCustomAttribute(field,
-    //                typeof(DisplayAttribute)) as DisplayAttribute;
-    //            if (((T)field.GetValue(null)).ToString()==value.ToString())
-    //            {
-
-    //                return attribute.Name;
-
-    //            }
-    //            else
-    //            {
-    //                continue;
-    //            }
-    //        }
-
-    //        throw new ArgumentOutOfRangeException("name");
-    //    }
-    //}
-    //public static class EnumHelper1<T>
-    //{
-    //    public static T GetValueFromName(string name)
-    //    {
-    //        var type = typeof(T);
-    //        if (!type.IsEnum) throw new InvalidOperationException();
-
-    //        foreach (var field in type.GetFields())
-    //        {
-    //            var attribute = Attribute.GetCustomAttribute(field,
-    //                typeof(DisplayAttribute)) as DisplayAttribute;
-    //            if (attribute != null)
-    //            {
-    //                if (attribute.Name == name)
-    //                {
-    //                    return (T)field.GetValue(null);
-    //                }
-    //            }
-    //            else
-    //            {
-    //                if (field.Name == name)
-    //                    return (T)field.GetValue(null);
-    //            }
-    //        }
-
-    //        throw new ArgumentOutOfRangeException("name");
-    //    }
-    //}
 }

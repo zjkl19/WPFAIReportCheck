@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -16,6 +17,7 @@ namespace WPFAIReportCheck
         //参考https://www.cnblogs.com/Gildor/archive/2010/06/29/1767156.html
         public static double ScreenWidth = SystemParameters.PrimaryScreenWidth;
         public static double ScreenHeight = SystemParameters.PrimaryScreenHeight;
+        //public static ILogger log;
 
         public App()
         {

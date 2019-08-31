@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace WPFAIReportCheck
     public partial class OptionWindow : Window
     {
         public List<CheckBox> OptionCheckBoxList;
+        //private ILogger _log;
         public OptionWindow()
         {
             InitializeComponent();
@@ -80,18 +82,36 @@ namespace WPFAIReportCheck
         //TODO：单元测试
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            foreach(var cb in OptionCheckBoxList)
-            {
-                var config = XDocument.Load(@"Option.config");
-                var MethodUpdate = (from p in config.Element("configuration").Elements() where (p.Attribute("Name").Value) == cb.Name select p).FirstOrDefault();
-                if (MethodUpdate != null)
-                {
-                    MethodUpdate.Value = (cb.IsChecked ?? false) ? "1" : "0";
-                    config.Save(@"Option.config");
-                }
+            SaveOption();
 
+        }
+
+        public void SaveOption()
+        {
+            try
+            {
+                foreach (var cb in OptionCheckBoxList)
+                {
+                    var config = XDocument.Load(@"Option.config");
+                    var MethodUpdate = (from p in config.Element("configuration").Elements() where (p.Attribute("Name").Value) == cb.Name select p).FirstOrDefault();
+                    if (MethodUpdate != null)
+                    {
+                        MethodUpdate.Value = (cb.IsChecked ?? false) ? "1" : "0";
+                        config.Save(@"Option.config");
+                    }
+
+                }
+                MessageBox.Show("保存设置成功！");
             }
-            MessageBox.Show("保存设置成功！");
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw ex;
+
+#else
+                //log.Error(ex, $"Save_Button_Click保存选项xml配置文件出错，错误信息：{ ex.Message.ToString()}");
+#endif
+            }
         }
     }
 }
