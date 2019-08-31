@@ -7,6 +7,10 @@
         Title="报告校核进度" Height="217" Width="300">
 
     <Grid>
-        <ProgressBar Height="24" HorizontalAlignment="Left" Margin="12,72,0,0" Name="progressBar" VerticalAlignment="Top" Width="254" Foreground="#FF2EAFF1" />
+        <ProgressBar Name="progressBar" Value="{Binding V}" Height="24" Width="254" HorizontalAlignment="Left" Margin="12,72,0,0" VerticalAlignment="Top" Foreground="#FF2EAFF1" />
+        <StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Name="progressBarNumberTextBlock" Text="{Binding V}"/>
+            <TextBlock Name="percent" Text="%" />
+        </StackPanel>        
     </Grid>
 </Window>

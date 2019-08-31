@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,7 +11,25 @@ using WPFAIReportCheck.IRepository;
 
 namespace WPFAIReportCheck.Repository
 {
+    public class DataBinding : INotifyPropertyChanged
+    {
 
+        private int v = 0;
+        public int V { get
+            { return v; } set
+            {
+                v = value;
+
+                OnPropertyChanged("V");
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+    }
     public partial class AsposeAIReportCheck : IAIReportCheck
     {
         private delegate void MethodDelegate();
@@ -30,7 +49,7 @@ namespace WPFAIReportCheck.Repository
                     FindOtherBridgesWarnning,
                 },
             };
-    
+
             var config = XDocument.Load(@"Option.config");
 
             //Bug:修改配置文件后，读取结果不变
@@ -51,23 +70,33 @@ namespace WPFAIReportCheck.Repository
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
             w.Left = 0.4 * (App.ScreenWidth - w.Width);
 
-            var progressSleepTime = 50;    //进度条停顿时间
+            var k = new DataBinding
+            {
+                V = 14,
+            };
+            w.progressBarNumberTextBlock.DataContext = k;
+            w.progressBar.DataContext = k;
+
+            var progressSleepTime = 100;    //进度条停顿时间
 
             var thread = new Thread(new ThreadStart(() =>
             {
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
-                int invokeF=0;    //已调用函数
-                for(int i=0;i<controlClass.SelectListInt.Count;i++)
+                int invokeF = 0;    //已调用函数
+                for (int i = 0; i < controlClass.SelectListInt.Count; i++)
                 {
-                    if(controlClass.SelectListInt[i]!=0)
+                    if (controlClass.SelectListInt[i] != 0)
                     {
                         controlClass.SelectListFunctionName[i]?.Invoke();
                         invokeF++;
-                        w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF*100/ controlClass.SelectListInt.Sum(); });
+                        k.V = invokeF * 100 / controlClass.SelectListInt.Sum();
+                        //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF * 100 / controlClass.SelectListInt.Sum(); });
+                        //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF*100/ controlClass.SelectListInt.Sum(); });
+                        //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBarNumber.Text = (invokeF * 100 / controlClass.SelectListInt.Sum()).ToString(); });
                         Thread.Sleep(progressSleepTime);
                     }
-                    
-                }       
+
+                }
                 _GenerateResultReport();
                 _doc.Save("标出错误或警告的报告.doc");
                 Thread.Sleep(progressSleepTime);
