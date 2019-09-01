@@ -75,6 +75,7 @@ namespace WPFAIReportCheck.Repository
                         }
                         for (int j = 2; j <= tableLastRow; j++)   //TODO：增加最后行尾的判断
                         {
+                            //总应变、理论变形计算结果备用
                             var totalDeform = Convert.ToDecimal(table0.Rows[j].Cells[1].GetText().Trim().Replace("\a", "").Replace("\r", ""));
                             var elasticDeform = Convert.ToDecimal(table0.Rows[j].Cells[2].GetText().Trim().Replace("\a", "").Replace("\r", ""));
                             var remainDeform = Convert.ToDecimal(table0.Rows[j].Cells[3].GetText().Trim().Replace("\a", "").Replace("\r", ""));
@@ -99,24 +100,71 @@ namespace WPFAIReportCheck.Repository
 
                         //找出概述性段落
                         //TODO：根据文中关键字来判断是否为上下文
-                        var ctx = table0.PreviousSibling.PreviousSibling.Range.Text;    //比较大的可能性是table0.PreviousSibling.PreviousSibling.Range.Text
-
+                        //算法：依次查找向前2个~向前7个PreviousSibling节点，
+                        //查看是否有工况、校验系数、残余变形这几个关键字，
+                        //如果有则选择该段文字
+                        var tableNode = table0.PreviousSibling.PreviousSibling;//比较大的可能性是table0.PreviousSibling.PreviousSibling
+                        var ctx = string.Empty;
+                        for (int k=0;k<5;k++)
+                        {
+                            ctx = tableNode.Range.Text;
+                            if (ctx.Contains("工况") && ctx.Contains("校验系数") && ctx.Contains("残余"))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                tableNode = tableNode.PreviousSibling;
+                                if (k==4)
+                                {
+                                    tableNode = table0.PreviousSibling.PreviousSibling;    //如果搜索到最后一个还没找到，就取向前2个
+                                }                            
+                            }
+                        }
+                       
                         MatchCollection matches;
                         var regex = new Regex($"{maxElasticDeform}");
                         matches = regex.Matches(ctx);
 
-                        if (matches.Count == 0)
+                        //统计表格可能不含有最大值信息
+                        //if (matches.Count == 0)
+                        //{
+                        //    reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"第{i + 1}张表格{tableTitle}", $"关键字最大实测弹性挠度/应变值为{maxElasticDeform}未找到", true));
+
+                        //    Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Now);
+                        //    comment.Paragraphs.Add(new Paragraph(_doc));
+                        //    comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字最大实测弹性挠度/应变值为{maxElasticDeform}未找到"));
+                        //    DocumentBuilder builder = new DocumentBuilder(_doc);
+                        //    //TODO：_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling 精确定位
+                        //    builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling);
+                        //    builder.CurrentParagraph.AppendChild(comment);
+                        //}
+                        
+                        //为简便起见，只搜索第一个Section
+                        NodeCollection FirstSectionTables = _doc.FirstSection.GetChildNodes(NodeType.Table, true);
+                        for (int k1 = 0; k1 < FirstSectionTables.Count; k1++)
                         {
-                            reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"第{i + 1}张表格{tableTitle}", $"关键字最大实测弹性挠度/应变值为{maxElasticDeform}未找到", true));
+                            Table table2 = _originalDoc.GetChildNodes(NodeType.Table, true)[k1] as Table;
+                            matches = regex.Matches(table2.Range.Text);
+                            if (matches.Count > 0)    //如果匹配到则跳过
+                            {
+                                break;
+                            }
+                            //如果搜索到最后一个表格依然没有搜索到
+                            if (k1== FirstSectionTables.Count-1 && matches.Count==0)
+                            {
+                                reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"汇总表格", $"关键字{tableTitle}最大实测弹性挠度/应变值为{maxElasticDeform}未找到", true));
 
-                            Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Now);
-                            comment.Paragraphs.Add(new Paragraph(_doc));
-                            comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字最大实测弹性挠度/应变值为{maxElasticDeform}未找到"));
-                            DocumentBuilder builder = new DocumentBuilder(_doc);
-                            builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling);
-                            builder.CurrentParagraph.AppendChild(comment);
+                                Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Now);
+                                comment.Paragraphs.Add(new Paragraph(_doc));
+                                comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字{tableTitle}最大实测弹性挠度/应变值为{maxElasticDeform}未找到"));
+                                DocumentBuilder builder = new DocumentBuilder(_doc);
+                                //TODO：_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling 精确定位
+                                builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[k1] as Table).PreviousSibling.PreviousSibling);
+                                builder.CurrentParagraph.AppendChild(comment);
+
+                            }
                         }
-
                         regex = new Regex($"{minCheckoutCoff}[~|～]{maxCheckoutCoff}");
                         matches = regex.Matches(ctx);
 
@@ -132,6 +180,31 @@ namespace WPFAIReportCheck.Repository
                             builder.CurrentParagraph.AppendChild(comment);
                         }
 
+                        //在汇总表格中搜索
+                        for (int k1 = 0; k1 < FirstSectionTables.Count; k1++)
+                        {
+                            Table table2 = _originalDoc.GetChildNodes(NodeType.Table, true)[k1] as Table;
+                            matches = regex.Matches(table2.Range.Text);
+                            if (matches.Count > 0)    //如果匹配到则跳过
+                            {
+                                break;
+                            }
+                            //如果搜索到最后一个表格依然没有搜索到
+                            if (k1 == FirstSectionTables.Count - 1 && matches.Count == 0)
+                            {
+                                reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"汇总表格", $"关键字{tableTitle}校验系数在{ minCheckoutCoff }～{ maxCheckoutCoff}之间未找到", true));
+
+                                Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Now);
+                                comment.Paragraphs.Add(new Paragraph(_doc));
+                                comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字{tableTitle}校验系数在{ minCheckoutCoff }～{ maxCheckoutCoff}之间未找到"));
+                                DocumentBuilder builder = new DocumentBuilder(_doc);
+                                //TODO：_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling 精确定位
+                                builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[k1] as Table).PreviousSibling.PreviousSibling);
+                                builder.CurrentParagraph.AppendChild(comment);
+
+                            }
+                        }
+
                         regex = new Regex($"{minRelRemainDeform:P}[~|～]{maxRelRemainDeform:P}");
                         matches = regex.Matches(ctx);
 
@@ -145,6 +218,30 @@ namespace WPFAIReportCheck.Repository
                             DocumentBuilder builder = new DocumentBuilder(_doc);
                             builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling);
                             builder.CurrentParagraph.AppendChild(comment);
+                        }
+
+                        //在汇总表格中搜索
+                        for (int k1 = 0; k1 < FirstSectionTables.Count; k1++)
+                        {
+                            Table table2 = _originalDoc.GetChildNodes(NodeType.Table, true)[k1] as Table;
+                            matches = regex.Matches(table2.Range.Text);
+                            if (matches.Count > 0)    //如果匹配到则跳过
+                            {
+                                break;
+                            }
+                            //如果搜索到最后一个表格依然没有搜索到
+                            if (k1 == FirstSectionTables.Count - 1 && matches.Count == 0)
+                            {
+                                reportWarnning.Add(new ReportWarnning(WarnningNumber.NotFoundInfo, $"汇总表格", $"关键字{tableTitle}相对残余变形在{ minRelRemainDeform:P}～{ maxRelRemainDeform:P}之间未找到", true));
+
+                                Comment comment = new Comment(_doc, "AI", "AI校核", DateTime.Now);
+                                comment.Paragraphs.Add(new Paragraph(_doc));
+                                comment.FirstParagraph.Runs.Add(new Run(_doc, $"关键字{tableTitle}相对残余变形在{ minRelRemainDeform:P}～{ maxRelRemainDeform:P}之间未找到"));
+                                DocumentBuilder builder = new DocumentBuilder(_doc);
+                                //TODO：_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling 精确定位
+                                builder.MoveTo((_doc.GetChildNodes(NodeType.Table, true)[k1] as Table).PreviousSibling.PreviousSibling);
+                                builder.CurrentParagraph.AppendChild(comment);
+                            }
                         }
                     }
 
