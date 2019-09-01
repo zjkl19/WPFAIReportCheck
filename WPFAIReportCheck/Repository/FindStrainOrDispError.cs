@@ -50,10 +50,12 @@ namespace WPFAIReportCheck.Repository
             }
 
             int tableLastRow = 0;
-            NodeCollection allTables = _doc.GetChildNodes(NodeType.Table, true);
+            NodeCollection allTables = _originalDoc.GetChildNodes(NodeType.Table, true);
             for (int i = 0; i < allTables.Count; i++)
             {
-                Table table0 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;
+                Table table0 = _originalDoc.GetChildNodes(NodeType.Table, true)[i] as Table;
+
+                Table table1 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;    //要写入批注的文档
 
                 if (table0.Rows[row1].Cells[col1].GetText().IndexOf(headerCharactorString) >= 0 
                     && (table0.Rows[row2].Cells[col2].GetText().IndexOf(strainCharactorString) >= 0 || table0.Rows[row2].Cells[col2].GetText().IndexOf(dispCharactorString) >= 0))
@@ -92,7 +94,7 @@ namespace WPFAIReportCheck.Repository
                                 comment.Paragraphs.Add(new Paragraph(_doc));
                                 comment.FirstParagraph.Runs.Add(new Run(_doc, $"计算错误，应为{calcElasticDeform}"));
                                 DocumentBuilder builder = new DocumentBuilder(_doc);
-                                builder.MoveTo(table0.Rows[j].Cells[2].FirstParagraph);
+                                builder.MoveTo(table1.Rows[j].Cells[2].FirstParagraph);
                                 builder.CurrentParagraph.AppendChild(comment);
                             }
                             if (calcCheckoutCoff != checkoutCoff)
@@ -102,7 +104,7 @@ namespace WPFAIReportCheck.Repository
                                 comment.Paragraphs.Add(new Paragraph(_doc));
                                 comment.FirstParagraph.Runs.Add(new Run(_doc, $"计算错误，应为{calcCheckoutCoff}"));
                                 DocumentBuilder builder = new DocumentBuilder(_doc);
-                                builder.MoveTo(table0.Rows[j].Cells[5].FirstParagraph);
+                                builder.MoveTo(table1.Rows[j].Cells[5].FirstParagraph);
                                 builder.CurrentParagraph.AppendChild(comment);
                             }
                             if (calcRelRemainDeform != relRemainDeform)
@@ -112,7 +114,7 @@ namespace WPFAIReportCheck.Repository
                                 comment.Paragraphs.Add(new Paragraph(_doc));
                                 comment.FirstParagraph.Runs.Add(new Run(_doc, $"计算错误，应为{$"{calcRelRemainDeform:P}"}"));
                                 DocumentBuilder builder = new DocumentBuilder(_doc);
-                                builder.MoveTo(table0.Rows[j].Cells[6].FirstParagraph);
+                                builder.MoveTo(table1.Rows[j].Cells[6].FirstParagraph);
                                 builder.CurrentParagraph.AppendChild(comment);
                             }
                         }
