@@ -50,6 +50,11 @@ namespace WPFAIReportCheck.Repository
         public void CheckReport()
         {
 
+            _doc.Unprotect();    //解除保护
+            _doc.UpdateFields();   
+            _doc.UnlinkFields();    //章节序号等尚未解除链接
+            _originalDoc = _doc.Clone();
+
             //举例：
             //SelectListInt =[1,0]
             //SelectListFunctionName=[FindUnitError,FindNotExplainComponentNo]

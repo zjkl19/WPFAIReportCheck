@@ -37,7 +37,7 @@ namespace WPFAIReportCheck.Repository
         {
             _doc = new Document(doc);
 
-            _originalDoc = new Document(doc);
+            //_originalDoc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
 
             //ILoggerRepository repository = LogManager.CreateRepository("WPFAIReportCheck");
