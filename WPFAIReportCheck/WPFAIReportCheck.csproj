@@ -127,6 +127,7 @@
     <Compile Include="Repository\FindDescriptionError.cs" />
     <Compile Include="Repository\FindStrainOrDispContextWarnning.cs" />
     <Compile Include="Repository\FindStrainOrDispError.cs" />
+    <Compile Include="Repository\RenderedDocument.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

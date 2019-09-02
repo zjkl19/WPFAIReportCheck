@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aspose.Words;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -51,9 +52,18 @@ namespace WPFAIReportCheck.Repository
         {
 
             _doc.Unprotect();    //解除保护
-            _doc.UpdateFields();   
-            _doc.UnlinkFields();    //章节序号等尚未解除链接
+            _doc.UpdateFields();
             _originalDoc = _doc.Clone();
+            //_doc.UnlinkFields();    //章节序号等尚未解除链接
+
+
+            //以下三行代码为参考示意代码
+            NodeCollection allN = _originalDoc.GetChildNodes(NodeType.Section, true);
+            var p0 = _originalDoc.GetChildNodes(NodeType.Section, true)[1] as Section;
+            var k = p0.GetChildNodes(NodeType.Paragraph, true)[1] as Paragraph;
+
+
+            var layoutDoc = new RenderedDocument(_originalDoc);
 
             //举例：
             //SelectListInt =[1,0]
@@ -139,5 +149,5 @@ namespace WPFAIReportCheck.Repository
             thread.Start();
 
         }
-    }
+    }   
 }
