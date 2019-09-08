@@ -112,7 +112,7 @@ namespace WPFAIReportCheck
 
         private void CheckForUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("该功能正在开发中");
+            Repository.CheckForUpdate.BrowseByRestClient();
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
