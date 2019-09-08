@@ -32,25 +32,26 @@ namespace WPFAIReportCheck.Repository
             var regex = new Regex(@"(?<=\(附[\s]{0,4}页\)\r目录\r)[\s\S]*?(?=\f)");    //在第1节中查找目录用的正则表达式字符串
             var regexPageNumber=new Regex(@"(?<=\t)[1-9]\d*");    //每1小节查找页码使用的正则表达式字符串
             var regexContent = new Regex(@"[\s\S]*(?=\t)");    //每1小节查找正文使用的正则表达式字符串
+            var regexAppendix= new Regex(@"[\(|（]附[\s]{0,4}页[\)|）]");    //查找附页所在段落所使用的正则表达式
             try
             {
                 matches = regex.Matches(_doc.FirstSection.Range.Text);
                 if (matches.Count != 0)
                 {
-                    _log.Debug(matches[0].Value);
+                    //_log.Debug(matches[0].Value);    //目录全文
                     var list = new List<string>(matches[0].Value.Split(new[] { "\r" }, StringSplitOptions.RemoveEmptyEntries));//返回值不包括含有空字符串的数组元素
                     for (int i = 0; i < list.Count; i++)
                     {
-                        _log.Debug(list[i]);
+                        //_log.Debug(list[i]);    //分割后含有目录标题及\t（制表符）及页码的文字
 
                         regex = regexPageNumber;
                         matches = regex.Matches(list[i]);
-                        _log.Debug(matches[0].Value);
+                        //_log.Debug(matches[0].Value);    //页码
                         int pageNumber = Convert.ToInt32(matches[0].Value.Replace(@"\r", ""));
 
                         regex = regexContent;
                         matches = regex.Matches(list[i]);
-                        _log.Debug(matches[0].Value);
+                        //_log.Debug(matches[0].Value);    //目录标题
                         string content = matches[0].Value;
                         if (pageNumber > _layoutDoc.Pages.Count)
                         {

@@ -51,19 +51,15 @@ namespace WPFAIReportCheck.Repository
         public void CheckReport()
         {
 
-            _doc.Unprotect();    //解除保护
-            _doc.UpdateFields();
-            _originalDoc = _doc.Clone();
-            _doc.UnlinkFields();    //章节序号等尚未解除链接
 
 
             //以下三行代码为参考示意代码
-            NodeCollection allN = _originalDoc.GetChildNodes(NodeType.Section, true);
-            var p0 = _originalDoc.GetChildNodes(NodeType.Section, true)[1] as Section;
-            var k = p0.GetChildNodes(NodeType.Paragraph, true)[1] as Paragraph;
+            //NodeCollection allN = _originalDoc.GetChildNodes(NodeType.Section, true);
+            //var p0 = _originalDoc.GetChildNodes(NodeType.Section, true)[1] as Section;
+            //var k = p0.GetChildNodes(NodeType.Paragraph, true)[1] as Paragraph;
 
 
-            _layoutDoc = new RenderedDocument(_originalDoc);
+
 
             //举例：
             //SelectListInt =[1,0]

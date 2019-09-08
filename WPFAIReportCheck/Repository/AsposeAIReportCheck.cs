@@ -41,6 +41,13 @@ namespace WPFAIReportCheck.Repository
             //_originalDoc = new Document(doc);
             _originalWholeText = _doc.Range.Text;
 
+            //TODO：重构以下5行代码
+            _doc.Unprotect();    //解除保护
+            _doc.UpdateFields();
+            _originalDoc = _doc.Clone();
+            _doc.UnlinkFields();    //章节序号等尚未解除链接
+            _layoutDoc = new RenderedDocument(_originalDoc);
+
             //ILoggerRepository repository = LogManager.CreateRepository("WPFAIReportCheck");
             // 默认简单配置，输出至控制台
             //BasicConfigurator.Configure(repository);
