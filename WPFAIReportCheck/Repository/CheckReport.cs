@@ -54,7 +54,7 @@ namespace WPFAIReportCheck.Repository
             _doc.Unprotect();    //解除保护
             _doc.UpdateFields();
             _originalDoc = _doc.Clone();
-            //_doc.UnlinkFields();    //章节序号等尚未解除链接
+            _doc.UnlinkFields();    //章节序号等尚未解除链接
 
 
             //以下三行代码为参考示意代码
@@ -63,7 +63,7 @@ namespace WPFAIReportCheck.Repository
             var k = p0.GetChildNodes(NodeType.Paragraph, true)[1] as Paragraph;
 
 
-            var layoutDoc = new RenderedDocument(_originalDoc);
+            _layoutDoc = new RenderedDocument(_originalDoc);
 
             //举例：
             //SelectListInt =[1,0]
@@ -75,7 +75,7 @@ namespace WPFAIReportCheck.Repository
                 SelectListFunctionName = new List<MethodDelegate> {
                     _FindUnitError,_FindNotExplainComponentNo,_FindSpecificationsError,
                     FindSequenceNumberError,FindStrainOrDispError,FindDescriptionError,
-                    FindOtherBridgesWarnning,FindStrainOrDispContextWarnning
+                    FindOtherBridgesWarnning,FindStrainOrDispContextWarnning,FindPageContextError
                 },
                 SelectListContent = new List<string>(),
             };

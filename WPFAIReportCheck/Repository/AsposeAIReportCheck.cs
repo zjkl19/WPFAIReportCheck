@@ -24,6 +24,7 @@ namespace WPFAIReportCheck.Repository
         public Document _doc;
 
         private Document _originalDoc;
+        private RenderedDocument _layoutDoc;
 
         //public ILog _log;
         public ILogger _log;

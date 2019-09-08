@@ -105,6 +105,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IRepository\FindPageContextError.cs" />
     <Compile Include="IRepository\FindStrainOrDispContextWarnning.cs" />
     <Compile Include="IRepository\FindOtherBridgesWarnning.cs" />
     <Compile Include="IRepository\FindDescriptionError.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Repository\FindOtherBridgesWarnning.cs" />
     <Compile Include="Repository\FindDescriptionError.cs" />
     <Compile Include="Repository\FindStrainOrDispContextWarnning.cs" />
+    <Compile Include="Repository\FindPageContextError.cs" />
     <Compile Include="Repository\FindStrainOrDispError.cs" />
     <Compile Include="Repository\RenderedDocument.cs" />
     <Page Include="MainWindow.xaml">
