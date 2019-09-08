@@ -51,14 +51,10 @@ namespace WPFAIReportCheck.Repository
         public void CheckReport()
         {
 
-
-
-            //以下三行代码为参考示意代码
+            //以下三行代码为参考代码
             //NodeCollection allN = _originalDoc.GetChildNodes(NodeType.Section, true);
             //var p0 = _originalDoc.GetChildNodes(NodeType.Section, true)[1] as Section;
             //var k = p0.GetChildNodes(NodeType.Paragraph, true)[1] as Paragraph;
-
-
 
 
             //举例：
@@ -114,7 +110,7 @@ namespace WPFAIReportCheck.Repository
             w.progressBar.DataContext = progressBarDataBinding;
             w.progressBarContentTextBlock.DataContext = progressBarDataBinding;
 
-            var progressSleepTime = 100;    //进度条停顿时间
+            var progressSleepTime = 1000;    //进度条停顿时间
 
             var thread = new Thread(new ThreadStart(() =>
             {
@@ -124,17 +120,16 @@ namespace WPFAIReportCheck.Repository
                 {
                     if (controlClass.SelectListInt[i] != 0)
                     {
-                        controlClass.SelectListFunctionName[i]?.Invoke();
-                        invokeF++;
+                        
                         progressBarDataBinding.V = invokeF * 100 / controlClass.SelectListInt.Sum();
                         progressBarDataBinding.Content = $"正在校核：{controlClass.SelectListContent[i]}";
-                        //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF * 100 / controlClass.SelectListInt.Sum(); });
-                        //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBar.Value = invokeF*100/ controlClass.SelectListInt.Sum(); });
-                        //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.progressBarNumber.Text = (invokeF * 100 / controlClass.SelectListInt.Sum()).ToString(); });
+                        controlClass.SelectListFunctionName[i]?.Invoke();
+                        invokeF++;
                         Thread.Sleep(progressSleepTime);
                     }
 
                 }
+                progressBarDataBinding.V = 100;
                 progressBarDataBinding.Content = $"正在校核：正在完成中";
                 _GenerateResultReport();
                 _doc.Save("标出错误或警告的报告.doc");
