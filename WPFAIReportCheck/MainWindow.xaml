@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="报告自动校核 v0.1 alpha" Height="240" Width="500" Margin="-3,0,0,0">
+        Title="报告自动校核" Height="240" Width="500" Margin="-3,0,0,0">
     
     <Grid>
         
@@ -47,7 +47,7 @@
         <Button Grid.Row="4" Grid.Column="0" Margin="3" Click="CheckForUpdateButton_Click">检查更新</Button>
         <Button Grid.Row="4" Grid.Column="1" Margin="3" Click="InstructionsButton_Click">使用说明</Button>
         <Button Grid.Row="4" Grid.Column="2" Margin="3" Click="DisclaimerButton_Click">免责声明</Button>
-        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Content="CopyRight 2019 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司" VerticalAlignment="Center"/>
+        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2019" VerticalAlignment="Center"/>
       
 
 

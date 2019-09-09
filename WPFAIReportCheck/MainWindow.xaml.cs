@@ -110,11 +110,6 @@ namespace WPFAIReportCheck
 
         }
 
-        private void CheckForUpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            Repository.CheckForUpdate.BrowseByRestClient();
-        }
-
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             var doc = "校核结果.docx";

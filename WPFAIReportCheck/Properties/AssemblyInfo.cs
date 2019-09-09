@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("WPFAIReportCheck")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2019")]
+[assembly: AssemblyCopyright("Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 //[assembly: log4net.Config.XmlConfigurator(ConfigFile = @"log4net.config", Watch = true)]

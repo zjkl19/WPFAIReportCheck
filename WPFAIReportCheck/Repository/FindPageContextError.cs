@@ -30,9 +30,9 @@ namespace WPFAIReportCheck.Repository
             MatchCollection matches;
             //var regex = new Regex(@"(?<=\(附[\s]{0,4}页\)\\r目录\\r)[\s\S]*?(?=\\f)");    //https://regex101.com/使用   
             var regex = new Regex(@"(?<=\(附[\s]{0,4}页\)\r目录\r)[\s\S]*?(?=\f)");    //在第1节中查找目录用的正则表达式字符串
-            var regexPageNumber=new Regex(@"(?<=\t)[1-9]\d*");    //每1小节查找页码使用的正则表达式字符串
+            var regexPageNumber = new Regex(@"(?<=\t)[1-9]\d*");    //每1小节查找页码使用的正则表达式字符串
             var regexContent = new Regex(@"[\s\S]*(?=\t)");    //每1小节查找正文使用的正则表达式字符串
-            var regexAppendix= new Regex(@"[\(|（]附[\s]{0,4}页[\)|）]");    //查找附页所在段落所使用的正则表达式
+            var regexAppendix = new Regex(@"[\(|（]附[\s]{0,4}页[\)|）]");    //查找附页所在段落所使用的正则表达式
             try
             {
                 matches = regex.Matches(_doc.FirstSection.Range.Text);
@@ -64,7 +64,8 @@ namespace WPFAIReportCheck.Repository
                             //TODO：_doc.GetChildNodes(NodeType.Table, true)[i] as Table).PreviousSibling.PreviousSibling 精确定位
                             for (int j = 0; j < _doc.FirstSection.GetChildNodes(NodeType.Paragraph, true).Count; j++)
                             {
-                                if (_doc.FirstSection.GetChildNodes(NodeType.Paragraph, true)[j].Range.Text.Contains("(附 页)"))
+                                //TODO：找不到
+                                if (regexAppendix.Matches(_doc.FirstSection.GetChildNodes(NodeType.Paragraph, true)[j].Range.Text).Count>0)
                                 {
                                     builder.MoveTo((_doc.GetChildNodes(NodeType.Paragraph, true)[j] as Paragraph));
                                     builder.CurrentParagraph.AppendChild(comment);
@@ -72,10 +73,10 @@ namespace WPFAIReportCheck.Repository
                                 }
                             }
 
-                       }
+                        }
                         else
                         {
-                            if(!_layoutDoc.Pages[pageNumber - 1].Text.Contains(content))
+                            if (!_layoutDoc.Pages[pageNumber - 1].Text.Contains(content))
                             {
                                 reportError.Add(new ReportError(ErrorNumber.Description, $"正文第{pageNumber}页或目录", $"正文第{ pageNumber }页未找到{ content }", true));
 
@@ -85,7 +86,7 @@ namespace WPFAIReportCheck.Repository
                                 DocumentBuilder builder = new DocumentBuilder(_doc);
                                 for (int j = 0; j < _doc.FirstSection.GetChildNodes(NodeType.Paragraph, true).Count; j++)
                                 {
-                                    if (_doc.FirstSection.GetChildNodes(NodeType.Paragraph, true)[j].Range.Text.Contains("(附 页)"))
+                                    if (regexAppendix.Matches(_doc.FirstSection.GetChildNodes(NodeType.Paragraph, true)[j].Range.Text).Count > 0)
                                     {
                                         builder.MoveTo((_doc.GetChildNodes(NodeType.Paragraph, true)[j] as Paragraph));
                                         builder.CurrentParagraph.AppendChild(comment);
@@ -103,7 +104,7 @@ namespace WPFAIReportCheck.Repository
                 throw ex;
 
 #else
-                _log.Error(ex,$"目录上下文校核出错，错误信息：{ ex.Message.ToString()}");
+                _log.Error(ex, $"目录上下文校核出错，错误信息：{ ex.Message.ToString()}");
 #endif
             }
         }
