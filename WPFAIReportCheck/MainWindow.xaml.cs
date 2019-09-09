@@ -59,6 +59,46 @@ namespace WPFAIReportCheck
             LogManager.Configuration = config;
 
             log = LogManager.GetCurrentClassLogger();
+
+            //自动更新
+            //TODO：配置文件不存在或读取出错
+            var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var autoApdate = Convert.ToBoolean(appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value);
+
+            if (autoApdate)
+            {
+                AutoCheckForUpdateCheckBox.IsChecked = true;
+            }
+            else
+            {
+                AutoCheckForUpdateCheckBox.IsChecked = false;
+            }
+
+            new Thread(() =>
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+
+                    try
+                    {
+                        if (autoApdate)
+                        {
+                            Repository.CheckForUpdate.CheckByRestClient();
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+#if DEBUG
+                        throw ex;
+
+#else
+                        log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
+#endif
+                    }
+                }));
+            }).Start();
+
         }
 
         private void StartCheckingButton_Click(object sender, RoutedEventArgs e)
@@ -162,6 +202,37 @@ namespace WPFAIReportCheck
         private void InstructionsButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("该功能开发中");
+        }
+
+        private void AutoCheckForUpdateCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                if (AutoCheckForUpdateCheckBox.IsChecked ?? false)
+                {
+                    appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value = "true";
+                }
+                else
+                {
+                    appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value = "false";
+                }
+
+                appConfig.Save(ConfigurationSaveMode.Modified);
+
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw ex;
+
+#else
+                log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
+#endif
+            }
+
         }
     }
 }

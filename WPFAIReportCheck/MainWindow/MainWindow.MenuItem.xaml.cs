@@ -12,7 +12,7 @@ namespace WPFAIReportCheck
             //TODO：通过反射读取 AssemblyCopyright
             MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version.ToString()}\r" +
             $"Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2019\r" +
-            $"系统框架设计及编程：路桥监测研究所林迪南、陈思远等"
+            $"系统框架设计及编程：路桥检测研究所林迪南、陈思远等"
             , "关于");
         }
 
