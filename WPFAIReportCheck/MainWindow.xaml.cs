@@ -68,6 +68,7 @@ namespace WPFAIReportCheck
             if (autoApdate)
             {
                 AutoCheckForUpdateCheckBox.IsChecked = true;
+                StatusBarText.Text = "正在检查更新……";
             }
             else
             {
@@ -84,6 +85,7 @@ namespace WPFAIReportCheck
                         if (autoApdate)
                         {
                             Repository.CheckForUpdate.CheckByRestClient();
+                            StatusBarText.Text ="就绪";
                         }
 
                     }
