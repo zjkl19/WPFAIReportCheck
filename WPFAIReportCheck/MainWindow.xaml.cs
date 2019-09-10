@@ -4,6 +4,7 @@ using Ninject;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Diagnostics;
@@ -34,7 +35,7 @@ namespace WPFAIReportCheck
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        BackgroundWorker worker = new BackgroundWorker();
         public ILogger log;
         public MainWindow()
         {
@@ -60,47 +61,123 @@ namespace WPFAIReportCheck
 
             log = LogManager.GetCurrentClassLogger();
 
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += new DoWorkEventHandler(BackGroundCheckForUpdate);
+            worker.ProgressChanged += BackGroundCheckForUpdate_ProgressChanged;
+            worker.RunWorkerAsync();
+
             //自动更新
             //TODO：配置文件不存在或读取出错
+            //            var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            //            var autoApdate = Convert.ToBoolean(appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value);
+
+            //            if (autoApdate)
+            //            {
+            //                AutoCheckForUpdateCheckBox.IsChecked = true;
+            //                StatusBarText.Text = "正在检查更新……";
+            //            }
+            //            else
+            //            {
+            //                AutoCheckForUpdateCheckBox.IsChecked = false;
+            //            }
+
+            //            new Thread(() =>
+            //            {
+            //                Dispatcher.BeginInvoke(new Action(() =>
+            //                {
+
+            //                    try
+            //                    {
+            //                        if (autoApdate)
+            //                        {
+            //                            Repository.CheckForUpdate.CheckByRestClient();
+            //                            StatusBarText.Text ="就绪";
+            //                        }
+
+            //                    }
+            //                    catch (Exception ex)
+            //                    {
+            //#if DEBUG
+            //                        throw ex;
+
+            //#else
+            //                        log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
+            //#endif
+            //                    }
+            //                }));
+            //            }).Start();
+
+        }
+        /// <summary>
+        /// 进度返回处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void BackGroundCheckForUpdate_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            //var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            //var autoApdate = Convert.ToBoolean(appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value);
+
+            StatusBarText.Text = e.UserState.ToString();
+
+            //if (autoApdate)
+            //{
+            //    AutoCheckForUpdateCheckBox.IsChecked = true;
+            //    StatusBarText.Text = "正在检查更新……";
+            //}
+            //else
+            //{
+            //    AutoCheckForUpdateCheckBox.IsChecked = false;
+            //}
+        }
+
+        void BackGroundCheckForUpdate(object sender, DoWorkEventArgs e)
+        {
+            //for (int i = 0; i <= 100; i++)
+            //{
+            //    worker.ReportProgress(i);//返回进度
+            //    Thread.Sleep(100);
+            //}
+            //自动更新
+            //TODO：配置文件不存在或读取出错
+
+            
             var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var autoApdate = Convert.ToBoolean(appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value);
+            
+            worker.ReportProgress(1, "正在检查更新……");
 
-            if (autoApdate)
-            {
-                AutoCheckForUpdateCheckBox.IsChecked = true;
-                StatusBarText.Text = "正在检查更新……";
-            }
-            else
-            {
-                AutoCheckForUpdateCheckBox.IsChecked = false;
-            }
+            //if (autoApdate)
+            //{
+            //    AutoCheckForUpdateCheckBox.IsChecked = true;
+            //    StatusBarText.Text = "正在检查更新……";
+            //}
+            //else
+            //{
+            //    AutoCheckForUpdateCheckBox.IsChecked = false;
+            //}
 
-            new Thread(() =>
+            try
             {
-                Dispatcher.BeginInvoke(new Action(() =>
+                if (autoApdate)
                 {
+                    Repository.CheckForUpdate.CheckByRestClient();
+                    
+                    //StatusBarText.Text = "就绪";
+                    worker.ReportProgress(1, "就绪");
+                    
+                }
 
-                    try
-                    {
-                        if (autoApdate)
-                        {
-                            Repository.CheckForUpdate.CheckByRestClient();
-                            StatusBarText.Text ="就绪";
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
+            }
+            catch (Exception ex)
+            {
 #if DEBUG
-                        throw ex;
+                throw ex;
 
 #else
-                        log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
+                log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
 #endif
-                    }
-                }));
-            }).Start();
-
+            }
         }
 
         private void StartCheckingButton_Click(object sender, RoutedEventArgs e)

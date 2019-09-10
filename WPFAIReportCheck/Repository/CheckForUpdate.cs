@@ -18,8 +18,7 @@ namespace WPFAIReportCheck.Repository
         //TODO:单元测试
 
         public static void CheckByRestClient()
-        {
-            
+        {           
             //参考https://blog.csdn.net/Cjiaocsda1127/article/details/82765423
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -63,6 +62,31 @@ namespace WPFAIReportCheck.Repository
                 throw ex;
 #else
                 MessageBox.Show($"检查更新出错，错误码：{ex.Message.ToString()}");
+#endif
+            }
+        }
+
+        public static IRestResponse GetRestResponse()
+        {
+            //参考https://blog.csdn.net/Cjiaocsda1127/article/details/82765423
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            var client = new RestClient(url);
+
+            var request = new RestRequest($"repos/zjkl19/WPFAIReportCheck/releases/latest", Method.GET);
+
+            try
+            {
+                return client.Execute(request);         
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw ex;
+#else
+                //TODO：log
+                return null;
 #endif
             }
         }
