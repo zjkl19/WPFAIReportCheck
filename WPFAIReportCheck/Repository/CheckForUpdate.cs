@@ -19,6 +19,7 @@ namespace WPFAIReportCheck.Repository
 
         public static void CheckByRestClient()
         {
+            
             //参考https://blog.csdn.net/Cjiaocsda1127/article/details/82765423
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
