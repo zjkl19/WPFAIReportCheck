@@ -119,6 +119,7 @@
     <Compile Include="IRepository\FindSequenceNumberError.cs" />
     <Compile Include="IRepository\FindStrainOrDispError.cs" />
     <Compile Include="MainWindow\MainWindow.CheckForUpdate.xaml.cs" />
+    <Compile Include="MainWindow\MainWindow.CheckForUpdateInStarup.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.MenuItem.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.Disclaimer.xaml.cs" />
     <Compile Include="Models\GitHubLatestReleaseInfo.cs" />

@@ -52,5 +52,11 @@ using System.Windows;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
+
+//自定义规则：
+//软件体系改变，或增加重要校核方法（如人工智能）：主版本号+1
+//新增校核方法：次版本号+1，最多加到9，再加则主版本号+1
+//原有校核方法改进：生成号+1
+//bug修复，小的重构：修订号+1
 [assembly: AssemblyVersion("0.1.1.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
