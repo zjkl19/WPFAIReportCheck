@@ -1,5 +1,6 @@
 1、Win7系统需要先下载并安装NET Framework 4.7.2，下载地址：https://dotnet.microsoft.com/download/thank-you/net472
+（Win10系统跳过第1步）
 
 2、将压缩包解压缩到任意目录，WPFAIReportCheck.exe即为报告自动校核软件主程序
 
-3、升级软件时，可以直接用下载新的文件覆盖旧文件
+3、升级软件时，可以直接将下载后解压缩的新文件覆盖旧文件
