@@ -102,53 +102,6 @@ namespace WPFAIReportCheck
 
         }
 
-        private void StartCheckingButton_Click(object sender, RoutedEventArgs e)
-        {
-            var config = XDocument.Load(@"AIReportCheck.config");
-            string doc = string.Empty;
 
-            if (!string.IsNullOrWhiteSpace(FileTextBox.Text))
-            {
-                doc = FileTextBox.Text;
-                IKernel kernel = new StandardKernel(new Infrastructure.NinjectDependencyResolver(doc, log, config));
-                var ai = kernel.Get<IAIReportCheck>();
-
-                #region log ioc
-                //注：以上代码相当于以下几行代码
-                //LogManager.Configuration = logConfig;
-                //log = LogManager.GetCurrentClassLogger();
-                //var doc = @"xxx.doc";
-                //var config = XDocument.Load(@"AIReportCheck.config");
-                //var ai = new AsposeAIReportCheck(doc, log, config);
-                #endregion
-
-                new Thread(() =>
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-
-                        try
-                        {
-                            ai.CheckReport();
-
-                        }
-                        catch (Exception ex)
-                        {
-#if DEBUG
-                            throw ex;
-
-#else
-                            log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
-#endif
-                        }
-                    }));
-                }).Start();
-            }
-            else
-            {
-                MessageBox.Show("请输入文件名");
-            }
-
-        }
     }
 }
