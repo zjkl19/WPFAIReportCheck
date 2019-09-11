@@ -63,13 +63,13 @@ namespace WPFAIReportCheck.Repository
 
                 try
                 {
-                    if (table0.Rows[row1].Cells[col1].GetText().IndexOf(headerCharactorString) >= 0
+                    if ((table0.Rows[row1].Cells[col1].GetText().IndexOf(headerCharactorString) >= 0 || table0.Rows[row1].Cells[col1].GetText().Contains("测点"))
                      && (table0.Rows[row2].Cells[col2].GetText().IndexOf(strainCharactorString) >= 0 || table0.Rows[row2].Cells[col2].GetText().IndexOf(dispCharactorString) >= 0))
                     {
                         tableTitle = table0.PreviousSibling.Range.Text;    //比较大的可能性是table0.PreviousSibling.Range.Text
 
                         tableLastRow = table0.IndexOf(table0.LastRow);
-                        if (table0.Rows[table0.IndexOf(table0.LastRow)].Cells[0].GetText().Contains("备注"))    //如果最后一行含有备注，遍历的行要减1
+                        if (table0.Rows[table0.IndexOf(table0.LastRow)].Cells.Count<=2)    //最后1行单元格个数不超过2个
                         {
                             tableLastRow = table0.IndexOf(table0.LastRow) - 1;
                         }
