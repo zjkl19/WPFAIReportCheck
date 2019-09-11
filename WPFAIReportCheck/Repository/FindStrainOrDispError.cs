@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Aspose.Words;
 using Aspose.Words.Tables;
 using WPFAIReportCheck.IRepository;
@@ -29,6 +30,7 @@ namespace WPFAIReportCheck.Repository
 
             int row1,col1,row2,col2;
             string headerCharactorString,strainCharactorString,dispCharactorString;
+            Regex regexHeader;
             try
             {
                 //var xEle1 = xd.Element("configuration").Element("FindDescriptionError").Element("StrainCharactorString");
@@ -45,9 +47,11 @@ namespace WPFAIReportCheck.Repository
             catch (Exception)
             {
                 row1 = 0;col1 = 0;row2 = 1;col2 = 1;
-                headerCharactorString = "测点号"; strainCharactorString = "总应变"; dispCharactorString = "总变形";
+                headerCharactorString = @"测点[号]?"; strainCharactorString = "总应变"; dispCharactorString = "总变形";
                 //TODO：增加条件编译的异常处理
             }
+
+            regexHeader = new Regex(headerCharactorString);
 
             int tableLastRow = 0;
             NodeCollection allTables = _originalDoc.GetChildNodes(NodeType.Table, true);
@@ -57,11 +61,11 @@ namespace WPFAIReportCheck.Repository
 
                 Table table1 = _doc.GetChildNodes(NodeType.Table, true)[i] as Table;    //要写入批注的文档
 
-                if (table0.Rows[row1].Cells[col1].GetText().IndexOf(headerCharactorString) >= 0 
-                    && (table0.Rows[row2].Cells[col2].GetText().IndexOf(strainCharactorString) >= 0 || table0.Rows[row2].Cells[col2].GetText().IndexOf(dispCharactorString) >= 0))
+                if (regexHeader.Matches(table0.Rows[row1].Cells[col1].GetText()).Count > 0
+                     && (table0.Rows[row2].Cells[col2].GetText().IndexOf(strainCharactorString) >= 0 || table0.Rows[row2].Cells[col2].GetText().IndexOf(dispCharactorString) >= 0))
                 {
                     tableLastRow = table0.IndexOf(table0.LastRow);
-                    if (table0.Rows[table0.IndexOf(table0.LastRow)].Cells[0].GetText().Contains("备注"))    //如果最后一行含有备注，遍历的行要减1
+                    if (table0.Rows[table0.IndexOf(table0.LastRow)].Cells.Count <= 2)    //最后1行单元格个数不超过2个
                     {
                         tableLastRow = table0.IndexOf(table0.LastRow) - 1;
                     }

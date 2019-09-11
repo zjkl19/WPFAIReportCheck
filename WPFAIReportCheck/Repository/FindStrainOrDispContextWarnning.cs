@@ -47,7 +47,6 @@ namespace WPFAIReportCheck.Repository
             }
 
             regexHeader = new Regex(headerCharactorString);
-            var m=regexHeader.Matches("测点号,测点123").Count;
 
             int tableLastRow = 0;
 
@@ -67,7 +66,7 @@ namespace WPFAIReportCheck.Repository
 
                 try
                 {
-                    if ((table0.Rows[row1].Cells[col1].GetText().IndexOf(headerCharactorString) >= 0 || table0.Rows[row1].Cells[col1].GetText().Contains("测点"))
+                    if (regexHeader.Matches(table0.Rows[row1].Cells[col1].GetText()).Count>0
                      && (table0.Rows[row2].Cells[col2].GetText().IndexOf(strainCharactorString) >= 0 || table0.Rows[row2].Cells[col2].GetText().IndexOf(dispCharactorString) >= 0))
                     {
                         tableTitle = table0.PreviousSibling.Range.Text;    //比较大的可能性是table0.PreviousSibling.Range.Text
