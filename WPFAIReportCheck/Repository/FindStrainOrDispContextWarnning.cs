@@ -28,6 +28,7 @@ namespace WPFAIReportCheck.Repository
 
             int row1, col1, row2, col2;
             string headerCharactorString, strainCharactorString, dispCharactorString;
+            Regex regexHeader;
             try
             {
                 headerCharactorString = _config.Element("configuration").Element("FindStrainOrDispError").Attribute("charactorString").Value;
@@ -41,9 +42,12 @@ namespace WPFAIReportCheck.Repository
             catch (Exception)
             {
                 row1 = 0; col1 = 0; row2 = 1; col2 = 1;
-                headerCharactorString = "测点号"; strainCharactorString = "总应变"; dispCharactorString = "总变形";
+                headerCharactorString = @"测点[号]?"; strainCharactorString = "总应变"; dispCharactorString = "总变形";
                 //TODO：增加条件编译的异常处理
             }
+
+            regexHeader = new Regex(headerCharactorString);
+            var m=regexHeader.Matches("测点号,测点123").Count;
 
             int tableLastRow = 0;
 
