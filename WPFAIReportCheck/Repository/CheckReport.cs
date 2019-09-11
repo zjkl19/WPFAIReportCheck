@@ -110,7 +110,7 @@ namespace WPFAIReportCheck.Repository
             w.progressBar.DataContext = progressBarDataBinding;
             w.progressBarContentTextBlock.DataContext = progressBarDataBinding;
 
-            var progressSleepTime = 1000;    //进度条停顿时间
+            var progressSleepTime = 500;    //进度条停顿时间
 
             var thread = new Thread(new ThreadStart(() =>
             {
