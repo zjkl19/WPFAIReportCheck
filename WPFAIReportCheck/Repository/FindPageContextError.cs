@@ -28,7 +28,7 @@ namespace WPFAIReportCheck.Repository
         public void FindPageContextError()
         {
             MatchCollection matches;
-            //var regex = new Regex(@"(?<=\(附[\s]{0,4}页\)\\r目录\\r)[\s\S]*?(?=\\f)");    //https://regex101.com/使用   
+            //var regex = new Regex(@"(?<=\(附[\s]{0,4}页\)\\r目录\\r)[\s\S]*?(?=\\f)");    //https://regex101.com/使用
             var regex = new Regex(@"(?<=\(附[\s]{0,4}页\)\r目录\r)[\s\S]*?(?=\f)");    //在第1节中查找目录用的正则表达式字符串
             var regexPageNumber = new Regex(@"(?<=\t)[1-9]\d*");    //每1小节查找页码使用的正则表达式字符串
             var regexContent = new Regex(@"[\s\S]*(?=\t)");    //每1小节查找正文使用的正则表达式字符串

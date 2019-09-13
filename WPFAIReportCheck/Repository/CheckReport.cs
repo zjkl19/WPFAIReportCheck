@@ -67,7 +67,8 @@ namespace WPFAIReportCheck.Repository
                 SelectListFunctionName = new List<MethodDelegate> {
                     _FindUnitError,_FindNotExplainComponentNo,_FindSpecificationsError,
                     FindSequenceNumberError,FindStrainOrDispError,FindDescriptionError,
-                    FindOtherBridgesWarnning,FindStrainOrDispContextWarnning,FindPageContextError
+                    FindOtherBridgesWarnning,FindStrainOrDispContextWarnning,FindPageContextError,
+                    FindTableTitleInSinglePageWarnning
                 },
                 SelectListContent = new List<string>(),
             };
