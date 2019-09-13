@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Aspose.Words;
-using Aspose.Words.Layout;
-using Aspose.Words.Tables;
 using WPFAIReportCheck.IRepository;
 using WPFAIReportCheck.Models;
 
@@ -43,8 +41,9 @@ namespace WPFAIReportCheck.Repository
                     {
                         continue;
                     }
-
+                    
                     matches = regex.Matches(_layoutDoc.Pages[i].Columns[0].Lines.First.Text);
+                    
                     var firstLineRectangle = _layoutDoc.Pages[i].Columns[0].Lines.First.Rectangle;
                     //触发警告条件：第1行找到关键字，并且第1行在页面顶端
                     //第1行在页面顶端判定条件：firstLineRectangle.Top < pageSetup.TopMargin + 20
