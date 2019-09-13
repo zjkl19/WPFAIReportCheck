@@ -13,10 +13,10 @@ namespace WPFAIReportCheckTestProject.Repository
     public partial class AsposeAIReportCheckTests : IClassFixture<AsposeAIReportCheckTestsFixture>
     {
         [Fact]
-        public void FindTableTitleInSinglePageWarnning_ReturnsCorrectCountOfReportError()
+        public void FindPictureTitleInSinglePageWarnning_ReturnsCorrectCountOfReportError()
         {
             //Arrange
-            var fileName = @"..\..\..\TestFiles\FindTableTitleInSinglePageWarnning.doc";
+            var fileName = @"..\..\..\TestFiles\FindPictureTitleInSinglePageWarnning.doc";
 
             var log = _fixture.log;
             string xml = DataInitializer.AIReportCheckXml;
@@ -24,24 +24,24 @@ namespace WPFAIReportCheckTestProject.Repository
 
             var ai = new AsposeAIReportCheck(fileName, log.Object, config);
             //Act
-            ai.FindTableTitleInSinglePageWarnning();
+            ai.FindPictureTitleInSinglePageWarnning();
             //Assert
             Assert.Single(ai.reportWarnning);
             Assert.Equal(WarnningNumber.FormatProblem, ai.reportWarnning[0].No);
         }
 
         [Fact]
-        public void FindTableTitleInSinglePageWarnning_WritesCorrectCommentsInDoc()
+        public void FindPictureTitleInSinglePageWarnning_WritesCorrectCommentsInDoc()
         {
             //Arrange
-            var fileName = @"..\..\..\TestFiles\FindTableTitleInSinglePageWarnning.doc";
+            var fileName = @"..\..\..\TestFiles\FindPictureTitleInSinglePageWarnning.doc";
 
             var log = _fixture.log;
             string xml = DataInitializer.AIReportCheckXml;
             var config = XDocument.Parse(xml);
             var ai = new AsposeAIReportCheck(fileName, log.Object, config);
             //Act
-            ai.FindTableTitleInSinglePageWarnning();
+            ai.FindPictureTitleInSinglePageWarnning();
 
             using (MemoryStream dstStream = new MemoryStream())
             {
@@ -53,7 +53,7 @@ namespace WPFAIReportCheckTestProject.Repository
 
             //Assert
             Assert.Single(allComments);
-            Assert.Contains("表格标题单独位于某1页",docComment.GetText());
+            Assert.Contains("图片标题单独位于某1页",docComment.GetText());
         }
     }
 }

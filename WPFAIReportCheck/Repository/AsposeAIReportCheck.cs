@@ -21,6 +21,7 @@ namespace WPFAIReportCheck.Repository
     {
         public List<ReportError> reportError = new List<ReportError>();
         public List<ReportWarnning> reportWarnning = new List<ReportWarnning>();
+        public List<ReportInfo> reportInfo = new List<ReportInfo>();
         public Document _doc;
 
         private Document _originalDoc;

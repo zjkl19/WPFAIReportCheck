@@ -72,17 +72,14 @@ namespace WPFAIReportCheck
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-
                         try
                         {
                             ai.CheckReport();
-
                         }
                         catch (Exception ex)
                         {
 #if DEBUG
                             throw ex;
-
 #else
                             log.Error(ex, $"\"自动校核\"运行出错，错误信息：{ ex.Message.ToString()}");
 #endif
