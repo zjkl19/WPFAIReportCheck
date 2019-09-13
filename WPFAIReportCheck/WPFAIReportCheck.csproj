@@ -112,6 +112,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\RegisterMethod.cs" />
+    <Compile Include="IRepository\FindPictureTitleSequenceNumberError.cs" />
     <Compile Include="IRepository\FindTableTitleSequenceNumberError.cs" />
     <Compile Include="IRepository\FindPictureTitleInSinglePageWarnning.cs" />
     <Compile Include="IRepository\FindTableTitleInSinglePageWarnning.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="Repository\CheckForUpdate.cs" />
     <Compile Include="Repository\CheckReport.cs" />
     <Compile Include="Repository\EnumHelper.cs" />
+    <Compile Include="Repository\FindPictureTitleSequenceNumberError.cs" />
     <Compile Include="Repository\FindTableTitleSequenceNumberError.cs" />
     <Compile Include="Repository\FindPictureTitleInSinglePageWarnning.cs" />
     <Compile Include="Repository\FindTableTitleInSinglePageWarnning.cs" />

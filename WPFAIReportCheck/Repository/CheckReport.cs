@@ -62,7 +62,8 @@ namespace WPFAIReportCheck.Repository
                     _FindUnitError,_FindNotExplainComponentNo,_FindSpecificationsError,
                     FindSequenceNumberError,FindStrainOrDispError,FindDescriptionError,
                     FindOtherBridgesWarnning,FindStrainOrDispContextWarnning,FindPageContextError,
-                    FindTableTitleInSinglePageWarnning,FindPictureTitleInSinglePageWarnning,FindTableTitleSequenceNumberError
+                    FindTableTitleInSinglePageWarnning,FindPictureTitleInSinglePageWarnning,FindTableTitleSequenceNumberError,
+                    FindPictureTitleSequenceNumberError
                 },
                 SelectListContent = new List<string>(),
             };
