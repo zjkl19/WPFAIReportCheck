@@ -7,7 +7,7 @@ namespace WPFAIReportCheck.IRepository
 {
     public partial interface IAIReportCheck
     {
-        void _GenerateResultReport();
+        void GenerateResultReport();
         void CheckReport();
         //Table GetOverViewTable();
     }

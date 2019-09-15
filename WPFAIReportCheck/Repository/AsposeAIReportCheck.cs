@@ -57,7 +57,7 @@ namespace WPFAIReportCheck.Repository
             _config = config;
         }
       
-        public void _GenerateResultReport()
+        public void GenerateResultReport()
         {
             var doc = new Document();
 

@@ -17,7 +17,7 @@ namespace WPFAIReportCheck.Repository
                     FindSequenceNumberError,FindStrainOrDispError,FindDescriptionError,
                     FindOtherBridgesWarnning,FindStrainOrDispContextWarnning,FindPageContextError,
                     FindTableTitleInSinglePageWarnning,FindPictureTitleInSinglePageWarnning,FindTableTitleSequenceNumberError,
-                    FindPictureTitleSequenceNumberError
+                    FindPictureTitleSequenceNumberError,FindHalfWidthCommaWarnning
                 },
                 SelectListInt = new List<int>(),
                 SelectListContent = new List<string>()

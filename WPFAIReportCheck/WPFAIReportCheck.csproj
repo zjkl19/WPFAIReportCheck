@@ -112,6 +112,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IRepository\FindHalfWidthCommaWarnning.cs" />
     <Compile Include="IRepository\FindUnitError.cs" />
     <Compile Include="IRepository\FindSpecificationsError.cs" />
     <Compile Include="IRepository\FindNotExplainComponentNoWarnning.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Repository\CheckForUpdate.cs" />
     <Compile Include="Repository\CheckReport.cs" />
     <Compile Include="Repository\EnumHelper.cs" />
+    <Compile Include="Repository\FindHalfWidthCommaWarnning.cs" />
     <Compile Include="Repository\FindUnitError.cs" />
     <Compile Include="Repository\FindSpecificationsError.cs" />
     <Compile Include="Repository\FindNotExplainComponentNoWarnning.cs" />

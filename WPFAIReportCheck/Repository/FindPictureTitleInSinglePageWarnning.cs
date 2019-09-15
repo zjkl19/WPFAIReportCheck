@@ -31,7 +31,7 @@ namespace WPFAIReportCheck.Repository
             int i = 0;
 
             var pageSetupBuilder = new DocumentBuilder(_doc);    //获取页面设置
-            var pageSetup = _doc.Sections[1].PageSetup;
+            var pageSetup = _doc.Sections[0].PageSetup;
 
             try
             {

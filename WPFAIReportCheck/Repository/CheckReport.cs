@@ -116,7 +116,7 @@ namespace WPFAIReportCheck.Repository
                 }
                 progressBarDataBinding.V = 100;
                 progressBarDataBinding.Content = $"正在校核：正在完成中";
-                _GenerateResultReport();
+                GenerateResultReport();
                 _doc.Save("标出错误或警告的报告.doc");
                 Thread.Sleep(progressSleepTime);
                 MessageBox.Show($"校核已完成！共校核出：" +
