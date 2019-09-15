@@ -7,9 +7,6 @@ namespace WPFAIReportCheck.IRepository
 {
     public partial interface IAIReportCheck
     {
-        void _FindUnitError();
-        void _FindSpecificationsError();
-        void _FindNotExplainComponentNo();
         void _GenerateResultReport();
         void CheckReport();
         //Table GetOverViewTable();

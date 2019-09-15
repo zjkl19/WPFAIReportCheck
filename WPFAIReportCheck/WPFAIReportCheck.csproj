@@ -112,6 +112,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IRepository\FindUnitError.cs" />
+    <Compile Include="IRepository\FindSpecificationsError.cs" />
+    <Compile Include="IRepository\FindNotExplainComponentNoWarnning.cs" />
     <Compile Include="IRepository\FindPictureTitleSequenceNumberError.cs" />
     <Compile Include="IRepository\FindTableTitleSequenceNumberError.cs" />
     <Compile Include="IRepository\FindPictureTitleInSinglePageWarnning.cs" />
@@ -138,6 +141,9 @@
     <Compile Include="Repository\CheckForUpdate.cs" />
     <Compile Include="Repository\CheckReport.cs" />
     <Compile Include="Repository\EnumHelper.cs" />
+    <Compile Include="Repository\FindUnitError.cs" />
+    <Compile Include="Repository\FindSpecificationsError.cs" />
+    <Compile Include="Repository\FindNotExplainComponentNoWarnning.cs" />
     <Compile Include="Repository\FindPictureTitleSequenceNumberError.cs" />
     <Compile Include="Repository\FindTableTitleSequenceNumberError.cs" />
     <Compile Include="Repository\FindPictureTitleInSinglePageWarnning.cs" />

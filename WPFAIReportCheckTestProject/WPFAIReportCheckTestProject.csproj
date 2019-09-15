@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestFiles\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\WPFAIReportCheck\WPFAIReportCheck.csproj" />
   </ItemGroup>
 

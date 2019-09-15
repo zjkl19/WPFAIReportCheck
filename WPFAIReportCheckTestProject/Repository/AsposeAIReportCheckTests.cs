@@ -40,10 +40,10 @@ namespace WPFAIReportCheckTestProject.Repository
 
         #region _FindUnitError
         [Fact]
-        public void _FindUnitError()
+        public void FindUnitError()
         {
             //Arrange
-            var fileName = @"..\..\..\TestFiles\_FindUnitError.doc";
+            var fileName = @"..\..\..\TestFiles\FindUnitError.doc";
 
             var log = _fixture.log;
             string xml = @"<?xml version=""1.0"" encoding=""utf - 8"" ?>
@@ -57,7 +57,7 @@ namespace WPFAIReportCheckTestProject.Repository
 
             var ai = new AsposeAIReportCheck(fileName, log.Object, config);
             //Act
-            ai._FindUnitError();
+            ai.FindUnitError();
 
             using (MemoryStream dstStream = new MemoryStream())
             {
@@ -78,12 +78,12 @@ namespace WPFAIReportCheckTestProject.Repository
         }
         #endregion
 
-        #region _FindSpecificationsError
+        #region FindSpecificationsError
         [Fact]
-        public void _FindSpecificationsError()
+        public void FindSpecificationsError()
         {
             //Arrange
-            var fileName = @"..\..\..\TestFiles\_FindSpecificationsError.doc";
+            var fileName = @"..\..\..\TestFiles\FindSpecificationsError.doc";
             var log = _fixture.log;
             string xml = @"<?xml version=""1.0"" encoding=""utf - 8"" ?>
                             <configuration>
@@ -96,7 +96,7 @@ namespace WPFAIReportCheckTestProject.Repository
 
             var ai = new AsposeAIReportCheck(fileName, log.Object, config);
             //Act
-            ai._FindSpecificationsError();
+            ai.FindSpecificationsError();
 
             using (MemoryStream dstStream = new MemoryStream())
             {
