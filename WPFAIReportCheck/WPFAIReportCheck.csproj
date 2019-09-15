@@ -112,7 +112,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Infrastructure\RegisterMethod.cs" />
     <Compile Include="IRepository\FindPictureTitleSequenceNumberError.cs" />
     <Compile Include="IRepository\FindTableTitleSequenceNumberError.cs" />
     <Compile Include="IRepository\FindPictureTitleInSinglePageWarnning.cs" />
@@ -149,6 +148,7 @@
     <Compile Include="Repository\FindStrainOrDispContextWarnning.cs" />
     <Compile Include="Repository\FindPageContextError.cs" />
     <Compile Include="Repository\FindStrainOrDispError.cs" />
+    <Compile Include="Repository\RegisterMethod.cs" />
     <Compile Include="Repository\RenderedDocument.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

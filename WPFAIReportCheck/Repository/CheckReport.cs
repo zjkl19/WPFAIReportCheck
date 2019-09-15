@@ -47,7 +47,7 @@ namespace WPFAIReportCheck.Repository
     }
     public partial class AsposeAIReportCheck : IAIReportCheck
     {
-        private delegate void MethodDelegate();
+        public delegate void MethodDelegate();
         public void CheckReport()
         {
 
@@ -55,18 +55,7 @@ namespace WPFAIReportCheck.Repository
             //SelectListInt =[1,0]
             //SelectListFunctionName=[FindUnitError,FindNotExplainComponentNo]
             //表示算法只算FindUnitError,不算FindNotExplainComponentNo
-            var controlClass = new
-            {
-                SelectListInt = new List<int>(),
-                SelectListFunctionName = new List<MethodDelegate> {
-                    _FindUnitError,_FindNotExplainComponentNo,_FindSpecificationsError,
-                    FindSequenceNumberError,FindStrainOrDispError,FindDescriptionError,
-                    FindOtherBridgesWarnning,FindStrainOrDispContextWarnning,FindPageContextError,
-                    FindTableTitleInSinglePageWarnning,FindPictureTitleInSinglePageWarnning,FindTableTitleSequenceNumberError,
-                    FindPictureTitleSequenceNumberError
-                },
-                SelectListContent = new List<string>(),
-            };
+            var controlClass = RegisterMethod();
 
             var config = XDocument.Load(@"Option.config");
 
