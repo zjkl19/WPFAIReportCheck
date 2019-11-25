@@ -6,6 +6,8 @@ using Aspose.Words.Replacing;
 using Aspose.Words.Tables;
 using WPFAIReportCheck.IRepository;
 using WPFAIReportCheck.Models;
+using OfficeOpenXml;
+using System.IO;
 
 namespace WPFAIReportCheck.Repository
 {
@@ -18,17 +20,54 @@ namespace WPFAIReportCheck.Repository
             //规范
             try
             {
-                var file = new System.IO.StreamReader("规范.txt", Encoding.Default);
-                string line;
-                string combineString = string.Empty;
-                while ((line = file.ReadLine()) != null)
+                FileInfo file = new FileInfo("规范.xlsx");
+
+                using (ExcelPackage package = new ExcelPackage(file))
                 {
-                    combineString += line + '\r';
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets["Sheet1"];
+                    int rowCount = 2;// worksheet.Dimension.Rows;   //worksheet.Dimension.Rows指的是所有列中最大行
+                    //首行：表头不导入
+                    bool rowCur = true;    //行游标指示器
+                                           //rowCur=false表示到达行尾
+                                           //计算行数
+                    while (rowCur)
+                    {
+                        try
+                        {
+                            //跳过表头
+                            if (string.IsNullOrEmpty(worksheet.Cells[rowCount + 1, 1].Value.ToString()))
+                            {
+                                rowCur = false;
+                            }
+                        }
+                        catch (Exception)   //读取异常则终止
+                        {
+                            rowCur = false;
+                        }
+
+                        if (rowCur)
+                        {
+                            rowCount++;
+                        }
+                    }
+
+                    //bool validationResult = false;
+                    int row = 2;    //excel中行指针
+                    //行号不为空，则继续添加
+                    //while (!string.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()))
+
+                    string combineString = string.Empty;
+                    for (row = 2; row <= rowCount; row++)
+                    {
+                        combineString += worksheet.Cells[row, 2].Value.ToString() + '\r';
+
+                    }
+                    Specifications = combineString.Split('\r');
+
                 }
-                Specifications = combineString.Split('\r');
-                file.Close();
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Specifications = new string[]
                 {
@@ -39,6 +78,30 @@ namespace WPFAIReportCheck.Repository
                     "《城市桥梁养护技术标准》（CJJ 99-2017）",
                 };
             }
+
+            //try
+            //{
+            //    var file = new System.IO.StreamReader("规范.txt", Encoding.Default);
+            //    string line;
+            //    string combineString = string.Empty;
+            //    while ((line = file.ReadLine()) != null)
+            //    {
+            //        combineString += line + '\r';
+            //    }
+            //    Specifications = combineString.Split('\r');
+            //    file.Close();
+            //}
+            //catch /*(Exception)*/
+            //{
+            //    Specifications = new string[]
+            //    {
+            //        "《城市桥梁设计规范》（CJJ 11-2011）",
+            //        "《混凝土结构现场检测技术标准》（GB/T 50784-2013）",
+            //        "《公路桥梁荷载试验规程》（JTG/T J21-01-2015）",
+            //        "《城市桥梁检测与评定技术规范》（CJJ/T 233-2015）",
+            //        "《城市桥梁养护技术标准》（CJJ 99-2017）",
+            //    };
+            //}
 
             double similarity;    //相似度
                                   //获取word文档中的第一个表格
