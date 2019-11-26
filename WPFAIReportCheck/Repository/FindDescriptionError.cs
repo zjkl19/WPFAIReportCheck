@@ -110,7 +110,7 @@ namespace WPFAIReportCheck.Repository
                 catch (Exception ex)
                 {
 #if DEBUG
-                throw ex;
+                    throw ex;
 
 #else
                     _log.Error(ex, $"FindDescriptionError函数运行出错，错误信息：{ ex.Message.ToString()}");
